@@ -1,0 +1,20 @@
+# Summary
+[介绍](README.md)
+
+- [Linux安装](./install_linux/install_linux.md)
+  - [centos7.9系统安装文档](./install_linux/install_centos7.md)
+  - [linux系统的开机启动过程](./install_linux/install_linux.md)
+  - [命令总结(cat pwd ls rm mkdir touch head tail ln chkconfig)](./install_linux/command_summary01.md)
+  - [linux下常用的命令快捷键](./install_linux/linux_shortcut_keys.md)
+
+- [Linux服务器优化](./linux_optimization/linux_optimization.md)
+- [文件与目录](./file_and_dir/file_and_dir.md)
+- [crontab](./crontab/crontab.md)
+- [硬盘](./disk/disk.md)
+- [nfs](./nfs/nfs.md)
+- [rsync](./rsync/rsync.md)
+- [lamp](./lamp/lamp.md)
+- [MySQL基础](./mysql/mysql.md)
+- [shell](./shell/shell.md)
+- [Lvs+keepalived集群](./lvs_keepalived/lvs_keepalived.md)
+- [iptables](./iptables/iptables.md)
