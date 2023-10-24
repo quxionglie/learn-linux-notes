@@ -11,7 +11,7 @@ linux系统的开机启动过程 2012-06-16
 - (7)	init 运行/etc/rc.d/rc.local 文件；
 - (8)	init 运行终端机模拟程序mingetty来启动login 程序，最后就等待用户登录；
       
- ![](/install_linux/image/linux_boot_process/WechatIMG54.jpg)
+ ![](./image/linux_boot_process/WechatIMG54.jpg)
 
 ## 1.1.	BIOS,boot loader与kernel载入
 BIOS，开机自检与MBR
@@ -27,7 +27,7 @@ boot loader 可以加载 kernel 与 initrd ，然后在内存中让 initrd 解�
 在完整加载内核后，主机开始正确的运行。
 
 
- ![](/install_linux/image/linux_boot_process/WechatIMG53.jpg)
+ ![](./image/linux_boot_process/WechatIMG53.jpg)
 
 ## 1.2.	第一个程序init及配置文件/etc/inittab与 runlevel
 在核心加载完毕之后，整个Linux当中第一个被执行的程序就是/sbin/init。/sbin/init 最主要的功能就是准备软件运行的环境，包括系统的主机名、网络配置、语系处理、文件系统格式及其他服务的启动等。 而所有的动作都会通过init的配置文件，即/etc/inittab 来规划，而 inittab 内还有一个很重要的设置选项，那就是默认的run level (启动运行等级)
