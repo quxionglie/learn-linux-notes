@@ -7,7 +7,7 @@
   - [命令总结(cat pwd ls rm mkdir touch head tail ln chkconfig)](./install_linux/command_summary01.md)
   - [linux下常用的命令快捷键](./install_linux/linux_shortcut_keys.md)
 - [Linux服务器优化](./linux_optimization/linux_optimization.md)
-  - [配置优化Centos7.X Linux操作系统](./linux_optimization/linux_opt.md)
+  - [配置优化Centos5.X Linux操作系统](./linux_optimization/linux_opt.md)
   - [命令总结(find、wc、tar、cut、grep、egrep、date、which、echo、shutdown、reboot、useradd、passwd)](./linux_optimization/command_summary02.md)
   - [linux shell中单引号、双引号及不加引号的简单区别](./linux_optimization/diff_quotes.md)
   - [linux下软链接和硬链接的区别](./linux_optimization/linux_links_diff.md)
