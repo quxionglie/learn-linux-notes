@@ -7,59 +7,59 @@ CentOS-7-x86_64-DVD-2009.iso
 VMware
 
 ### 新建虚拟机 
-![](/images/install_centos7/1.png)
-![](/images/install_centos7/2.png)
-![](/images/install_centos7/3.png)
-![](/images/install_centos7/4.png)
-![](/images/install_centos7/5.png)
-![](/images/install_centos7/6.png)
-![](/images/install_centos7/7.png)
+![](./image/install_centos7/1.png)
+![](./image/install_centos7/2.png)
+![](./image/install_centos7/3.png)
+![](./image/install_centos7/4.png)
+![](./image/install_centos7/5.png)
+![](./image/install_centos7/6.png)
+![](./image/install_centos7/7.png)
 
 
 ### 开始安装   
-![](/images/install_centos7/WX20231023-160347@2x.png)
+![](./image/install_centos7/WX20231023-160347@2x.png)
 
 ### 选择语言为English、键盘布局类型为us
-![](/images/install_centos7/WX20231023-160438@2x.png)
+![](./image/install_centos7/WX20231023-160438@2x.png)
 
 ### 设置时区 Asia/Shanghai
-![](/images/install_centos7/WX20231023-160519@2x.png)  
+![](./image/install_centos7/WX20231023-160519@2x.png)  
 
-![](/images/install_centos7/WX20231023-160540@2x.png)
+![](./image/install_centos7/WX20231023-160540@2x.png)
 
 ### 确认安装位置, 默认    
-![](/images/install_centos7/WX20231023-160624@2x.png)
+![](./image/install_centos7/WX20231023-160624@2x.png)
 
-![](/images/install_centos7/WX20231023-160641@2x.png)
+![](./image/install_centos7/WX20231023-160641@2x.png)
 
-![](/images/install_centos7/WX20231023-161219@2x.png)
+![](./image/install_centos7/WX20231023-161219@2x.png)
 
 ### 配置网络参数  
-![](/images/install_centos7/WX20231023-160703@2x.png)
+![](./image/install_centos7/WX20231023-160703@2x.png)
 
 设置开机启用
-![](/images/install_centos7/WX20231023-160906@2x.png)
+![](./image/install_centos7/WX20231023-160906@2x.png)
 
 
-![](/images/install_centos7/WX20231023-161015@2x.png)
+![](./image/install_centos7/WX20231023-161015@2x.png)
 
 配置GATEWAY、DNS,这里默认用DHCP
 
-![](/images/install_centos7/WX20231023-161047@2x.png)
+![](./image/install_centos7/WX20231023-161047@2x.png)
 
 ### 设置主机名 n1    
-![](/images/install_centos7/WX20231023-163510@2x.png)
+![](./image/install_centos7/WX20231023-163510@2x.png)
 
 ### 选择安装软件包, 最小化安装
-![](/images/install_centos7/WX20231023-161118@2x.png)
+![](./image/install_centos7/WX20231023-161118@2x.png)
 
 ### 开始安装程序
-![](/images/install_centos7/WX20231023-161650@2x.png)
+![](./image/install_centos7/WX20231023-161650@2x.png)
 
-![](/images/install_centos7/8.png)
+![](./image/install_centos7/8.png)
 
 ### 设置ROOT密码   
-![](/images/install_centos7/WX20231023-161650@2x.png)
+![](./image/install_centos7/WX20231023-161650@2x.png)
 
 ### 安装完成, Reboot重启  
 
