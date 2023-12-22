@@ -21,7 +21,6 @@
   - [命令总结-用户管理命令-用户(useradd、userdel、passwd、chage)](./file_and_dir/command_summary_user.md)
   - [命令总结-用户管理命令-用户组(groupadd、groupdel)](./file_and_dir/command_summary_group.md)
   - [命令总结-查看系统用户登录信息命令-(w、who、users、last)](./file_and_dir/command_summary_w.md)
-  - [vi、vim编辑器使用总结](./file_and_dir/use_vi.md)
 - [crontab](./crontab/crontab.md)
   - [Linux系统定时任务详解](./crontab/linux_crontab.md)
   - [Linux系统的用户和用户组管理](./crontab/linux_user_group.md)
