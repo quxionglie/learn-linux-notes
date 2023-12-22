@@ -9,11 +9,11 @@ Linux文件类型常见的有：普通文件、目录、字符设备文件、块
 文件类型有：
 ```
 ls –l 第一列的第一个字符，表示文件类型。
-d：目录
--：普通文件
-l：符号链接文件
-b、c：块设备，其它外围设备。
-s、P：数据结构和管道
+d：      目录
+-：      普通文件
+l：      符号链接文件
+b、c：    块设备，其它外围设备。
+s、P：    数据结构和管道
 ```
 ## 1.1.	普通文件
 ```
@@ -70,15 +70,15 @@ lrwxrwxrwx 1 root root 12 Jun 10 00:41 resin -> resin-3.1.12
 ```
 -type c
 File is of type c:
-b      block (buffered) special				#设备文件
-c      character (unbuffered) special		#设备文件
-d      directory			#目录
-p      named pipe (FIFO)	#命名管道
-f      regular file			#普通文件
+b      block (buffered) special	            #设备文件
+c      character (unbuffered) special       #设备文件
+d      directory                            #目录
+p      named pipe (FIFO)                    #命名管道
+f      regular file                         #普通文件
 l      symbolic link; this is never true if the -L option or the -follow option  is  in  effect,
 unless  the symbolic link is broken.  If you want to search for symbolic links when -L is
 in effect, use -xtype.
 #链接文件
-s      socket	#socket文件
+s      socket                               #socket文件
 D      door (Solaris)
 ```
