@@ -56,7 +56,7 @@
   - [mysqlbinlog](./mysql/mysqlbinlog.md)
   - [mysqldump](./mysql/mysqldump.md)
 - [shell](./shell/shell.md)
-  - [shell脚本编程精讲](./shell/shell.md)
+  - [shell脚本编程精讲](./shell/shell_scripts.md)
   - [linux下shell脚本开发规范与制度](./shell/shell_spec.md)
 - [Lvs+keepalived集群](./lvs_keepalived/lvs_keepalived.md)
   - [Lvs负载均衡及Keepalived高可用技术应用详解](./lvs/lvs_detail.md)
