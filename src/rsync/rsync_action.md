@@ -216,7 +216,6 @@ total size is 0  speedup is 0.00
 [root@A-server ~]# cat /etc/rsyncd.conf
 #rsync_config_______________start
 #created by oldboy 15:01 2007-6-5
-#QQ 31333741 blog:http://oldboy.blog.51cto.com
 ##rsyncd.conf start##
 uid = root
 gid = root
@@ -244,7 +243,6 @@ secrets file = /etc/rsync.password
 [root@A-SERVER ~]# cat /etc/rsyncd.conf
 #rsync_config_______________start
 #created by oldboy 15:01 2007-6-5
-#QQ 31333741 blog:http://oldboy.blog.51cto.com
 ##rsyncd.conf start##
 uid = root
 gid = root
@@ -343,7 +341,6 @@ rsync   8260 root    4u  IPv4  21628       TCP *:rsync (LISTEN)
 
 [root@A-server ~]# vi /etc/init.d/rsyncd
 #!/bin/sh
-#author oldboy QQ 31333741
 #
 # rsync       Start/Stop Rsync service
 #
