@@ -48,7 +48,7 @@
   - [深入网络操作命令(mail mutt nslookup dig traceroute df du fsck dd)](./rsync/command_summary.md)
 - [MySQL基础](./mysql/mysql.md)
   - [MySQL常用基础命令操作实战讲解](./mysql/mysql_basic.md)
-  - [MySQL多实例安装配置指南](./mysql/mysql_install.md)
+  - [MySQL单实例的安装配置指南](./mysql/mysql_install.md)
   - [MySQL主从复制原理详解](./mysql/mysql_master-slave1.md)
   - [MySQL主从复制实践讲解](./mysql/mysql_master-slav2.md)
   - [MySQL数据库安全权限控制管理思想](./mysql/mysql_perm.md)
