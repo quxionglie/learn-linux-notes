@@ -1,0 +1,309 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>MySQL数据库安全权限控制管理思想 - linux学习笔记</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('light')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">介绍</a></li><li class="chapter-item expanded "><a href="../install_linux/install_linux.html"><strong aria-hidden="true">1.</strong> Linux安装</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../install_linux/install_centos7.html"><strong aria-hidden="true">1.1.</strong> CentOS7.9系统安装文档</a></li><li class="chapter-item expanded "><a href="../install_linux/linux_boot_process.html"><strong aria-hidden="true">1.2.</strong> linux系统的开机启动过程</a></li><li class="chapter-item expanded "><a href="../install_linux/command_summary01.html"><strong aria-hidden="true">1.3.</strong> 命令总结(cat pwd ls rm mkdir touch head tail ln chkconfig)</a></li><li class="chapter-item expanded "><a href="../install_linux/linux_shortcut_keys.html"><strong aria-hidden="true">1.4.</strong> linux下常用的命令快捷键</a></li></ol></li><li class="chapter-item expanded "><a href="../linux_optimization/linux_optimization.html"><strong aria-hidden="true">2.</strong> Linux服务器优化</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../linux_optimization/linux_opt.html"><strong aria-hidden="true">2.1.</strong> 配置优化Centos5.X Linux操作系统</a></li><li class="chapter-item expanded "><a href="../linux_optimization/command_summary02.html"><strong aria-hidden="true">2.2.</strong> 命令总结(find、wc、tar、cut、grep、egrep、date、which、echo、shutdown、reboot)</a></li><li class="chapter-item expanded "><a href="../linux_optimization/diff_quotes.html"><strong aria-hidden="true">2.3.</strong> linux shell中单引号、双引号及不加引号的简单区别</a></li><li class="chapter-item expanded "><a href="../linux_optimization/linux_links_diff.html"><strong aria-hidden="true">2.4.</strong> linux下软链接和硬链接的区别</a></li></ol></li><li class="chapter-item expanded "><a href="../file_and_dir/file_and_dir.html"><strong aria-hidden="true">3.</strong> 文件与目录</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../file_and_dir/file_and_dir_perm.html"><strong aria-hidden="true">3.1.</strong> Linux文件和目录权限实战讲解</a></li><li class="chapter-item expanded "><a href="../file_and_dir/system_dir_and_important_path.html"><strong aria-hidden="true">3.2.</strong> 系统目录结构及重要路径</a></li><li class="chapter-item expanded "><a href="../file_and_dir/linux_file_types.html"><strong aria-hidden="true">3.3.</strong> linux文件类型总结</a></li><li class="chapter-item expanded "><a href="../file_and_dir/linux_perm.html"><strong aria-hidden="true">3.4.</strong> Linux文件和目录的属性及权限</a></li><li class="chapter-item expanded "><a href="../file_and_dir/command_summary_stat_sed_awk.html"><strong aria-hidden="true">3.5.</strong> 命令总结(stat、sed、awk)</a></li><li class="chapter-item expanded "><a href="../file_and_dir/command_summary_more_less.html"><strong aria-hidden="true">3.6.</strong> 命令总结-文件查看与处理命令(more、less、tree、chattr、lsattr)</a></li><li class="chapter-item expanded "><a href="../file_and_dir/command_summary_user.html"><strong aria-hidden="true">3.7.</strong> 命令总结-用户管理命令-用户(useradd、userdel、passwd、chage)</a></li><li class="chapter-item expanded "><a href="../file_and_dir/command_summary_group.html"><strong aria-hidden="true">3.8.</strong> 命令总结-用户管理命令-用户组(groupadd、groupdel)</a></li><li class="chapter-item expanded "><a href="../file_and_dir/command_summary_w.html"><strong aria-hidden="true">3.9.</strong> 命令总结-查看系统用户登录信息命令-(w、who、users、last)</a></li></ol></li><li class="chapter-item expanded "><a href="../crontab/crontab.html"><strong aria-hidden="true">4.</strong> crontab</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../crontab/linux_crontab.html"><strong aria-hidden="true">4.1.</strong> Linux系统定时任务详解</a></li><li class="chapter-item expanded "><a href="../crontab/linux_user_group.html"><strong aria-hidden="true">4.2.</strong> Linux系统的用户和用户组管理</a></li><li class="chapter-item expanded "><a href="../crontab/linux_su_sudo.html"><strong aria-hidden="true">4.3.</strong> Linux用户切换(su sudo)</a></li><li class="chapter-item expanded "><a href="../crontab/mount_unmount.html"><strong aria-hidden="true">4.4.</strong> 命令总结-磁盘空间的命令(mount umount)</a></li><li class="chapter-item expanded "><a href="../crontab/command_summary.html"><strong aria-hidden="true">4.5.</strong> 命令总结-附加命令(nohup watch time ps)</a></li></ol></li><li class="chapter-item expanded "><a href="../disk/disk.html"><strong aria-hidden="true">5.</strong> 硬盘</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../disk/disk_basic.html"><strong aria-hidden="true">5.1.</strong> 硬盘的基础知识介绍</a></li><li class="chapter-item expanded "><a href="../disk/disk_how_to_work.html"><strong aria-hidden="true">5.2.</strong> 硬盘的工作原理介绍</a></li><li class="chapter-item expanded "><a href="../disk/disk_partition.html"><strong aria-hidden="true">5.3.</strong> 硬盘分区相关知识介绍</a></li><li class="chapter-item expanded "><a href="../disk/raid.html"><strong aria-hidden="true">5.4.</strong> RAID技术</a></li><li class="chapter-item expanded "><a href="../disk/command_summary1.html"><strong aria-hidden="true">5.5.</strong> 命令总结-信息显示命令(uname hostname dmesg uptime du df)</a></li><li class="chapter-item expanded "><a href="../disk/command_summary2.html"><strong aria-hidden="true">5.6.</strong> 命令总结-磁盘空间的命令(fsck dd dump fdisk parted)</a></li><li class="chapter-item expanded "><a href="../disk/fdisk.html"><strong aria-hidden="true">5.7.</strong> fdisk分区命令实战讲解</a></li><li class="chapter-item expanded "><a href="../disk/fstab.html"><strong aria-hidden="true">5.8.</strong> fstab详细介绍及救援模式修复fstab实战案例</a></li><li class="chapter-item expanded "><a href="../disk/parted.html"><strong aria-hidden="true">5.9.</strong> parted分区命令实战讲解</a></li><li class="chapter-item expanded "><a href="../disk/file_system.html"><strong aria-hidden="true">5.10.</strong> linux文件系统知识介绍</a></li></ol></li><li class="chapter-item expanded "><a href="../nfs/nfs.html"><strong aria-hidden="true">6.</strong> nfs</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../nfs/nfs.html"><strong aria-hidden="true">6.1.</strong> nfs网络文件系统服务介绍与实战</a></li><li class="chapter-item expanded "><a href="../nfs/ssh_key.html"><strong aria-hidden="true">6.2.</strong> SSH KEY免密码验证分发、管理、备份实战讲解</a></li><li class="chapter-item expanded "><a href="../nfs/command_summary.html"><strong aria-hidden="true">6.3.</strong> 命令总结-基本网络操作命令(telnet ssh scp wget ping route ifconfig ifup ifdown netstat)</a></li></ol></li><li class="chapter-item expanded "><a href="../rsync/rsync.html"><strong aria-hidden="true">7.</strong> rsync</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../rsync/rsync_action.html"><strong aria-hidden="true">7.1.</strong> Rsync生产场景实战应用指南</a></li><li class="chapter-item expanded "><a href="../rsync/command_summary.html"><strong aria-hidden="true">7.2.</strong> 深入网络操作命令(mail mutt nslookup dig traceroute df du fsck dd)</a></li></ol></li><li class="chapter-item expanded "><a href="../mysql/mysql.html"><strong aria-hidden="true">8.</strong> MySQL基础</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../mysql/mysql_basic.html"><strong aria-hidden="true">8.1.</strong> MySQL常用基础命令操作实战讲解</a></li><li class="chapter-item expanded "><a href="../mysql/mysql_install.html"><strong aria-hidden="true">8.2.</strong> MySQL单实例的安装配置指南</a></li><li class="chapter-item expanded "><a href="../mysql/mysql_master-slave1.html"><strong aria-hidden="true">8.3.</strong> MySQL主从复制原理详解</a></li><li class="chapter-item expanded "><a href="../mysql/mysql_master-slave2.html"><strong aria-hidden="true">8.4.</strong> MySQL主从复制实践讲解</a></li><li class="chapter-item expanded "><a href="../mysql/mysql_perm.html" class="active"><strong aria-hidden="true">8.5.</strong> MySQL数据库安全权限控制管理思想</a></li><li class="chapter-item expanded "><a href="../mysql/mysql_recovery.html"><strong aria-hidden="true">8.6.</strong> MySQL灾难恢复实战多案例精华讲解</a></li><li class="chapter-item expanded "><a href="../mysql/mysqlbinlog.html"><strong aria-hidden="true">8.7.</strong> mysqlbinlog</a></li><li class="chapter-item expanded "><a href="../mysql/mysqldump.html"><strong aria-hidden="true">8.8.</strong> mysqldump</a></li></ol></li><li class="chapter-item expanded "><a href="../shell/shell.html"><strong aria-hidden="true">9.</strong> shell</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../shell/shell_scripts.html"><strong aria-hidden="true">9.1.</strong> shell脚本编程精讲</a></li><li class="chapter-item expanded "><a href="../shell/shell_spec.html"><strong aria-hidden="true">9.2.</strong> linux下shell脚本开发规范与制度</a></li></ol></li><li class="chapter-item expanded "><a href="../lvs_keepalived/lvs_keepalived.html"><strong aria-hidden="true">10.</strong> Lvs+keepalived集群</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../lvs/lvs_detail.html"><strong aria-hidden="true">10.1.</strong> Lvs负载均衡及Keepalived高可用技术应用详解</a></li><li class="chapter-item expanded "><a href="../lvs/lvs_action.html"><strong aria-hidden="true">10.2.</strong> Lvs+keepalived集群生产实战模拟</a></li><li class="chapter-item expanded "><a href="../lvs/lvs_key_point.html"><strong aria-hidden="true">10.3.</strong> Lvs+keepalived集群生产实战维护要点</a></li></ol></li><li class="chapter-item expanded "><a href="../iptables/iptables.html"><strong aria-hidden="true">11.</strong> iptables</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../iptables/iptables_guide.html"><strong aria-hidden="true">11.1.</strong> iptables防火墙应用指南</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">linux学习笔记</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="mysql数据库安全权限控制管理思想"><a class="header" href="#mysql数据库安全权限控制管理思想">MySQL数据库安全权限控制管理思想</a></h1>
+<p>2012年写的笔记，部分内容可能已经过时，仅供参考。</p>
+<h1 id="1-制度与流程控制"><a class="header" href="#1-制度与流程控制">1.	制度与流程控制</a></h1>
+<h2 id="11-项目开发制度流程"><a class="header" href="#11-项目开发制度流程">1.1.	项目开发制度流程</a></h2>
+<p>办公开发---&gt;办公测试---&gt;IDC测试---&gt;IDC上线</p>
+<p>防止潜在问题隐患发生。</p>
+<h2 id="12-数据库更新流程"><a class="header" href="#12-数据库更新流程">1.2.	数据库更新流程</a></h2>
+<p>开发人员提交需求---&gt;开发主管审核---&gt;部门领导审核---&gt;DBA(运维)审核---&gt;执行开发流程的数据库更新测试步骤,最后在IDC上线执行。</p>
+<p>需要说明的是在一开始提交需求，就会同时抄送给以上人等。</p>
+<p>通过较完善的数据库更新流程控制，可以防止很多潜在的数据丢失破坏问题发生。</p>
+<h2 id="13-dba参与项目数据库设计"><a class="header" href="#13-dba参与项目数据库设计">1.3.	DBA参与项目数据库设计</a></h2>
+<p>在开发环节上，DBA和资深运维人员可以参与数据库的设计与审核，从源头上减少降低不良数据库设计及语句的发生，如果有可能可以做所有语句的审核工作，包括select,这个需要评估所需的工作量，看不否允许。</p>
+<h2 id="14-各种操作申请流程"><a class="header" href="#14-各种操作申请流程">1.4.	各种操作申请流程</a></h2>
+<p>(1)	开发等人员权限申请流程</p>
+<p>(2)	数据库更新执行流程</p>
+<p>(3)	烂SQL语句计入KPI考核。</p>
+<h2 id="15-定期对内部人员培训"><a class="header" href="#15-定期对内部人员培训">1.5.	定期对内部人员培训</a></h2>
+<p>定期给开发及相关人员培训，还是从源头上减少降低不良设计及sql语句的发生，并通过培训告诉大家数据库性能的重要性，让大家提升性能意识。</p>
+<p>(1)	数据库设计规范及制度。</p>
+<p>(2)	SQL语句执行优化，性能优化技巧等。</p>
+<p>(3)	数据库架构设计等内容。</p>
+<h1 id="2-账户权限控制"><a class="header" href="#2-账户权限控制">2.	账户权限控制</a></h1>
+<h2 id="21-内部开发等人员权限分配"><a class="header" href="#21-内部开发等人员权限分配">2.1.	内部开发等人员权限分配</a></h2>
+<pre><code>(1)	权限申请流程要设置严格点，主需求不明确者知难而退。
+(2)	开发和测试环境可以放开一些权限，IDC测试和生产环境严格控制数据库的写权限，并且读权限和对外业务服务器分离。
+(3)	开发人员线上数据库权限分配：给单独的不对外服务的正式从库只读权限，不能分配线上正式主库写权限。
+(4)	特殊人员(如领导)，开通权限时问清楚做什么，发邮件回复，注明用户名、密码、权限范围，多提醒操作注意事项。
+(5)	特殊账号，由DBA专人控制，禁止在任何客户端上执行特权账号操作(如只能localhost或其它策略)
+</code></pre>
+<h2 id="22-web账户权限分配制度"><a class="header" href="#22-web账户权限分配制度">2.2.	web账户权限分配制度</a></h2>
+<pre><code>(1)	写库账号默认权限为select,insert,update,delete。不要给建表改表(create alter)的权限，更不能给all权限。
+(2)	读库账号默认权限为select(配合read-only参数用)。 一定要确保从库是只读的(对所有人员)。
+(3)	根据需要，最好专库专账号，不要一个账号管理多个库。碎库特别多的小公司根据情况处理。
+(4)	如果是lamp、lnmp一体的环境，db权限主机要设置为localhost，避免用root用户作为web连接用。
+(5)	web和数据库分离的服务器的授权可以根据web服务数量多少按IP或网段来授权。
+(6)	安全性和方便管理，是矛盾的，要尽量达到一个平衡的状态，如何是平衡就要根据具体公司和业务来衡量了。
+</code></pre>
+<h2 id="23-web账户授权实战案例"><a class="header" href="#23-web账户授权实战案例">2.3.	web账户授权实战案例</a></h2>
+<p>生产环境访问主库授权：</p>
+<pre><code>grant select,insert,update,delete on blog.* to 'blog'@'10.0.0.%' identified by '123456';
+</code></pre>
+<p>生产环境访问从库授权：</p>
+<pre><code>grant select on blog.* to 'blog'@'10.0.0.%' identified by '123456';
+</code></pre>
+<h2 id="24-生产环境读写分离账户设置"><a class="header" href="#24-生产环境读写分离账户设置">2.4.	生产环境读写分离账户设置</a></h2>
+<pre><code>主库(提供写)：blog 	passwd 	ip:192.168.65.133 	port:3306
+从库(提供读)：blog 	passwd 	ip:192.168.65.134 	port:3306
+</code></pre>
+<p>两个账号的权限是不一样的。</p>
+<p>除了IP之外，账号、密码、端口等看起来都是一样的。尽量为开发人员提供方便。</p>
+<p>在数据库设计上，开发人员应该设计优先连接读库，如果读库连接超时，可以考虑读主库，从程序设计上来保证提升用户体验。当然也要根据主库的繁忙程序来综合考虑。具体情况具体分析。</p>
+<h1 id="3-数据库客户端访问控制"><a class="header" href="#3-数据库客户端访问控制">3.	数据库客户端访问控制</a></h1>
+<pre><code>(1)	更改默认mysql client端口，如phpadmin管理端口为9999，其它客户端也是一样。
+(2)	数据库web client端统一部署在1-2台不对外服务server上限制ip及9999端口只能从内网访问。
+(3)	不做公网域名解析，用hosts实现访问或用内部IP访问。
+(4)	phpadmin站点目录独立于所有其它站点要目录外，只能由指定的域名或IP地址访问。
+(5)	限制使用web连接的账号管理数据库，根据用户角色设置指定账号访问。
+(6)	按开发及相关人员根据职位角色分配管理账号。
+(7)	设置指定账号访问(apache/nginx验证+mysql用户登录限制)
+(8)	统一所有数据库账号登录入口地址。禁止所有开发人员私自上传phpadmin等管理库管理的程序。
+(9)	开通VPN，跳板机，内部管理数据库。
+</code></pre>
+<h1 id="4-系统层控制"><a class="header" href="#4-系统层控制">4.	系统层控制</a></h1>
+<pre><code>(1)	限制或禁止开发人员SSH ROOT管理，通过SUDO细化权限，使用日志审计。
+(2)	对phpadmin端config等配置文件进行读写权限控制。
+(3)	取消非指定服务器的所有phpadmin web连接端。
+(4)	禁止非管理人员管理有数据库web client端的服务器权限。
+</code></pre>
+<h1 id="5-读库分业务读写分离"><a class="header" href="#5-读库分业务读写分离">5.	读库分业务读写分离</a></h1>
+<p>对数据库的select等大量测试、统计、备份等操作，要在不对外提供select的单独从库执行。</p>
+<p>不同的从服务器，可以按业务进行拆分：</p>
+<pre><code>--为外部用户提供查询
+--用来备份
+--提供公司内部后台、脚本、日志分析及开发人员服务的从服务器。
+</code></pre>
+<p>这样的拆分除了减轻主服务器的压力外，还使得对外用户浏览，对内处理公司内部用户业务，及DBA备份业务互不影响。</p>
+<h1 id="6-数据库运维管理思想核心"><a class="header" href="#6-数据库运维管理思想核心">6.	数据库运维管理思想核心</a></h1>
+<pre><code>(1)	未雨绸缪，不要停留在制度上，而是，实际做出来。
+(2)	亡羊补牢，举一反三
+(3)	完备的架构及备份恢复策略。
+(4)	定期思考，并实战模拟以上策略演练。
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../mysql/mysql_master-slave2.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../mysql/mysql_recovery.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../mysql/mysql_master-slave2.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../mysql/mysql_recovery.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

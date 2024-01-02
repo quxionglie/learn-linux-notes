@@ -1,0 +1,389 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Linux文件和目录权限实战讲解 - linux学习笔记</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('light')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">介绍</a></li><li class="chapter-item expanded "><a href="../install_linux/install_linux.html"><strong aria-hidden="true">1.</strong> Linux安装</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../install_linux/install_centos7.html"><strong aria-hidden="true">1.1.</strong> CentOS7.9系统安装文档</a></li><li class="chapter-item expanded "><a href="../install_linux/linux_boot_process.html"><strong aria-hidden="true">1.2.</strong> linux系统的开机启动过程</a></li><li class="chapter-item expanded "><a href="../install_linux/command_summary01.html"><strong aria-hidden="true">1.3.</strong> 命令总结(cat pwd ls rm mkdir touch head tail ln chkconfig)</a></li><li class="chapter-item expanded "><a href="../install_linux/linux_shortcut_keys.html"><strong aria-hidden="true">1.4.</strong> linux下常用的命令快捷键</a></li></ol></li><li class="chapter-item expanded "><a href="../linux_optimization/linux_optimization.html"><strong aria-hidden="true">2.</strong> Linux服务器优化</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../linux_optimization/linux_opt.html"><strong aria-hidden="true">2.1.</strong> 配置优化Centos5.X Linux操作系统</a></li><li class="chapter-item expanded "><a href="../linux_optimization/command_summary02.html"><strong aria-hidden="true">2.2.</strong> 命令总结(find、wc、tar、cut、grep、egrep、date、which、echo、shutdown、reboot)</a></li><li class="chapter-item expanded "><a href="../linux_optimization/diff_quotes.html"><strong aria-hidden="true">2.3.</strong> linux shell中单引号、双引号及不加引号的简单区别</a></li><li class="chapter-item expanded "><a href="../linux_optimization/linux_links_diff.html"><strong aria-hidden="true">2.4.</strong> linux下软链接和硬链接的区别</a></li></ol></li><li class="chapter-item expanded "><a href="../file_and_dir/file_and_dir.html"><strong aria-hidden="true">3.</strong> 文件与目录</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../file_and_dir/file_and_dir_perm.html" class="active"><strong aria-hidden="true">3.1.</strong> Linux文件和目录权限实战讲解</a></li><li class="chapter-item expanded "><a href="../file_and_dir/system_dir_and_important_path.html"><strong aria-hidden="true">3.2.</strong> 系统目录结构及重要路径</a></li><li class="chapter-item expanded "><a href="../file_and_dir/linux_file_types.html"><strong aria-hidden="true">3.3.</strong> linux文件类型总结</a></li><li class="chapter-item expanded "><a href="../file_and_dir/linux_perm.html"><strong aria-hidden="true">3.4.</strong> Linux文件和目录的属性及权限</a></li><li class="chapter-item expanded "><a href="../file_and_dir/command_summary_stat_sed_awk.html"><strong aria-hidden="true">3.5.</strong> 命令总结(stat、sed、awk)</a></li><li class="chapter-item expanded "><a href="../file_and_dir/command_summary_more_less.html"><strong aria-hidden="true">3.6.</strong> 命令总结-文件查看与处理命令(more、less、tree、chattr、lsattr)</a></li><li class="chapter-item expanded "><a href="../file_and_dir/command_summary_user.html"><strong aria-hidden="true">3.7.</strong> 命令总结-用户管理命令-用户(useradd、userdel、passwd、chage)</a></li><li class="chapter-item expanded "><a href="../file_and_dir/command_summary_group.html"><strong aria-hidden="true">3.8.</strong> 命令总结-用户管理命令-用户组(groupadd、groupdel)</a></li><li class="chapter-item expanded "><a href="../file_and_dir/command_summary_w.html"><strong aria-hidden="true">3.9.</strong> 命令总结-查看系统用户登录信息命令-(w、who、users、last)</a></li></ol></li><li class="chapter-item expanded "><a href="../crontab/crontab.html"><strong aria-hidden="true">4.</strong> crontab</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../crontab/linux_crontab.html"><strong aria-hidden="true">4.1.</strong> Linux系统定时任务详解</a></li><li class="chapter-item expanded "><a href="../crontab/linux_user_group.html"><strong aria-hidden="true">4.2.</strong> Linux系统的用户和用户组管理</a></li><li class="chapter-item expanded "><a href="../crontab/linux_su_sudo.html"><strong aria-hidden="true">4.3.</strong> Linux用户切换(su sudo)</a></li><li class="chapter-item expanded "><a href="../crontab/mount_unmount.html"><strong aria-hidden="true">4.4.</strong> 命令总结-磁盘空间的命令(mount umount)</a></li><li class="chapter-item expanded "><a href="../crontab/command_summary.html"><strong aria-hidden="true">4.5.</strong> 命令总结-附加命令(nohup watch time ps)</a></li></ol></li><li class="chapter-item expanded "><a href="../disk/disk.html"><strong aria-hidden="true">5.</strong> 硬盘</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../disk/disk_basic.html"><strong aria-hidden="true">5.1.</strong> 硬盘的基础知识介绍</a></li><li class="chapter-item expanded "><a href="../disk/disk_how_to_work.html"><strong aria-hidden="true">5.2.</strong> 硬盘的工作原理介绍</a></li><li class="chapter-item expanded "><a href="../disk/disk_partition.html"><strong aria-hidden="true">5.3.</strong> 硬盘分区相关知识介绍</a></li><li class="chapter-item expanded "><a href="../disk/raid.html"><strong aria-hidden="true">5.4.</strong> RAID技术</a></li><li class="chapter-item expanded "><a href="../disk/command_summary1.html"><strong aria-hidden="true">5.5.</strong> 命令总结-信息显示命令(uname hostname dmesg uptime du df)</a></li><li class="chapter-item expanded "><a href="../disk/command_summary2.html"><strong aria-hidden="true">5.6.</strong> 命令总结-磁盘空间的命令(fsck dd dump fdisk parted)</a></li><li class="chapter-item expanded "><a href="../disk/fdisk.html"><strong aria-hidden="true">5.7.</strong> fdisk分区命令实战讲解</a></li><li class="chapter-item expanded "><a href="../disk/fstab.html"><strong aria-hidden="true">5.8.</strong> fstab详细介绍及救援模式修复fstab实战案例</a></li><li class="chapter-item expanded "><a href="../disk/parted.html"><strong aria-hidden="true">5.9.</strong> parted分区命令实战讲解</a></li><li class="chapter-item expanded "><a href="../disk/file_system.html"><strong aria-hidden="true">5.10.</strong> linux文件系统知识介绍</a></li></ol></li><li class="chapter-item expanded "><a href="../nfs/nfs.html"><strong aria-hidden="true">6.</strong> nfs</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../nfs/nfs.html"><strong aria-hidden="true">6.1.</strong> nfs网络文件系统服务介绍与实战</a></li><li class="chapter-item expanded "><a href="../nfs/ssh_key.html"><strong aria-hidden="true">6.2.</strong> SSH KEY免密码验证分发、管理、备份实战讲解</a></li><li class="chapter-item expanded "><a href="../nfs/command_summary.html"><strong aria-hidden="true">6.3.</strong> 命令总结-基本网络操作命令(telnet ssh scp wget ping route ifconfig ifup ifdown netstat)</a></li></ol></li><li class="chapter-item expanded "><a href="../rsync/rsync.html"><strong aria-hidden="true">7.</strong> rsync</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../rsync/rsync_action.html"><strong aria-hidden="true">7.1.</strong> Rsync生产场景实战应用指南</a></li><li class="chapter-item expanded "><a href="../rsync/command_summary.html"><strong aria-hidden="true">7.2.</strong> 深入网络操作命令(mail mutt nslookup dig traceroute df du fsck dd)</a></li></ol></li><li class="chapter-item expanded "><a href="../mysql/mysql.html"><strong aria-hidden="true">8.</strong> MySQL基础</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../mysql/mysql_basic.html"><strong aria-hidden="true">8.1.</strong> MySQL常用基础命令操作实战讲解</a></li><li class="chapter-item expanded "><a href="../mysql/mysql_install.html"><strong aria-hidden="true">8.2.</strong> MySQL单实例的安装配置指南</a></li><li class="chapter-item expanded "><a href="../mysql/mysql_master-slave1.html"><strong aria-hidden="true">8.3.</strong> MySQL主从复制原理详解</a></li><li class="chapter-item expanded "><a href="../mysql/mysql_master-slave2.html"><strong aria-hidden="true">8.4.</strong> MySQL主从复制实践讲解</a></li><li class="chapter-item expanded "><a href="../mysql/mysql_perm.html"><strong aria-hidden="true">8.5.</strong> MySQL数据库安全权限控制管理思想</a></li><li class="chapter-item expanded "><a href="../mysql/mysql_recovery.html"><strong aria-hidden="true">8.6.</strong> MySQL灾难恢复实战多案例精华讲解</a></li><li class="chapter-item expanded "><a href="../mysql/mysqlbinlog.html"><strong aria-hidden="true">8.7.</strong> mysqlbinlog</a></li><li class="chapter-item expanded "><a href="../mysql/mysqldump.html"><strong aria-hidden="true">8.8.</strong> mysqldump</a></li></ol></li><li class="chapter-item expanded "><a href="../shell/shell.html"><strong aria-hidden="true">9.</strong> shell</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../shell/shell_scripts.html"><strong aria-hidden="true">9.1.</strong> shell脚本编程精讲</a></li><li class="chapter-item expanded "><a href="../shell/shell_spec.html"><strong aria-hidden="true">9.2.</strong> linux下shell脚本开发规范与制度</a></li></ol></li><li class="chapter-item expanded "><a href="../lvs_keepalived/lvs_keepalived.html"><strong aria-hidden="true">10.</strong> Lvs+keepalived集群</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../lvs/lvs_detail.html"><strong aria-hidden="true">10.1.</strong> Lvs负载均衡及Keepalived高可用技术应用详解</a></li><li class="chapter-item expanded "><a href="../lvs/lvs_action.html"><strong aria-hidden="true">10.2.</strong> Lvs+keepalived集群生产实战模拟</a></li><li class="chapter-item expanded "><a href="../lvs/lvs_key_point.html"><strong aria-hidden="true">10.3.</strong> Lvs+keepalived集群生产实战维护要点</a></li></ol></li><li class="chapter-item expanded "><a href="../iptables/iptables.html"><strong aria-hidden="true">11.</strong> iptables</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../iptables/iptables_guide.html"><strong aria-hidden="true">11.1.</strong> iptables防火墙应用指南</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">linux学习笔记</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="linux文件和目录权限实战讲解"><a class="header" href="#linux文件和目录权限实战讲解">Linux文件和目录权限实战讲解</a></h1>
+<h1 id="1--linux文件及目录权限精华总结"><a class="header" href="#1--linux文件及目录权限精华总结">1.	 linux文件及目录权限精华总结</a></h1>
+<h2 id="11-普通文件rwx说明"><a class="header" href="#11-普通文件rwx说明">1.1.	普通文件rwx说明</a></h2>
+<p>r 可阅读文件内容的权限;</p>
+<p>w 新增、修改文件内容的权限；（特别提示：删除、修改、移动目录内文件的权限受父目录的权限控制）；</p>
+<p>x 文件可被执行的权限</p>
+<h2 id="12-目录rwx权限说明"><a class="header" href="#12-目录rwx权限说明">1.2.	目录rwx权限说明</a></h2>
+<p>x 进入该目录成为工作目录的权限;</p>
+<p>r 读取目录结构列表的权限;</p>
+<p>w 更改目录结构的权限，也就是有下面一些权限：</p>
+<ul>
+<li>(1)	新建新的文件与目录;</li>
+<li>(2)	删除已存在的文件与目录（不论该文件的权限为何）;</li>
+<li>(3)	将已存在的文件或目录进行重命名；</li>
+<li>(4)	转移该目录内的文件、目录位置;</li>
+</ul>
+<p>总之目录的w权限与该目录下面的文件名变动有关。</p>
+<h2 id="13-文件和目录rwx权限对比"><a class="header" href="#13-文件和目录rwx权限对比">1.3.	文件和目录rwx权限对比</a></h2>
+<ul>
+<li>r 读</li>
+</ul>
+<pre><code>文件：有阅读文件内容权限
+目录：浏览目录的权限(注意：与进入目录权限不同)
+</code></pre>
+<ul>
+<li>w 写</li>
+</ul>
+<pre><code>文件：新增修改文件内容（注意：删除、修改、移动目录内文件和文件本身属性无关）
+目录：表示具有删除、移动、修改目录内文件的权限。如果要在目录中创建、移动、删除文件或目录必须有x权限。
+</code></pre>
+<ul>
+<li>x 执行</li>
+</ul>
+<pre><code>文件：执行文件的权限
+目录：进入目录的权限。
+</code></pre>
+<ul>
+<li>无任何权限</li>
+</ul>
+<p>特别注意：当删除或移动一个文件或目录时，仅与该文件与目录的上一层目录有关,与该文件本身的属性无关。对文件来说，写文件是修改文件，而不是删除文件，因此写文件与该文件的本身属性有关。</p>
+<h1 id="2-测试文件及目录的前期准备"><a class="header" href="#2-测试文件及目录的前期准备">2.	测试文件及目录的前期准备</a></h1>
+<h2 id="21-添加两个普通用户user1-user2"><a class="header" href="#21-添加两个普通用户user1-user2">2.1.	添加两个普通用户：user1, user2</a></h2>
+<pre><code>[root@n1 ~]# useradd user1
+[root@n1 ~]# useradd user2
+</code></pre>
+<h2 id="22-建立两个目录并设置归属用户和组"><a class="header" href="#22-建立两个目录并设置归属用户和组">2.2.	建立两个目录，并设置归属用户和组</a></h2>
+<pre><code>[root@n1 ~]# mkdir /user1
+[root@n1 ~]# mkdir /user2
+[root@n1 ~]# chown user1.user1 /user1	#修改属主和用户组
+[root@n1 ~]# chown user2.user2 /user2
+</code></pre>
+<h2 id="23-user1-user2目录下分别建file文件"><a class="header" href="#23-user1-user2目录下分别建file文件">2.3.	/user1, /user2目录下分别建file文件</a></h2>
+<pre><code>[root@n1 ~]# touch /user1/file
+[root@n1 ~]# touch /user2/file
+
+#查看新建目录和文件的权限
+[root@n1 ~]# ls -ld /user1 /user2
+drwxr-xr-x 2 user1 user1 4096 Jul  4 20:17 /user1		#目录默认的权限是755
+drwxr-xr-x 2 user2 user2 4096 Jul  4 20:18 /user2
+[root@n1 ~]# ls -l /user1/file /user2/file
+-rw-r--r-- 1 root root 0 Jul  4 20:17 /user1/file		#文件默认的权限是644
+-rw-r--r-- 1 root root 0 Jul  4 20:18 /user2/file
+</code></pre>
+<h1 id="3-测试user1用户浏览非自己拥有的目录user2的权限"><a class="header" href="#3-测试user1用户浏览非自己拥有的目录user2的权限">3.	测试user1用户浏览非自己拥有的目录/user2的权限</a></h1>
+<pre><code>#用户user1对目录/user2来说属于其它组，所以只看后三位的权限r-x。所以user1对目录/user2有读(浏览目录)和执行(进入目录)的权限。
+[user1@stu412 ~]$ ls -ld /user2
+drwxr-xr-x 2 user2 user2 4096 Jul  4 20:18 /user2
+[user1@stu412 ~]$ ls -l /user2 	#用户user1，可以浏览/user2的文件
+total 0
+-rw-r--r-- 1 root root 0 Jul  4 20:18 file
+[user1@stu412 ~]$ cd /user2		#用户user1，可以进入目录/user2
+[user1@stu412 user2]$
+
+#user1删除非自身属主的文件权限
+[user1@stu412 user2]$ rm -f file
+rm: cannot remove `file': Permission denied
+[root@n1 ~]# chmod 777 /user2/file 	#权限修改为777看
+[root@n1 ~]# ls -l /user2
+total 0
+-rwxrwxrwx 1 root root 0 Jul  4 20:18 file
+[user1@stu412 user2]$ rm -f file 			#还是权限不够
+rm: cannot remove `file': Permission denied
+#删除或移动一个文件时，与该文件的上层目录有关，与文件本身的属性无关。即使文件的权限是777也不可以。
+
+[root@n1 ~]# chmod 755 /user2
+[root@n1 ~]# chmod o+w  /user2
+[root@n1 ~]# ls -ld /user2    
+drwxr-xrwx 2 user2 user2 4096 Jul  4 20:18 /user2
+[root@n1 ~]# ls -l /user2     
+total 0
+-rw-r--r-- 1 root root 0 Jul  4 20:18 file
+
+[user1@stu412 ~]$ ls -ld /user2
+drwxr-xrwx 2 user2 user2 4096 Jul  4 20:18 /user2
+[user1@stu412 ~]$ ls -l /user2
+total 0
+-rw-r--r-- 1 root root 0 Jul  4 20:18 file
+[user1@stu412 ~]$ cd /user2
+[user1@stu412 user2]$ rm -f file 		#删除成功
+[user1@stu412 user2]$
+
+[root@n1 ~]# cd /user2
+[root@n1 user2]# touch file2
+[root@n1 user2]# chmod 000 file2		#设置file2无任何权限
+[root@n1 user2]# ls -l /user2      
+total 0
+---------- 1 root root 0 Jul  4 22:14 file2
+[user1@stu412 user2]$ ls -l /user2  
+total 0
+---------- 1 root root 0 Jul  4 22:14 file2
+[user1@stu412 user2]$ rm -f file2		#也能删除成功
+[user1@stu412 user2]$ ls -l /user2
+total 0
+[user1@stu412 user2]$
+
+#测试user1仅有w权限是否能删除/user2内的文件
+[root@n1 /]# chmod o=w /user2		#其它用户仅有w权限
+[root@n1 /]# ls -ld /user2   
+drwxr-x-w- 2 user2 user2 4096 Jul  4 22:22 /user2
+[root@n1 /]# ls -l /user2
+total 0
+-rw-r--r-- 1 root root 0 Jul  4 22:22 file
+
+[user1@stu412 ~]$ ls -l /user2
+ls: /user2: Permission denied
+[user1@stu412 ~]$ cd  /user2  
+-bash: cd: /user2: Permission denied
+[user1@stu412 ~]$ rm -f /user2/file	#仅有w权限，user1是无法删除/user2/file的
+rm: cannot remove `/user2/file': Permission denied
+
+#user1有rw权限看是否能删除/user2内的文件
+[root@n1 /]# chmod 756 /user2
+[root@n1 /]# ls -ld /user2
+drwxr-xrw- 2 user2 user2 4096 Jul  4 22:22 /user2
+
+[user1@stu412 ~]$ ls -ld /user2/
+drwxr-xrw- 2 user2 user2 4096 Jul  4 22:22 /user2/
+[user1@stu412 ~]$ ls -l /user2/  
+total 0
+?--------- ? ? ? ?            ? file
+[user1@stu412 ~]$ rm -f /user2/file #仅有rw权限，user1依然无法删除/user2/file
+rm: cannot remove `/user2/file': Permission denied
+
+#测试user1仅有wx权限看是否能删除/user2内的文件
+[root@n1 /]# chmod 753 /user2
+[root@n1 /]# ls -ld /user2
+drwxr-x-wx 2 user2 user2 4096 Jul  4 22:22 /user2
+[root@n1 /]# ls -l /user2
+total 0
+-rw-r--r-- 1 root root 0 Jul  4 22:22 file
+
+[user1@stu412 ~]$ ls -ld /user2/    
+drwxr-x-wx 2 user2 user2 4096 Jul  4 22:22 /user2/
+[user1@stu412 ~]$ ls -l /user2/    
+ls: /user2/: Permission denied
+[user1@stu412 ~]$ cd /user2
+[user1@stu412 user2]$ rm -f file	#删除成功
+[user1@stu412 user2]$
+</code></pre>
+<p>结论：</p>
+<p>1）	删除或移动一个文件，与该文件的上层目录的权限有关，与该文件本身的属性无关，即使是777也不可能删除或移动!</p>
+<p>2）	对于目录，可写w表示具有修改或删除目录内文件的权限，但必须同时有x权限才可以。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../file_and_dir/file_and_dir.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../file_and_dir/system_dir_and_important_path.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../file_and_dir/file_and_dir.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../file_and_dir/system_dir_and_important_path.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

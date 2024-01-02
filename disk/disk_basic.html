@@ -1,0 +1,334 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>硬盘的基础知识介绍 - linux学习笔记</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('light')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">介绍</a></li><li class="chapter-item expanded "><a href="../install_linux/install_linux.html"><strong aria-hidden="true">1.</strong> Linux安装</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../install_linux/install_centos7.html"><strong aria-hidden="true">1.1.</strong> CentOS7.9系统安装文档</a></li><li class="chapter-item expanded "><a href="../install_linux/linux_boot_process.html"><strong aria-hidden="true">1.2.</strong> linux系统的开机启动过程</a></li><li class="chapter-item expanded "><a href="../install_linux/command_summary01.html"><strong aria-hidden="true">1.3.</strong> 命令总结(cat pwd ls rm mkdir touch head tail ln chkconfig)</a></li><li class="chapter-item expanded "><a href="../install_linux/linux_shortcut_keys.html"><strong aria-hidden="true">1.4.</strong> linux下常用的命令快捷键</a></li></ol></li><li class="chapter-item expanded "><a href="../linux_optimization/linux_optimization.html"><strong aria-hidden="true">2.</strong> Linux服务器优化</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../linux_optimization/linux_opt.html"><strong aria-hidden="true">2.1.</strong> 配置优化Centos5.X Linux操作系统</a></li><li class="chapter-item expanded "><a href="../linux_optimization/command_summary02.html"><strong aria-hidden="true">2.2.</strong> 命令总结(find、wc、tar、cut、grep、egrep、date、which、echo、shutdown、reboot)</a></li><li class="chapter-item expanded "><a href="../linux_optimization/diff_quotes.html"><strong aria-hidden="true">2.3.</strong> linux shell中单引号、双引号及不加引号的简单区别</a></li><li class="chapter-item expanded "><a href="../linux_optimization/linux_links_diff.html"><strong aria-hidden="true">2.4.</strong> linux下软链接和硬链接的区别</a></li></ol></li><li class="chapter-item expanded "><a href="../file_and_dir/file_and_dir.html"><strong aria-hidden="true">3.</strong> 文件与目录</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../file_and_dir/file_and_dir_perm.html"><strong aria-hidden="true">3.1.</strong> Linux文件和目录权限实战讲解</a></li><li class="chapter-item expanded "><a href="../file_and_dir/system_dir_and_important_path.html"><strong aria-hidden="true">3.2.</strong> 系统目录结构及重要路径</a></li><li class="chapter-item expanded "><a href="../file_and_dir/linux_file_types.html"><strong aria-hidden="true">3.3.</strong> linux文件类型总结</a></li><li class="chapter-item expanded "><a href="../file_and_dir/linux_perm.html"><strong aria-hidden="true">3.4.</strong> Linux文件和目录的属性及权限</a></li><li class="chapter-item expanded "><a href="../file_and_dir/command_summary_stat_sed_awk.html"><strong aria-hidden="true">3.5.</strong> 命令总结(stat、sed、awk)</a></li><li class="chapter-item expanded "><a href="../file_and_dir/command_summary_more_less.html"><strong aria-hidden="true">3.6.</strong> 命令总结-文件查看与处理命令(more、less、tree、chattr、lsattr)</a></li><li class="chapter-item expanded "><a href="../file_and_dir/command_summary_user.html"><strong aria-hidden="true">3.7.</strong> 命令总结-用户管理命令-用户(useradd、userdel、passwd、chage)</a></li><li class="chapter-item expanded "><a href="../file_and_dir/command_summary_group.html"><strong aria-hidden="true">3.8.</strong> 命令总结-用户管理命令-用户组(groupadd、groupdel)</a></li><li class="chapter-item expanded "><a href="../file_and_dir/command_summary_w.html"><strong aria-hidden="true">3.9.</strong> 命令总结-查看系统用户登录信息命令-(w、who、users、last)</a></li></ol></li><li class="chapter-item expanded "><a href="../crontab/crontab.html"><strong aria-hidden="true">4.</strong> crontab</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../crontab/linux_crontab.html"><strong aria-hidden="true">4.1.</strong> Linux系统定时任务详解</a></li><li class="chapter-item expanded "><a href="../crontab/linux_user_group.html"><strong aria-hidden="true">4.2.</strong> Linux系统的用户和用户组管理</a></li><li class="chapter-item expanded "><a href="../crontab/linux_su_sudo.html"><strong aria-hidden="true">4.3.</strong> Linux用户切换(su sudo)</a></li><li class="chapter-item expanded "><a href="../crontab/mount_unmount.html"><strong aria-hidden="true">4.4.</strong> 命令总结-磁盘空间的命令(mount umount)</a></li><li class="chapter-item expanded "><a href="../crontab/command_summary.html"><strong aria-hidden="true">4.5.</strong> 命令总结-附加命令(nohup watch time ps)</a></li></ol></li><li class="chapter-item expanded "><a href="../disk/disk.html"><strong aria-hidden="true">5.</strong> 硬盘</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../disk/disk_basic.html" class="active"><strong aria-hidden="true">5.1.</strong> 硬盘的基础知识介绍</a></li><li class="chapter-item expanded "><a href="../disk/disk_how_to_work.html"><strong aria-hidden="true">5.2.</strong> 硬盘的工作原理介绍</a></li><li class="chapter-item expanded "><a href="../disk/disk_partition.html"><strong aria-hidden="true">5.3.</strong> 硬盘分区相关知识介绍</a></li><li class="chapter-item expanded "><a href="../disk/raid.html"><strong aria-hidden="true">5.4.</strong> RAID技术</a></li><li class="chapter-item expanded "><a href="../disk/command_summary1.html"><strong aria-hidden="true">5.5.</strong> 命令总结-信息显示命令(uname hostname dmesg uptime du df)</a></li><li class="chapter-item expanded "><a href="../disk/command_summary2.html"><strong aria-hidden="true">5.6.</strong> 命令总结-磁盘空间的命令(fsck dd dump fdisk parted)</a></li><li class="chapter-item expanded "><a href="../disk/fdisk.html"><strong aria-hidden="true">5.7.</strong> fdisk分区命令实战讲解</a></li><li class="chapter-item expanded "><a href="../disk/fstab.html"><strong aria-hidden="true">5.8.</strong> fstab详细介绍及救援模式修复fstab实战案例</a></li><li class="chapter-item expanded "><a href="../disk/parted.html"><strong aria-hidden="true">5.9.</strong> parted分区命令实战讲解</a></li><li class="chapter-item expanded "><a href="../disk/file_system.html"><strong aria-hidden="true">5.10.</strong> linux文件系统知识介绍</a></li></ol></li><li class="chapter-item expanded "><a href="../nfs/nfs.html"><strong aria-hidden="true">6.</strong> nfs</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../nfs/nfs.html"><strong aria-hidden="true">6.1.</strong> nfs网络文件系统服务介绍与实战</a></li><li class="chapter-item expanded "><a href="../nfs/ssh_key.html"><strong aria-hidden="true">6.2.</strong> SSH KEY免密码验证分发、管理、备份实战讲解</a></li><li class="chapter-item expanded "><a href="../nfs/command_summary.html"><strong aria-hidden="true">6.3.</strong> 命令总结-基本网络操作命令(telnet ssh scp wget ping route ifconfig ifup ifdown netstat)</a></li></ol></li><li class="chapter-item expanded "><a href="../rsync/rsync.html"><strong aria-hidden="true">7.</strong> rsync</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../rsync/rsync_action.html"><strong aria-hidden="true">7.1.</strong> Rsync生产场景实战应用指南</a></li><li class="chapter-item expanded "><a href="../rsync/command_summary.html"><strong aria-hidden="true">7.2.</strong> 深入网络操作命令(mail mutt nslookup dig traceroute df du fsck dd)</a></li></ol></li><li class="chapter-item expanded "><a href="../mysql/mysql.html"><strong aria-hidden="true">8.</strong> MySQL基础</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../mysql/mysql_basic.html"><strong aria-hidden="true">8.1.</strong> MySQL常用基础命令操作实战讲解</a></li><li class="chapter-item expanded "><a href="../mysql/mysql_install.html"><strong aria-hidden="true">8.2.</strong> MySQL单实例的安装配置指南</a></li><li class="chapter-item expanded "><a href="../mysql/mysql_master-slave1.html"><strong aria-hidden="true">8.3.</strong> MySQL主从复制原理详解</a></li><li class="chapter-item expanded "><a href="../mysql/mysql_master-slave2.html"><strong aria-hidden="true">8.4.</strong> MySQL主从复制实践讲解</a></li><li class="chapter-item expanded "><a href="../mysql/mysql_perm.html"><strong aria-hidden="true">8.5.</strong> MySQL数据库安全权限控制管理思想</a></li><li class="chapter-item expanded "><a href="../mysql/mysql_recovery.html"><strong aria-hidden="true">8.6.</strong> MySQL灾难恢复实战多案例精华讲解</a></li><li class="chapter-item expanded "><a href="../mysql/mysqlbinlog.html"><strong aria-hidden="true">8.7.</strong> mysqlbinlog</a></li><li class="chapter-item expanded "><a href="../mysql/mysqldump.html"><strong aria-hidden="true">8.8.</strong> mysqldump</a></li></ol></li><li class="chapter-item expanded "><a href="../shell/shell.html"><strong aria-hidden="true">9.</strong> shell</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../shell/shell_scripts.html"><strong aria-hidden="true">9.1.</strong> shell脚本编程精讲</a></li><li class="chapter-item expanded "><a href="../shell/shell_spec.html"><strong aria-hidden="true">9.2.</strong> linux下shell脚本开发规范与制度</a></li></ol></li><li class="chapter-item expanded "><a href="../lvs_keepalived/lvs_keepalived.html"><strong aria-hidden="true">10.</strong> Lvs+keepalived集群</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../lvs/lvs_detail.html"><strong aria-hidden="true">10.1.</strong> Lvs负载均衡及Keepalived高可用技术应用详解</a></li><li class="chapter-item expanded "><a href="../lvs/lvs_action.html"><strong aria-hidden="true">10.2.</strong> Lvs+keepalived集群生产实战模拟</a></li><li class="chapter-item expanded "><a href="../lvs/lvs_key_point.html"><strong aria-hidden="true">10.3.</strong> Lvs+keepalived集群生产实战维护要点</a></li></ol></li><li class="chapter-item expanded "><a href="../iptables/iptables.html"><strong aria-hidden="true">11.</strong> iptables</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../iptables/iptables_guide.html"><strong aria-hidden="true">11.1.</strong> iptables防火墙应用指南</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">linux学习笔记</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="硬盘的基础知识介绍"><a class="header" href="#硬盘的基础知识介绍">硬盘的基础知识介绍</a></h1>
+<p>20120712笔记,部分可能不适合当前环境了。</p>
+<h1 id="11-硬盘历史"><a class="header" href="#11-硬盘历史">1.1.	硬盘历史</a></h1>
+<p>当前硬盘的发展趋势：体积更小，速度更快，容量更大，使用更安全。</p>
+<h1 id="12-硬盘的外部结构"><a class="header" href="#12-硬盘的外部结构">1.2.	硬盘的外部结构</a></h1>
+<h3 id="121-硬盘介绍"><a class="header" href="#121-硬盘介绍">1.2.1.	硬盘介绍</a></h3>
+<p>硬盘主要包括：盘片、磁头，盘片主轴，控制电机、磁头控制器，数据转换器、接口、缓存等几个部分。所有的盘片都固定在一个旋转轴上，这个轴即旋转主轴。而所有的盘片之间是平行的，在每个盘片(一个盘片两个盘面)的存储面上都有一个磁头，磁头与盘片之间的距离比头发丝的直径还小许多倍。所有的磁头（一个有效盘面就有一个磁头）连在一个磁头控制器上，由磁头控制器负责各个磁头的。磁头可沿盘片的半径方向运动，而盘片以每分钟数千转的速度在高速旋转，这样磁头就能盘片指定位置进行数据的读写操作。硬盘是精密设备，灰尘是其大敌，所以需要密封。</p>
+<h3 id="122-外部结构"><a class="header" href="#122-外部结构">1.2.2.	外部结构</a></h3>
+<h2>IDE硬盘：
+<img src="image/01.png" alt="" /></h2>
+<p>笔记本硬盘：</p>
+<p><img src="image/02.png" alt="" />
+<img src="image/03.png" alt="" /></p>
+<p>SSD硬盘：
+<img src="image/04.png" alt="" /></p>
+<p>线上应用的存储尽量用sas，比如，数据库、图片的线上应用，数据冷备份用sata，比如站点程序及数据库、图片的备份等。</p>
+<p>硬盘外部结构可分成如下几个部分：
+<img src="image/05.png" alt="" />
+<img src="image/06.png" alt="" /></p>
+<h2 id="13-硬盘的内部结构"><a class="header" href="#13-硬盘的内部结构">1.3.	硬盘的内部结构</a></h2>
+<h3 id="131-内部结构"><a class="header" href="#131-内部结构">1.3.1.	内部结构</a></h3>
+<p>硬盘内部结构由固定面板、控制电路板、磁头、盘片、主轴、电机、接口、及其它附件组成，其中磁头及盘片组件是硬盘的核心，它封装在硬盘的密封腔体内，包括有浮动磁头组件、磁头驱动装置、盘片、主轴驱动装置及前置读写控制电路这几个部分。
+<img src="image/07.png" alt="" /></p>
+<p><img src="image/08.png" alt="" /></p>
+<h3 id="132-磁头组件及磁头"><a class="header" href="#132-磁头组件及磁头">1.3.2.	磁头组件及磁头</a></h3>
+<p>(1)磁头组件。包括读写磁头、传动手臂、传动轴三部分组成。磁头是硬盘技术中最重要和关键的一环，实际上是集成工艺制成的多个磁头的组合，它采用了非接触式头、盘结构，加后电在高速旋转的磁盘表面移动，与盘片之间的间隙只有0.1～0.3um，这样可以获得很好的数据传输率。现在转速为7200RPM的硬盘飞高一般都低于0.3um，以利于读取较大的高信噪比信号，提供数据传输率的可靠性。
+硬盘的工作原理，它是利用特定的磁粒子的极性来记录数据。磁头在读取数据时，将磁粒子的不同极性转换成不同的电脉冲信号，再利用数据转换器将这些原始信号变成电脑可以使用的数据，写的操作正好与此相反。
+<img src="image/09.png" alt="" /></p>
+<p>(2)磁头驱动机构。盘硬的寻道是靠移动磁头，而移动磁头则需要该机构驱动才能实现。磁头驱动机构由电磁线圈电机、磁头驱动小车、防震动装置构成，高精度的轻型磁头驱动机构能够对磁头进行正确的驱动和定位，并能在很短的时间内精确定位系统指令指定的磁道。</p>
+<p>其中电磁线圈电机包含着一块永久磁铁，这是磁头驱动机构对传动手臂起作用的关键，磁铁的吸引力足起吸住并吊起拆硬盘使用的螺丝刀。防震动装置在老硬盘中没有，它的作用是当硬盘受动强烈震动时，对磁头及盘片起到一定的保护使用，以避免磁头将盘片刮伤等情况的发生。这也是为什么旧硬盘的防震能力比现在新硬盘差得多的缘故。</p>
+<p><img src="image/10.png" alt="" /></p>
+<h3 id="133-磁盘片主轴组件及前置控制电器"><a class="header" href="#133-磁盘片主轴组件及前置控制电器">1.3.3.	磁盘片、主轴组件及前置控制电器</a></h3>
+<p>(3)磁盘片。盘片是硬盘存储数据的载体，现在硬盘盘片大多采用金属薄膜材料，这种金属薄膜较软盘的不连续颗粒载体具有更高的存储密度、高剩磁及高矫顽力等优点。另外，IBM还有一种被称为“玻璃盘片”的材料作为盘片基质，玻璃盘片比普通盘片在运行时具有更好的稳定性。从图11中可以发现，硬盘盘片是完全平整的，简直可以当镜子使用。</p>
+<p><img src="image/12.png" alt="" /></p>
+<p>(4)主轴组件。主轴组件包括主轴部件如轴承和驱动电机等。随着硬盘容量的扩大和速度的提高，主轴电机的速度也在不断提升，有厂商开始采用精密机械工业的液态轴承电机技术。例如希捷公司的酷鱼ATA IV就是采用此电机技术，这样有利于降低硬盘工作噪音。
+<img src="image/13.png" alt="" /></p>
+<p>(5)、前置控制电路。前置电路控制磁头感应的信号、主轴电机调速、磁头驱动和伺服定位等，由于磁头读取的信号微弱，将放大电路密封在腔体内可减少外来信号的干扰，提高操作指令的准确性。
+1.4.	硬盘控制电路
+1.4.1.	控制电路
+1.5.	硬盘拆解
+1.5.1.	拆解过程
+在开始解剖过程叙述之前，需要提醒用户注意：硬盘内部是绝对无尘的，在普通环境下将硬盘拆开，即意味着你的硬盘将报废，所以不要轻易将你的硬盘按笔者这样解剖。</p>
+<h2 id="16-硬盘接口"><a class="header" href="#16-硬盘接口">1.6.	硬盘接口</a></h2>
+<p>硬盘接口是硬盘与主机系统间的连接部件，作用是在硬盘缓存和主机内存之间传输数据。不同的硬盘接口决定着硬盘与计算机之间的连接速度，在整个系统中，硬盘接口的优劣直接影响着程序运行快慢和系统性能好坏。IDE，SATA，SCSI和光纤通道。从整体的角度上，硬盘接口分为IDE、SATA、SCSI和光纤通道四种，IDE接口硬盘多用于家用产品中，也部分应用于服务器，SCSI接口的硬盘则主要应用于服务器市场，而光纤通道只在高端服务器上，价格昂贵。SATA主要应用于家用市场，有SATA、SATAΙΙ、SATAΙΙΙ，是现在的主流。</p>
+<h3 id="161-ide硬盘与ide接口"><a class="header" href="#161-ide硬盘与ide接口">1.6.1.	IDE硬盘与IDE接口</a></h3>
+<h3 id="162-sata硬盘与sata接口"><a class="header" href="#162-sata硬盘与sata接口">1.6.2.	SATA硬盘与SATA接口</a></h3>
+<p>SATA（Serial ATA）口的硬盘又叫串口硬盘。Serial ATA采用串行连接方式，串行ATA总线使用嵌入式时钟信号，具备了更强的纠错能力，与以往相比其最大的区别在于能对传输指令（不仅仅是数据）进行检查，如果发现错误会自动矫正，这在很大程度上提高了数据传输的可靠性。串行接口还具有结构简单、支持热插拔的优点。
+Serial ATA 1.0定义的数据传输率可达150MB/s，这比目前最新的并行ATA（即ATA/133）所能达到133MB/s的最高数据传输率还高，而在Serial ATA 2.0的数据传输率将达到300MB/s，最终SATA将实现600MB/s的最高数据传输率。
+<img src="image/14.png" alt="" />
+　　
+左边是串行数据传输线，右边是并行数据传输线。</p>
+<h3 id="163-scsi硬盘与scsi接口"><a class="header" href="#163-scsi硬盘与scsi接口">1.6.3.	SCSI硬盘与SCSI接口</a></h3>
+<p>SCSI的英文全称为“Small Computer System Interface”（小型计算机系统接口），是同IDE（ATA）完全不同的接口，IDE接口是普通PC的标准接口，而SCSI并不是专门为硬盘设计的接口，是一种广泛应用于小型机上的高速数据传输技术。SCSI接口具有应用范围广、多任务、带宽大、CPU占用率低，以及热插拔等优点，但较高的价格使得它很难如IDE硬盘般普及，因此SCSI硬盘主要应用于中、高端服务器和高档工作站中。
+<img src="image/15.png" alt="" /></p>
+<h3 id="164-sas硬盘与sas接口"><a class="header" href="#164-sas硬盘与sas接口">1.6.4.	SAS硬盘与SAS接口</a></h3>
+<p>SAS(Serial Attached SCSI)即串行连接SCSI，是新一代的SCSI技术，和现在流行的Serial ATA(SATA)硬盘相同，都是采用串行技术以获得更高的传输速度，并通过缩短连结线改善内部空间等。SAS是并行SCSI接口之后开发出的全新接口。此接口的设计是为了改善存储系统的效能、可用性和扩充性，并且提供与SATA硬盘的兼容性。</p>
+<pre><code>SAS技术的优势:
+(1)SAS技术降低了磁盘阵列的成本:
+(2)串行接口让传输性能提高:
+(3)更好的扩展性能:
+(4)安装更简单:
+(5)更好的兼容性:
+</code></pre>
+<h3 id="165-光纤通道"><a class="header" href="#165-光纤通道">1.6.5.	光纤通道</a></h3>
+<h3 id="166-ssd硬盘"><a class="header" href="#166-ssd硬盘">1.6.6.	SSD硬盘</a></h3>
+<p>固态硬盘（Solid State Drive、IDE FLASH DISK）由控制单元和存储单元（FLASH芯片）组成，简单的说就是用固态电子存储芯片阵列而制成的硬盘，固态硬盘的接口规范和定义、功能及使用方法上与普通硬盘的相同，在产品外形和尺寸上也与普通硬盘一致。其芯片的工作温度范围很宽（-40~85℃）。目前广泛应用于军事、车载、工控、视频监控、网络监控、网络终端、电力、医疗、航空、导航设备等领域。</p>
+<div class="table-wrapper"><table><thead><tr><th>项目</th><th>固态硬盘</th><th>传统硬盘</th></tr></thead><tbody>
+<tr><td>容量</td><td>较小</td><td>大</td></tr>
+<tr><td>价格</td><td>高</td><td>低</td></tr>
+<tr><td>随机存取</td><td>极快</td><td>一般</td></tr>
+<tr><td>写入次数</td><td>SLC:10万次 MLC:1万次</td><td>无限制</td></tr>
+<tr><td>盘内阵列</td><td>可</td><td>极难</td></tr>
+<tr><td>工作噪音</td><td>无</td><td>有</td></tr>
+<tr><td>工作温度</td><td>极低</td><td>较明显</td></tr>
+<tr><td>防震</td><td>很好</td><td>较差</td></tr>
+<tr><td>数据恢复</td><td>难</td><td>可以</td></tr>
+<tr><td>重量</td><td>轻</td><td>重</td></tr>
+</tbody></table>
+</div>
+<h3 id="167-生产环境硬盘的选型和应用案例"><a class="header" href="#167-生产环境硬盘的选型和应用案例">1.6.7.	生产环境硬盘的选型和应用案例</a></h3>
+<h4 id="1671-服务器选型"><a class="header" href="#1671-服务器选型">1.6.7.1.	服务器选型</a></h4>
+<p>DELL,HP,IBM等</p>
+<h4 id="1672-硬盘选型"><a class="header" href="#1672-硬盘选型">1.6.7.2.	硬盘选型</a></h4>
+<p>主流硬盘SAS，SATA,SSD(SAS SATA是主流生产环境使用SSD固态硬盘,效率最高，非机械式，电子设备，价格高)</p>
+<ul>
+<li>SAS 15000转/M,主流是300G和600G,现在多用600G,用于线上服务器，如数据库服务及相关高并发服务。</li>
+<li>SATA 7200-10000转/分 1T和2T,用于线下不提供服务的存储。不能用于高并发业务的存储，会死人的。</li>
+<li>SSD 固态硬盘，容量少，价格贵。一般用于数据量小并且超大规模高并发的业务。</li>
+<li></li>
+</ul>
+<p>提示：大公司有的会根据数据热度来综合使用分层存储，以达到性价比最佳的情况。</p>
+<h4 id="1673-不同类型硬盘基本数据的比较"><a class="header" href="#1673-不同类型硬盘基本数据的比较">1.6.7.3.	不同类型硬盘基本数据的比较</a></h4>
+<div class="table-wrapper"><table><thead><tr><th>类型</th><th>性质</th><th>转数</th><th>主流产品</th><th>价格（企业级）</th></tr></thead><tbody>
+<tr><td>SATA</td><td>机械</td><td>7.2k-10k转/分</td><td>1-2T</td><td>1400RMB(7.2K 2T)</td></tr>
+<tr><td>SAS</td><td>机械</td><td>15k转/分</td><td>300-600G</td><td>1200-2000RMB(15K)</td></tr>
+<tr><td>SSD</td><td>电子</td><td></td><td>40G <br/>80G <br/>120G<br/> 160G<br/> 300G <br/>600G</td><td>600RMB  <br/>1100RMB <br/> 1500RMB <br/> 1900RMB <br/> 3800RMB <br/> 7500RMB</td></tr>
+</tbody></table>
+</div>
+<h4 id="1674-淘宝cdn缓存对象分级存储策略案例"><a class="header" href="#1674-淘宝cdn缓存对象分级存储策略案例">1.6.7.4.	淘宝CDN缓存对象分级存储策略案例</a></h4>
+<p>问题：
+淘宝CDN缓存对象具有的特征是：18KB以下的对象数量占总数量的80%，而存储量只有不到40%；同时，80%被访问对象所占用的存储空间不到20%。</p>
+<p>分析:
+这意味着“热数据”（访问频次高的内容）占的空间其实很小，而“冷数据”（访问频次低的内容）所需存储量很大。</p>
+<p>解决：
+因此，淘宝特意为该低功耗服务器引入分层存储机制，所以单台低功耗服务器的硬盘其实是由一块80GB的SSD盘和两块500GB的SATA盘组成。这样，“热数据”存放在SSD盘上，“冷数据”就存放在SATA盘上，从而兼顾速度、容量与成本。而分层存储调度软件则由淘宝独立开发。</p>
+<h4 id="1675-网站架构不同角色服务器硬盘选型策略"><a class="header" href="#1675-网站架构不同角色服务器硬盘选型策略">1.6.7.5.	网站架构不同角色服务器硬盘选型策略</a></h4>
+<p>例如：web server 如何配置硬盘容量和个数，负载均衡器如何配置容量和个数，存储，数据库等，这些内容以后会有详细的说明。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../disk/disk.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../disk/disk_how_to_work.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../disk/disk.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../disk/disk_how_to_work.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>
