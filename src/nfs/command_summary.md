@@ -916,9 +916,10 @@ unix  3      [ ]         STREAM     CONNECTED     7745
 
 # 上面最重要的其实是那个 -l 的参数，因为可以仅列出正在监听的端口
 ```
-
+![](image/01.png)
 
 实例4：观察本机上头所有的网络联机状态
 ```
 [root@A-server ~]# netstat -atunp
 ```
+![](image/02.png)
