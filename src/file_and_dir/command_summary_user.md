@@ -337,7 +337,6 @@ vbird2 NP 2012-07-03 0 60 7 10 (Empty password.)
 范例七：批量添加用户和设置用户密码
 ```
 #!/bin/sh
-#author:oldboy
 userchars="qinqin";
 for num in `seq 3`
 do

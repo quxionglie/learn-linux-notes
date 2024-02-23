@@ -557,7 +557,6 @@ passwd: all authentication tokens updated successfully.
 #上面设置的密码虽然不需要交互，但密码会以明文的方式保存在历史记录里。一般批量设置密码分发给管理员后，要强制大家更改密码。
 [root@stu412 ~]# cat us.sh #批量添加用户和设置密码脚本
 #!/bin/sh
-#author:oldboy
 userchars="quxl";
 for num in `seq 3`
 do
