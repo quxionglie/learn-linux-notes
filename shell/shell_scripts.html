@@ -1,0 +1,2290 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>shell脚本编程精讲 - linux学习笔记</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('light')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">介绍</a></li><li class="chapter-item expanded "><a href="../install_linux/install_linux.html"><strong aria-hidden="true">1.</strong> Linux安装</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../install_linux/install_centos7.html"><strong aria-hidden="true">1.1.</strong> CentOS7.9系统安装文档</a></li><li class="chapter-item expanded "><a href="../install_linux/linux_boot_process.html"><strong aria-hidden="true">1.2.</strong> linux系统的开机启动过程</a></li><li class="chapter-item expanded "><a href="../install_linux/command_summary01.html"><strong aria-hidden="true">1.3.</strong> 命令总结(cat pwd ls rm mkdir touch head tail ln chkconfig)</a></li><li class="chapter-item expanded "><a href="../install_linux/linux_shortcut_keys.html"><strong aria-hidden="true">1.4.</strong> linux下常用的命令快捷键</a></li></ol></li><li class="chapter-item expanded "><a href="../linux_optimization/linux_optimization.html"><strong aria-hidden="true">2.</strong> Linux服务器优化</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../linux_optimization/linux_opt.html"><strong aria-hidden="true">2.1.</strong> 配置优化Centos5.X Linux操作系统</a></li><li class="chapter-item expanded "><a href="../linux_optimization/command_summary02.html"><strong aria-hidden="true">2.2.</strong> 命令总结(find、wc、tar、cut、grep、egrep、date、which、echo、shutdown、reboot)</a></li><li class="chapter-item expanded "><a href="../linux_optimization/diff_quotes.html"><strong aria-hidden="true">2.3.</strong> linux shell中单引号、双引号及不加引号的简单区别</a></li><li class="chapter-item expanded "><a href="../linux_optimization/linux_links_diff.html"><strong aria-hidden="true">2.4.</strong> linux下软链接和硬链接的区别</a></li></ol></li><li class="chapter-item expanded "><a href="../file_and_dir/file_and_dir.html"><strong aria-hidden="true">3.</strong> 文件与目录</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../file_and_dir/file_and_dir_perm.html"><strong aria-hidden="true">3.1.</strong> Linux文件和目录权限实战讲解</a></li><li class="chapter-item expanded "><a href="../file_and_dir/system_dir_and_important_path.html"><strong aria-hidden="true">3.2.</strong> 系统目录结构及重要路径</a></li><li class="chapter-item expanded "><a href="../file_and_dir/linux_file_types.html"><strong aria-hidden="true">3.3.</strong> linux文件类型总结</a></li><li class="chapter-item expanded "><a href="../file_and_dir/linux_perm.html"><strong aria-hidden="true">3.4.</strong> Linux文件和目录的属性及权限</a></li><li class="chapter-item expanded "><a href="../file_and_dir/command_summary_stat_sed_awk.html"><strong aria-hidden="true">3.5.</strong> 命令总结(stat、sed、awk)</a></li><li class="chapter-item expanded "><a href="../file_and_dir/command_summary_more_less.html"><strong aria-hidden="true">3.6.</strong> 命令总结-文件查看与处理命令(more、less、tree、chattr、lsattr)</a></li><li class="chapter-item expanded "><a href="../file_and_dir/command_summary_user.html"><strong aria-hidden="true">3.7.</strong> 命令总结-用户管理命令-用户(useradd、userdel、passwd、chage)</a></li><li class="chapter-item expanded "><a href="../file_and_dir/command_summary_group.html"><strong aria-hidden="true">3.8.</strong> 命令总结-用户管理命令-用户组(groupadd、groupdel)</a></li><li class="chapter-item expanded "><a href="../file_and_dir/command_summary_w.html"><strong aria-hidden="true">3.9.</strong> 命令总结-查看系统用户登录信息命令-(w、who、users、last)</a></li></ol></li><li class="chapter-item expanded "><a href="../crontab/crontab.html"><strong aria-hidden="true">4.</strong> crontab</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../crontab/linux_crontab.html"><strong aria-hidden="true">4.1.</strong> Linux系统定时任务详解</a></li><li class="chapter-item expanded "><a href="../crontab/linux_user_group.html"><strong aria-hidden="true">4.2.</strong> Linux系统的用户和用户组管理</a></li><li class="chapter-item expanded "><a href="../crontab/linux_su_sudo.html"><strong aria-hidden="true">4.3.</strong> Linux用户切换(su sudo)</a></li><li class="chapter-item expanded "><a href="../crontab/mount_unmount.html"><strong aria-hidden="true">4.4.</strong> 命令总结-磁盘空间的命令(mount umount)</a></li><li class="chapter-item expanded "><a href="../crontab/command_summary.html"><strong aria-hidden="true">4.5.</strong> 命令总结-附加命令(nohup watch time ps)</a></li></ol></li><li class="chapter-item expanded "><a href="../disk/disk.html"><strong aria-hidden="true">5.</strong> 硬盘</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../disk/disk_basic.html"><strong aria-hidden="true">5.1.</strong> 硬盘的基础知识介绍</a></li><li class="chapter-item expanded "><a href="../disk/disk_how_to_work.html"><strong aria-hidden="true">5.2.</strong> 硬盘的工作原理介绍</a></li><li class="chapter-item expanded "><a href="../disk/disk_partition.html"><strong aria-hidden="true">5.3.</strong> 硬盘分区相关知识介绍</a></li><li class="chapter-item expanded "><a href="../disk/raid.html"><strong aria-hidden="true">5.4.</strong> RAID技术</a></li><li class="chapter-item expanded "><a href="../disk/command_summary1.html"><strong aria-hidden="true">5.5.</strong> 命令总结-信息显示命令(uname hostname dmesg uptime du df)</a></li><li class="chapter-item expanded "><a href="../disk/command_summary2.html"><strong aria-hidden="true">5.6.</strong> 命令总结-磁盘空间的命令(fsck dd dump fdisk parted)</a></li><li class="chapter-item expanded "><a href="../disk/fdisk.html"><strong aria-hidden="true">5.7.</strong> fdisk分区命令实战讲解</a></li><li class="chapter-item expanded "><a href="../disk/fstab.html"><strong aria-hidden="true">5.8.</strong> fstab详细介绍及救援模式修复fstab实战案例</a></li><li class="chapter-item expanded "><a href="../disk/parted.html"><strong aria-hidden="true">5.9.</strong> parted分区命令实战讲解</a></li><li class="chapter-item expanded "><a href="../disk/file_system.html"><strong aria-hidden="true">5.10.</strong> linux文件系统知识介绍</a></li></ol></li><li class="chapter-item expanded "><a href="../nfs/nfs.html"><strong aria-hidden="true">6.</strong> nfs</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../nfs/nfs.html"><strong aria-hidden="true">6.1.</strong> nfs网络文件系统服务介绍与实战</a></li><li class="chapter-item expanded "><a href="../nfs/ssh_key.html"><strong aria-hidden="true">6.2.</strong> SSH KEY免密码验证分发、管理、备份实战讲解</a></li><li class="chapter-item expanded "><a href="../nfs/command_summary.html"><strong aria-hidden="true">6.3.</strong> 命令总结-基本网络操作命令(telnet ssh scp wget ping route ifconfig ifup ifdown netstat)</a></li></ol></li><li class="chapter-item expanded "><a href="../rsync/rsync.html"><strong aria-hidden="true">7.</strong> rsync</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../rsync/rsync_action.html"><strong aria-hidden="true">7.1.</strong> Rsync生产场景实战应用指南</a></li><li class="chapter-item expanded "><a href="../rsync/command_summary.html"><strong aria-hidden="true">7.2.</strong> 深入网络操作命令(mail mutt nslookup dig traceroute df du fsck dd)</a></li></ol></li><li class="chapter-item expanded "><a href="../mysql/mysql.html"><strong aria-hidden="true">8.</strong> MySQL基础</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../mysql/mysql_basic.html"><strong aria-hidden="true">8.1.</strong> MySQL常用基础命令操作实战讲解</a></li><li class="chapter-item expanded "><a href="../mysql/mysql_install.html"><strong aria-hidden="true">8.2.</strong> MySQL单实例的安装配置指南</a></li><li class="chapter-item expanded "><a href="../mysql/mysql_master-slave1.html"><strong aria-hidden="true">8.3.</strong> MySQL主从复制原理详解</a></li><li class="chapter-item expanded "><a href="../mysql/mysql_master-slave2.html"><strong aria-hidden="true">8.4.</strong> MySQL主从复制实践讲解</a></li><li class="chapter-item expanded "><a href="../mysql/mysql_perm.html"><strong aria-hidden="true">8.5.</strong> MySQL数据库安全权限控制管理思想</a></li><li class="chapter-item expanded "><a href="../mysql/mysql_recovery.html"><strong aria-hidden="true">8.6.</strong> MySQL灾难恢复实战多案例精华讲解</a></li><li class="chapter-item expanded "><a href="../mysql/mysqlbinlog.html"><strong aria-hidden="true">8.7.</strong> mysqlbinlog</a></li><li class="chapter-item expanded "><a href="../mysql/mysqldump.html"><strong aria-hidden="true">8.8.</strong> mysqldump</a></li></ol></li><li class="chapter-item expanded "><a href="../shell/shell.html"><strong aria-hidden="true">9.</strong> shell</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../shell/shell_scripts.html" class="active"><strong aria-hidden="true">9.1.</strong> shell脚本编程精讲</a></li><li class="chapter-item expanded "><a href="../shell/shell_spec.html"><strong aria-hidden="true">9.2.</strong> linux下shell脚本开发规范与制度</a></li></ol></li><li class="chapter-item expanded "><a href="../lvs_keepalived/lvs_keepalived.html"><strong aria-hidden="true">10.</strong> Lvs+keepalived集群</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../lvs/lvs_detail.html"><strong aria-hidden="true">10.1.</strong> Lvs负载均衡及Keepalived高可用技术应用详解</a></li><li class="chapter-item expanded "><a href="../lvs/lvs_action.html"><strong aria-hidden="true">10.2.</strong> Lvs+keepalived集群生产实战模拟</a></li><li class="chapter-item expanded "><a href="../lvs/lvs_key_point.html"><strong aria-hidden="true">10.3.</strong> Lvs+keepalived集群生产实战维护要点</a></li></ol></li><li class="chapter-item expanded "><a href="../iptables/iptables.html"><strong aria-hidden="true">11.</strong> iptables</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../iptables/iptables_guide.html"><strong aria-hidden="true">11.1.</strong> iptables防火墙应用指南</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">linux学习笔记</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="shell脚本编程精讲"><a class="header" href="#shell脚本编程精讲">shell脚本编程精讲</a></h1>
+<h1 id="1--shell介绍"><a class="header" href="#1--shell介绍">1.  shell介绍</a></h1>
+<h2 id="11----常用操作系统默认shell"><a class="header" href="#11----常用操作系统默认shell">1.1.    常用操作系统默认shell</a></h2>
+<pre><code>Linux是Bourne Again Shell (bash)
+Solaris和FreeBSD是Bourne Shell (sh)
+AIX是Korn Shell(ksh)
+HP-UX缺省的是POSIX shell(sh)
+</code></pre>
+<h2 id="12----shell脚本建立和执行"><a class="header" href="#12----shell脚本建立和执行">1.2.    shell脚本建立和执行</a></h2>
+<p>脚本开头(第一行)</p>
+<p>一个规范的shell脚本的第一行会指出由哪个程序(解释器)来执行脚本中的内容,linux中一般为</p>
+<p>#!/bin/bash或#!/bin/sh</p>
+<p>sh和bash的区别:sh为bash的软链接，推荐标准写法：#!/bin/bash。</p>
+<pre><code>shell脚本执行的三种方法：
+(1) bash script-name或sh script-name
+(2) path/script-name或./script-name
+(3) source script-name或 . script-name
+</code></pre>
+<p>说明：
+第一种方法是当脚本本身没有可执行权限时常用的方法。推荐用bash执行。</p>
+<p>第二种方法是需先将脚本文件的权限改为可执行(加x位,chmod u+x script-name或chmod 755 script-name),然后通过脚本路径就可以执行了。</p>
+<p>第三种方法所执行的脚本中(如sun.sh)的语句会作为父shell脚本(如father.sh)进程的一部分执行，因此可将sun.sh自身脚本中的变量函数等返回值传递到当前父shell脚本father.sh中使用。</p>
+<pre><code>[root@test ~]# echo "userdir=`pwd`"&gt;test.sh
+[root@test ~]# cat test.sh 
+userdir=/root
+[root@test ~]# sh test.sh 
+[root@test ~]# echo $userdir  #此处为空值
+
+[root@test ~]#
+
+[root@test ~]# source test.sh 
+[root@test ~]# echo $userdir
+/root
+</code></pre>
+<p>通过source或.点号执行过的脚本，在脚本执行结束后的变量(包括函数)值在当前shell中依然存在，而sh和bash则不行。</p>
+<h2 id="13----shell脚本开发基本规范及习惯"><a class="header" href="#13----shell脚本开发基本规范及习惯">1.3.    shell脚本开发基本规范及习惯</a></h2>
+<p>(1) 开头指定脚本解释器</p>
+<p>#!/bin/bash或#!/bin/bash</p>
+<p>(2) 开头加版本版权等信息</p>
+<pre><code>#Date:
+#Author:
+#Mail:
+#Funtion:
+#Version:
+</code></pre>
+<p>提示：可配置vim编辑器后自动加上以上信息</p>
+<p>(3) 脚本中不用中文注释</p>
+<p>(4) 脚本以.sh为扩展名</p>
+<p>(5) 代码书写优秀习惯</p>
+<pre><code>   成对的内容一次写出来
+   []中括号两端要有空格，书写时即可留出空格[  ]
+   流程控制一次书写完，再添加内容。
+</code></pre>
+<h1 id="2--shell变量基础及深入"><a class="header" href="#2--shell变量基础及深入">2.  shell变量基础及深入</a></h1>
+<h2 id="21----变量类型"><a class="header" href="#21----变量类型">2.1.    变量类型</a></h2>
+<p>两类：环境变量(全局变量)和局部变量</p>
+<h2 id="22----环境变量"><a class="header" href="#22----环境变量">2.2.    环境变量</a></h2>
+<p>环境变量定义Shell运行的环境。可用于所有子进程，这包括编辑器、脚本和应用。</p>
+<p>环境变量用于所有用户进程（经常称为子进程）。登录进程称为父进程。s h e l l中执行的用户进程均称为子进程。不像本地变量（只用于现在的s h e l l）环境变量可用于所有子进程，这包括编辑器、脚本和应用。</p>
+<p>环境变量可以在命令行中设置，但用户注销时这些值将丢失，因此最好在. profile文件中定义。系统管理员可能在/etc/profile文件中已经设置了一些环境变量。将之放入profile文件意味着每次登录时这些值 都将被初始化。</p>
+<p>传统上，所有环境变量均为大写。环境变量应用于用户进程前，必须用export命令导出。</p>
+<h2 id="23----自定义环境变量"><a class="header" href="#23----自定义环境变量">2.3.    自定义环境变量</a></h2>
+<p>如果想设置环境变量，就要在给变量赋值之后或设置变量时使用export命令，带-x选项的declare内置命令也可完成同样的功能。</p>
+<p>格式：
+(1) export 变量名=value</p>
+<p>(2) 变量名=value; export 变量名</p>
+<p>(3) declare -x 变量名=value</p>
+<h2 id="24----显示或取消环境变量"><a class="header" href="#24----显示或取消环境变量">2.4.    显示或取消环境变量</a></h2>
+<pre><code>#echo显示
+[root@test ~]# echo $HOME
+/root
+[root@test ~]# echo $UID
+0
+[root@test ~]# echo $PWD
+/root
+[root@test ~]# echo $SHELL
+/bin/bash
+[root@test ~]# echo $USER
+root
+
+#env或set显示系统默认的环境变量
+[root@test ~]# env
+HOSTNAME=test
+TERM=vt100
+SHELL=/bin/bash
+HISTSIZE=1000
+SSH_CLIENT=192.168.65.1 50140 22
+SSH_TTY=/dev/pts/3
+USER=root
+LS_COLORS=no=00:fi=00:di=01;34:ln=01;36:pi=40;33:so=01;35:bd=40;33;01:cd=40;33;01:or=01;05;37;41:mi=01;05;37;41:ex=01;32:*.cmd=01;32:*.exe=01;32:*.com=01;32:*.btm=01;32:*.bat=01;32:*.sh=01;32:*.csh=01;32:*.tar=01;31:*.tgz=01;31:*.arj=01;31:*.taz=01;31:*.lzh=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.gz=01;31:*.bz2=01;31:*.bz=01;31:*.tz=01;31:*.rpm=01;31:*.cpio=01;31:*.jpg=01;35:*.gif=01;35:*.bmp=01;35:*.xbm=01;35:*.xpm=01;35:*.png=01;35:*.tif=01;35:
+MAIL=/var/spool/mail/root
+PATH=/usr/kerberos/sbin:/usr/kerberos/bin:/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/mysql/bin:/root/bin
+INPUTRC=/etc/inputrc
+PWD=/root
+LANG=en_US.UTF-8
+SHLVL=1
+HOME=/root
+LOGNAME=root
+CVS_RSH=ssh
+SSH_CONNECTION=192.168.65.1 50140 192.168.65.151 22
+LESSOPEN=|/usr/bin/lesspipe.sh %s
+G_BROKEN_FILENAMES=1
+_=/bin/env
+
+[root@test ~]# set
+BASH=/bin/bash
+BASH_ARGC=()
+BASH_ARGV=()
+BASH_LINENO=()
+BASH_SOURCE=()
+BASH_VERSINFO=([0]="3" [1]="2" [2]="25" [3]="1" [4]="release" [5]="i686-redhat-linux-gnu")
+BASH_VERSION='3.2.25(1)-rele
+…省略…
+
+使用unset取消本地变量和环境变量
+[root@test ~]# echo $USER
+root
+[root@test ~]# unset USER
+[root@test ~]# echo $USER
+
+[root@test ~]#
+</code></pre>
+<h2 id="25----本地变量"><a class="header" href="#25----本地变量">2.5.    本地变量</a></h2>
+<p>本地变量在用户当前的Shell生存期的脚本中使用。</p>
+<p>普通字符串变量的定义：</p>
+<pre><code>name=value
+name='value'
+name="value"
+</code></pre>
+<pre><code>[root@test ~]# a=192.168.1.1
+[root@test ~]# b='192.168.1.1'
+[root@test ~]# c="192.168.1.1"
+[root@test ~]# echo "a=$a"
+a=192.168.1.1
+[root@test ~]# echo "b=$b"
+b=192.168.1.1
+[root@test ~]# echo "c=${c}"
+c=192.168.1.1
+
+
+[root@test ~]# a=192.168.1.1-$a
+[root@test ~]# b='192.168.1.1-$a'
+[root@test ~]# c="192.168.1.1-$a"
+[root@test ~]# echo "a=$a"
+a=192.168.1.1-192.168.1.1
+[root@test ~]# echo "b=$b"
+b=192.168.1.1-$a
+[root@test ~]# echo "c=${c}"
+c=192.168.1.1-192.168.1.1-192.168.1.1
+</code></pre>
+<p>注意单引号、双引号、不加引号的区别。</p>
+<p>(1)单引号：
+将单引号内的内容原样输出，或者描述为单引号里面看到的是什么就会输出什么。</p>
+<p>(2)双引号：
+把双引号内的内容输出出来；如果内容中有命令、变量等，会先把变量、命令解析出结果，然后在输出最终内容来。</p>
+<p>(3)不加引号：
+不会将含有空格的字符串视为一个整体输出, 如果内容中有命令、变量等，会先把变量、命令解析出结果，然后再输出最终内容来。</p>
+<p>如果字符串中带有空格等特殊字符，则不能完整的输出，需要改加双引号，一般连续的字符串，数字，路径等可以用。</p>
+<pre><code>自定义变量的建议：
+(1) 纯数字(不带空格)，定义可以不加引号
+(2) 没特殊情况，字符串一般用双引号定义，特别是多个字符串中间有空格时。
+(3) 变量内容需要原样输出，要用单引号。
+
+变量命名规范：
+(1) 命名要统一，使用全部大写字母，如APACHE_ERR_NUM，语义要清晰，能够正确表达变量内容的含义，过长单词可用前几个单词代替。多个单词连接可用"_"号连接，最好以${APACHE_ERR_NUM}或"${APACHE_ERR_NUM}"引用变量。
+(2) 避免无意义字符或数字。
+(3) 全局变量命名要用大写，使用时使用{}大括号括起来。
+(4) 局部变量要以local方式进行声明(如local i)，使之在函数作用域内有效,防止变量在函数中的命名与变量外部程序中变量重名造成程序异常。
+(5) 变量合并：当某些变量或配置项要组合起来才有意义时，如文件路径和文件名称，建议要将组合的变量合并到一起赋值给一个新的变量，这样既方便之后的调用，也为以后进行修改提供了方便。
+VERSION="2.2.22"
+SOFTWARE_NAME="httpd"
+SOFTWARE_FULLNAME="${SOFTWARE_NAME}-${VERSION}.tar.gz"
+(6) 变量定义总结：多学习系统自带的/etc/init.dfunction函数库脚本定义思路。
+</code></pre>
+<h2 id="26----shell特殊变量"><a class="header" href="#26----shell特殊变量">2.6.    shell特殊变量</a></h2>
+<pre><code>(1) 位置变量
+$0  当前执行的脚本名字
+$n  当前脚本的第n个参数,n=1..9,如果n&gt;9,用大括号括起来：${10}
+$*  当前shell的所有参数 $1 $2 $3 …
+$#  当前shell参数的总个数
+$@  程序的所有参数"$1" "$2" "$3" "…"
+ 
+(2) 进程状态变量
+$$  获取当前shell的进程号(PID)
+$!  执行上一个指令的PID
+$?  获取执行上一个指令的返回值(0成功，非零为失败) 
+$_  在此之前执行的命令或脚本的最后一个参数。
+</code></pre>
+<pre><code>[root@test ~]# cat var.sh 
+echo '$0 :' $0
+echo '$n :' '$1'=$1 '$2'=$2 '$3'=$3
+echo '$* :' $*
+echo '$# :' $#
+echo '$$ :' $$
+
+sleep 2 &amp;
+echo '----' 
+echo '$! :' $!
+echo '$? :' $?
+echo '$@ :' $@
+echo '$_ :' $_
+[root@test ~]# sh var.sh p1 p2 p3
+$0 : var.sh
+$n : $1=p1 $2=p2 $3=p3
+$* : p1 p2 p3
+$# : 3
+$$ : 17124
+----
+$! : 17125
+$? : 0
+$@ : p1 p2 p3
+$_ : p3
+
+portmap使用实例
+[root@test ~]# cat /etc/init.d/portmap 
+#! /bin/sh
+#
+# portmap       Start/Stop RPC portmapper
+#
+# chkconfig: 345 13 87
+# description: The portmapper manages RPC connections, which are used by \
+#              protocols such as NFS and NIS. The portmap server must be \
+#              running on machines which act as servers for protocols which \
+#              make use of the RPC mechanism.
+# processname: portmap
+
+
+# This is an interactive program, we need the current locale
+[ -f /etc/profile.d/lang.sh ] &amp;&amp; . /etc/profile.d/lang.sh
+# We can't Japanese on normal console at boot time, so force LANG=C.
+if [ "$LANG" = "ja" -o "$LANG" = "ja_JP.eucJP" ]; then
+    if [ "$TERM" = "linux" ] ; then
+        LANG=C
+    fi
+fi
+
+# Source function library.
+. /etc/init.d/functions
+
+# Get config.
+if [ -f /etc/sysconfig/network ]; then
+    . /etc/sysconfig/network
+else
+    echo $"Networking not configured - exiting"
+    exit 1
+fi
+
+prog="portmap"
+
+# Check that networking is up.
+if [ "$NETWORKING" = "no" ]; then
+        exit 0
+fi
+
+[ -f /sbin/portmap ] || exit 0
+
+[ -f /etc/sysconfig/$prog ] &amp;&amp; . /etc/sysconfig/$prog
+
+RETVAL=0
+
+start() {
+        echo -n $"Starting $prog: "
+        daemon portmap $PMAP_ARGS
+        RETVAL=$?
+        echo
+        [ $RETVAL -eq 0 ] &amp;&amp; touch /var/lock/subsys/portmap
+        return $RETVAL
+}
+
+
+stop() {
+        echo -n $"Stopping $prog: "
+        killproc portmap
+        RETVAL=$?
+        echo
+        [ $RETVAL -eq 0 ] &amp;&amp; rm -f /var/lock/subsys/portmap
+        return $RETVAL
+}
+
+restart() {
+        pmap_dump &gt; /var/run/portmap.state
+        stop
+        start
+        pmap_set &lt; /var/run/portmap.state
+        rm -f /var/run/portmap.state
+}
+
+# See how we were called.
+case "$1" in
+  start)
+        start
+        ;;
+  stop)
+        stop
+        ;;
+  status)
+        status portmap
+        ;;
+  restart|reload)
+        restart
+        ;;
+  condrestart)
+        [ -f /var/lock/subsys/portmap ] &amp;&amp; restart || :
+        ;;
+  *)
+        echo $"Usage: $0 {start|stop|status|restart|reload|condrestart}"
+        exit 1
+esac
+
+exit $?
+</code></pre>
+<h2 id="27----bash内部变量"><a class="header" href="#27----bash内部变量">2.7.    bash内部变量</a></h2>
+<pre><code>有些内部命令在目录列表时是看不见的，它们由shell本身提供，常用的内部命令有：echo,eval,exec,export,readonly,read,shift,wait,exit和点(.)。
+(1) echo arg
+在屏幕上显示出由arg指定的字串。
+
+(2) eval args
+当Shell程序执行到eval语句时，Shell读入参数args，并将它们组合成一个新的命令，然后执行。
+
+(3) exec 命令参数
+当Shell执行到exec语句时，不会去创建新的子进程，而是转去执行指定的命令，当指定的命令执行完时，该进程（也就是最初的 Shell）就终止了，所以Shell程序中exec后面的语句将不再被执行。
+
+(4) export  变量名=value
+Shell可以用export把它的变量向下带入子Shell，从而让子进程继承父进程中的环境变量。但子Shell不能用export把它 的变量向上带入父Shell。
+注意：不带任何变量名的export语句将显示出当前所有的export变量。
+
+(5) readonly 变量名
+将一个用户定义的Shell变量标识为不可变。不带任何参数的readonly命令将显示出所有只读的Shell变量。
+
+(6) read 变量名表
+从标准输入设备读字符串，传给指定变量。
+
+(7) shift 语句
+shift语句按如下方式重新命名所有的位置参数变量，即$2成为$1，$3成为$2…在程序中每使用一次shift语句，都使所有的位置参 数依次向左移动一个位置，并使位置参数$#减1，直到减到0为止。
+</code></pre>
+<h2 id="28----变量子串的常用操作"><a class="header" href="#28----变量子串的常用操作">2.8.    变量子串的常用操作</a></h2>
+<pre><code>${#string}  返回$string的长度
+${string:position}  在$string中,从位置$position开始提取子串
+${string:position:length}   在$string中,从位置$position开始提取长度为$length的子串
+${string#substring} 从变量$string的开头,删除最短匹配$substring的子串
+${string##substring}    从变量$string的开头,删除最长匹配$substring的子串
+${string%substring} 从变量$string的结尾,删除最短匹配$substring的子串
+${string%%substring}    从变量$string的结尾,删除最长匹配$substring的子串
+${string/substring/replacement} 使用$replacement,来代替第一个匹配的$substring
+${string//substring/replacement}    使用$replacement,代替所有匹配的$substring
+${string/#substring/replacement}    如果$string的前缀匹配$substring,那么就用$replacement来代替匹配到的$substring
+${string/%substring/replacement}    如果$string的后缀匹配$substring,那么就用$replacement来代替匹配到的$substring
+</code></pre>
+<pre><code>[root@test ~]# OLDBOY="I am oldboy"
+[root@test ~]# echo ${OLDBOY}
+I am oldboy
+[root@test ~]# echo ${#OLDBOY}      #显示长度
+11
+[root@test ~]# echo ${OLDBOY:2}     #取第二个字符以后的内容
+am oldboy
+[root@test ~]# echo ${OLDBOY:2:2}   #取第二个字符以后取两个字符的内容
+am
+[root@test ~]# echo ${OLDBOY#I am}  #删除最短匹配的I am 字串
+oldboy
+[root@test ~]# echo ${OLDBOY#I am old}
+boy
+[root@test ~]# echo ${OLDBOY##I am old}
+boy
+[root@test ~]# echo ${OLDBOY%oldboy}
+I am
+[root@test ~]# echo ${OLDBOY%%boy}
+I am old
+
+[root@test ~]#
+</code></pre>
+<p>补充：</p>
+<p>(1) 条件变量替换：</p>
+<p>${value:-word}</p>
+<p>当变量未定义或为空时，返回word的内容，否则返回变量的内容。</p>
+<pre><code>[root@test ~]# result=${test:-UNSET}
+[root@test ~]# echo $result
+UNSET
+[root@test ~]# test=''
+[root@test ~]# result=${test:-UNSET}
+[root@test ~]# echo $result
+UNSET
+[root@test ~]# test='123'
+[root@test ~]# result=${test:-UNSET}
+[root@test ~]# echo $result
+123
+(2) ${value:=word}
+</code></pre>
+<p>与前者类似,只是若变量未定义或者值为空时,在返回word的值的同时将word赋值给value</p>
+<p>(3) ${value:?message}</p>
+<p>若变量以赋值的话,正常替换.否则将消息message送到标准错误输出(若此替换出现在Shell程序中,那么该程序将终止运行)</p>
+<h2 id="29----变量的数值计算"><a class="header" href="#29----变量的数值计算">2.9.    变量的数值计算</a></h2>
+<p>数值计算常用命令：(()), let, expr, bc, $[]</p>
+<p>(1) (())的用法(此法很常用)</p>
+<p>执行简单的整数运算，只需将特定的算术表达式用"$(("和"))"括起。</p>
+<pre><code>[root@test ~]# ((a=1+2**3-4%3))
+[root@test ~]# echo $a
+8
+[root@test ~]# a=$((1+2))
+[root@test ~]# echo $a
+3
+[root@test ~]# echo $((1+2+3))
+6
+[root@test ~]# echo ((1+2+3))
+-bash: syntax error near unexpected token `('
+[root@test ~]# 
+[root@test ~]# echo $a
+3
+[root@test ~]# echo $((a+=1))
+4
+[root@test ~]# echo $((a++))
+4
+[root@test ~]# echo $((3&gt;2))
+1
+[root@test ~]# echo $((3&lt;2))
+0
+[root@test ~]# echo $((3==2))
+0
+[root@test ~]# echo $((3!=2))
+1
+</code></pre>
+<p>提示：</p>
+<p>1.**为幂运算: %为取模运算(就是除法当中取余数)，加减乘除我就不细说了吧。</p>
+<p>2.上面涉及到的参数必须为整数（整型）。不能是小数（符点数）或者字符串。bc命令可以进行浮点数运算，但一般较少用到，下文会提到。提醒下，你可以直接在shell脚本中使用上述命令进行计算。</p>
+<p>3.echo $((a++))和echo $((a--)) 表示先输出a自身的值，然后在进行++ --的运算，echo $((++a)) 和echo $((--a))表示先进行++ --的运算，在输出a自身的值。</p>
+<pre><code>[root@test ~]# a=2
+[root@test ~]# b=3
+[root@test ~]# echo " a+b=$(($a+$b))"
+ a+b=5
+
+(2) let用法
+let 表达式
+[root@test ~]# i=2
+[root@test ~]# i=i+8
+[root@test ~]# echo $i
+i+8
+
+[root@test ~]# i=2
+[root@test ~]# let i=i+8
+[root@test ~]# echo $i
+10
+提示：let i=i+8 等同于((i=i+8)),但后者效率更高。
+(3) expr- evaluate expressions命令用法
+[root@test ~]# expr 2 + 2
+4
+[root@test ~]# expr 2+2
+2+2
+[root@test ~]# expr 2*2
+2*2
+[root@test ~]# expr 2 * 2
+expr: syntax error
+[root@test ~]# expr 2 \* 2
+4
+[root@test ~]# expr 2\*2
+2*2
+[root@test ~]# expr 2 % 2
+0
+[root@test ~]# expr 2%2
+2%2
+提示：
+   运算符左右都有空格;
+   使用*时必须用反斜线屏蔽其特定含义。
+
+#循环时自增
+[root@test ~]# i=0
+[root@test ~]# i=`expr $i + 1`
+[root@test ~]# echo $i
+1
+
+#expr $[$a+$b]表达式
+[root@test ~]# expr $[2+3]
+5
+[root@test ~]# expr $[2*3]
+6
+[root@test ~]# a=3
+[root@test ~]# b=5
+[root@test ~]# expr $[$a+$b]
+8
+[root@test ~]# expr $[$a*$b]
+15
+ 
+
+(4) bc命令用法
+
+[root@test ~]# echo 3.5+5|bc
+8.5
+[root@test ~]# echo 3.5*5.2|bc
+18.2
+[root@test ~]# echo 3.52*5.21|bc
+18.33
+[root@test ~]# echo "3.52*5.21"|bc
+18.33
+[root@test ~]# echo "scale=1;3.52*5.21"|bc  #精度只对除法有效
+18.33
+[root@test ~]# echo "13.52/5.21"|bc
+2
+[root@test ~]# echo "scale=1;13.52/5.21"|bc
+2.5
+[root@test ~]# echo "obase=2;2" | bc
+10
+[root@test ~]# echo "obase=16;20" | bc      #10进制20转换成16进制
+14
+
+
+直接使用整数计算：
+[root@test ~]# typeset -i a=1 b=3
+[root@test ~]# a=a+b
+[root@test ~]# echo $a
+4
+
+(5) $[]运算
+[root@test ~]# echo $[2+3]
+5
+[root@test ~]# echo $[2*3]
+6
+
+
+Shell变量的输入
+Read语法格式：
+read [参数] [变量名]
+常用参数：
+-p prompt:设置提示信息
+-t timeout 设置输入等待的时间，单位默认为秒。
+[root@test ~]# read -p "please input two number:" a1 a2
+please input two number:3 4
+[root@test ~]# echo $a1 $a2
+3 4
+[root@test ~]#
+
+[root@test ~]# read -t 5 -p "please input two number:" a1 a2 #5秒不输入则退出
+please input two number:[root@test ~]#
+</code></pre>
+<h1 id="3--条件测试"><a class="header" href="#3--条件测试">3.  条件测试</a></h1>
+<h2 id="31----测试语句"><a class="header" href="#31----测试语句">3.1.    测试语句</a></h2>
+<h3 id="311--条件测试语法"><a class="header" href="#311--条件测试语法">3.1.1.  条件测试语法</a></h3>
+<pre><code>语法说明：
+格式1：test &lt;测试表达式&gt;
+格式2：[ &lt;测试表达式&gt; ]
+格式3：[[ &lt;测试表达式&gt; ]]
+说明：
+格式1和格式2是等价的
+格式3为扩展的test命令,有网友推荐格式3,老男孩习惯使用格式2。
+提示：
+1.  在[[]]中可以使用通配符进行模式匹配。
+2.  &amp;&amp;、||、&gt;、&lt;等操作符可以应用于[[]]中，但不能应用于[]中。
+3.  对整数进行关系运算，也可以使用shell的算术运算符(())。
+</code></pre>
+<pre><code>语法举例：
+格式1：test &lt;测试表达式&gt;
+[root@test ~]# test -f file &amp;&amp; echo true || echo false
+false
+[root@test ~]# touch file
+[root@test ~]# test -f file &amp;&amp; echo true || echo false
+true
+#测试!用法
+[root@test ~]# test ! -f file &amp;&amp; echo true || echo false
+false
+
+
+格式2：[ &lt;测试表达式&gt; ]
+[root@test ~]# rm -f file
+[root@test ~]# [ -f file ] &amp;&amp; echo 1 || echo 0
+0
+[root@test ~]# touch file
+[root@test ~]# [ -f file ] &amp;&amp; echo 1 || echo 0
+1
+[root@test ~]# [ ! -f file ] &amp;&amp; echo 1 || echo 0
+0
+
+格式3：[[ &lt;测试表达式&gt; ]]
+[root@test ~]# [[ ! -f file ]] &amp;&amp; echo 1 || echo 0
+0
+[root@test ~]# [[ -f file ]] &amp;&amp; echo 1 || echo 0
+1
+[root@test ~]# [[ -f file &amp;&amp; -f folder ]] &amp;&amp; echo 1 || echo 0
+0
+[root@test ~]# ls -l file
+-rw-r--r-- 1 root root 0 Sep  8 16:52 file
+[root@test ~]# [[ -f file &amp;&amp; -f file2 ]] &amp;&amp; echo 1 || echo 0
+0
+[root@test ~]# [ -f file &amp;&amp; -f file2 ] &amp;&amp; echo 1 || echo 0
+-bash: [: missing `]'
+0
+[root@test ~]# [ -f file -a -f file2 ] &amp;&amp; echo 1 || echo 0
+0
+</code></pre>
+<h3 id="312--文件测试操作符"><a class="header" href="#312--文件测试操作符">3.1.2.  文件测试操作符</a></h3>
+<pre><code>常用文件测试操作符
+文件测试操作符 说明
+-d pathname 当pathname 存在并且是一个目录时返回真
+-e pathname 当由pathname 指定的文件或目录存在时返回真
+-f filename 当filename 存在并且是普通文件时返回真
+-r pathname 当由pathname 指定的文件或目录存在并且可读时返回真
+-s filename 当filename 存在并且文件大小大于0 时返回真
+-w pathname 当由pathname 指定的文件或目录存在并且可写时返回真
+-x pathname 当由pathname 指定的文件或目录存在并且可执行时返回真
+file1 -nt file2 file1 比file2 新时返回真
+file1 -ot file2 file1 比file2 旧时返回真
+</code></pre>
+<h3 id="313--字符串测试操作符"><a class="header" href="#313--字符串测试操作符">3.1.3.  字符串测试操作符</a></h3>
+<pre><code>操作符 说明
+-z string   字符串string 为空串(长度为0)时返回真
+-n string   字符串string 为非空串时返回真
+str1 = str2 字符串str1 和字符串str2 相等时返回真
+str1 == str2    同 =
+str1 != str2    字符串str1 和字符串str2 不相等时返回真
+str1 &lt; str2 按字典顺序排序，字符串str1 在字符串str2 之前
+str1 &gt; str2 按字典顺序排序，字符串str1 在字符串str2 之后
+if[ "$a"="$b" ],其中$a最好用""括起来。当然最好的方法就是if[ "${a}"="${b}" ]
+</code></pre>
+<h3 id="314--整数二元比较操作符"><a class="header" href="#314--整数二元比较操作符">3.1.4.  整数二元比较操作符</a></h3>
+<pre><code>在[]中使用的操作符  在(())和[[]]中使用的操作符   说明
+-eq ==  等于则返回真
+-ne !=  不等于，则返回真
+-lt &gt;   小于，则返回真
+-le &gt;=  小于等于，则返回真
+-gt &lt;=  大于，则返回真
+-ge &lt;=  大于等于，则返回真
+经过实践，"="和"!="在[]中使用不需要转义，包含"&gt;"和"&lt;"的符号在[]中使用需要转义，对于数字不转义的结果未必会报错，但是结果可能不会对。
+if[[ "$a"&lt;"$b" ]], if[ "$a"\&lt;"$b" ]
+if[[ "$a"&gt;"$b" ]], if[ "$a"\&gt;"$b" ]
+if[[ "$a"="$b" ]], if[ "$a"="$b" ]
+</code></pre>
+<pre><code>举例：二元数字比较
+[root@test ~]# [ 2&gt;1 ] &amp;&amp; echo 1 || echo 0
+0
+[root@test ~]# [ 2&lt;1 ] &amp;&amp; echo 1 || echo 0
+0
+[root@test ~]# [  2 &gt; 1 ] &amp;&amp; echo 1 || echo 0
+1
+[root@test ~]# [  2 &lt; 1 ] &amp;&amp; echo 1 || echo 0   #不报错，但结果不对
+1
+[root@test ~]# [  2 \&lt; 1 ] &amp;&amp; echo 1 || echo 0
+0
+[root@test ~]# [  2 = 1 ] &amp;&amp; echo 1 || echo 0
+0
+[root@test ~]# [  1 = 1 ] &amp;&amp; echo 1 || echo 0
+1
+
+
+[root@test ~]# [[ 2 -gt 1 ]] &amp;&amp; echo 1 || echo 0
+1
+[root@test ~]# [[ 2 -lt 1 ]] &amp;&amp; echo 1 || echo 0
+0
+
+举例：二元字符比较
+[root@test ~]# [ "a" &gt; "bc" ] &amp;&amp; echo 1 || echo 0
+1
+[root@test ~]# [ "a" &lt; "bc" ] &amp;&amp; echo 1 || echo 0
+1
+#上面条件不一样，但结果一样。虽然没报语法错误,显然结果不对。
+[root@test ~]# [ "a" \&gt; "bc" ] &amp;&amp; echo 1 || echo 0
+0
+[root@test ~]# [ "a" \&lt; "bc" ] &amp;&amp; echo 1 || echo 0
+1
+#转义后结果正确了
+</code></pre>
+<h3 id="315--逻辑操作符"><a class="header" href="#315--逻辑操作符">3.1.5.  逻辑操作符</a></h3>
+<pre><code>在[]中使用的操作符  在[[]]中使用的操作符    说明
+-a  &amp;&amp;  逻辑与，操作符两边均为真，结果为真，否则为假。
+-o  ||  逻辑或，操作符两边一边为真，结果为真，否则为假。
+!   !   逻辑否，条件为假，结果为真。
+</code></pre>
+<h3 id="32----条件测试举例"><a class="header" href="#32----条件测试举例">3.2.    条件测试举例</a></h3>
+<pre><code>[ -f "$file" ] &amp;&amp; echo 1 || echo 0
+if [ -f "$file" ] ; then echo 1; else echo 0; fi
+#上面功能是等价的
+#变量$file加了双引号，这是编程的好习惯，可以防止很多意外的发生。
+</code></pre>
+<h3 id="321--文件测试举例"><a class="header" href="#321--文件测试举例">3.2.1.  文件测试举例</a></h3>
+<pre><code>[root@test ~]# file1=/etc/services ; file2=/etc/rc.local 
+[root@test ~]# echo $file1 $file2
+/etc/services /etc/rc.local
+
+单条件文件测试：
+[root@test ~]# [ -f "$file1" ] &amp;&amp; echo 1 || echo 0  #文件存在且是普通文件
+1
+[root@test ~]# [ -d "$file1" ] &amp;&amp; echo 1 || echo 0  #文件是不是目录
+0
+[root@test ~]# [ -s "$file1" ] &amp;&amp; echo 1 || echo 0  #文件大小是否为0
+1
+[root@test ~]# [ -e "$file1" ] &amp;&amp; echo 1 || echo 0  #文件是否存在
+1
+
+#如果变量不加双引号，结果可能不正确
+[root@test ~]# echo $file7
+
+[root@test ~]# [ -f $file7 ] &amp;&amp; echo 1 || echo 0    #file7不存在还返回1
+1
+[root@test ~]# [ -f "$file7" ] &amp;&amp; echo 1 || echo 0
+0
+
+#文件换成实体，加不加引号都是正确的
+[root@test ~]# [ -f /etc/service ] &amp;&amp; echo 1 || echo 0
+0
+[root@test ~]# [ -f /etc/services ] &amp;&amp; echo 1 || echo 0
+1
+[root@test ~]# [ -f "/etc/service" ] &amp;&amp; echo 1 || echo 0
+0
+[root@test ~]# [ -f "/etc/services" ] &amp;&amp; echo 1 || echo 0
+1
+
+[root@test ~]# more /etc/init.d/nfs
+…省略…
+# Source networking configuration.
+[ -f /etc/sysconfig/network ] &amp;&amp; . /etc/sysconfig/network
+
+# Check for and source configuration file otherwise set defaults
+[ -f /etc/sysconfig/nfs ] &amp;&amp; . /etc/sysconfig/nfs
+…省略…
+
+
+
+多条件文件测试：
+-a 和 &amp;&amp; , -o 和 || 、非(!)
+[root@test ~]# [ -f "$file1" -o -e "$file2" ] &amp;&amp; echo 1 || echo 0
+1
+[root@test ~]# [ -f "$file1" -a -e "$file2" ] &amp;&amp; echo 1 || echo 0
+1
+[root@test ~]# [ -f "$file1" -a -e "$file3" ] &amp;&amp; echo 1 || echo 0
+0
+[root@test ~]# [ -f "$file1" &amp;&amp; -e "$file3" ] &amp;&amp; echo 1 || echo 0
+-bash: [: missing `]'
+0
+
+#-a 和 -o 用于[]
+#&amp;&amp; 和 || 用于[[]]
+
+[root@test ~]# [ 3 -ne 3 ] || {
+&gt; echo "a"
+&gt; echo "b"
+&gt; echo "c"
+&gt; }
+a
+b
+c
+[root@test ~]# [ 3 -ne 3 ] || { echo "a"; echo "b"; echo "c"; }
+a
+b
+c
+</code></pre>
+<h1 id="322--字符串测试举例"><a class="header" href="#322--字符串测试举例">3.2.2.  字符串测试举例</a></h1>
+<pre><code>单条件字符串测试
+[root@test ~]# [ -n "$str" ] &amp;&amp; echo 1 || echo 0
+0
+[root@test ~]# [ -z "$str" ] &amp;&amp; echo 1 || echo 0
+1
+[root@test ~]# [ -z "$file1" ] &amp;&amp; echo 1 || echo 0
+0
+[root@test ~]# [ -n "$file1" ] &amp;&amp; echo 1 || echo 0
+1
+
+多条件字符串测试(略)
+</code></pre>
+<h3 id="323--整数测试举例"><a class="header" href="#323--整数测试举例">3.2.3.  整数测试举例</a></h3>
+<pre><code>[root@test ~]# a1=10; a2=13
+[root@test ~]# echo $a1 $a2
+10 13
+[root@test ~]# [ $a1 -eq $a2 ] &amp;&amp; echo 1 || echo 0
+0
+[root@test ~]# [ $a1 -gt $a2 ] &amp;&amp; echo 1 || echo 0
+0
+[root@test ~]# [ $a1 -lt $a2 ] &amp;&amp; echo 1 || echo 0
+1
+[root@test ~]# [ $a1 -le $a2 ] &amp;&amp; echo 1 || echo 0
+1
+[root@test ~]# [ $a1 -ge $a2 ] &amp;&amp; echo 1 || echo 0
+0
+[root@test ~]# [ $a1 -ne $a2 ] &amp;&amp; echo 1 || echo 0
+1
+
+[root@test ~]# a=0001
+[root@test ~]# b=10
+[root@test ~]# [ "$a" -ne "$b" ] &amp;&amp; echo 1 || echo 0
+1
+[root@test ~]# [ "$a" -gt "$b" ] &amp;&amp; echo 1 || echo 0
+0
+[root@test ~]# [ "$a" -lt "$b" ] &amp;&amp; echo 1 || echo 0
+1
+#直接通过运算符比较
+[root@test ~]# [[ $a1 = $a2 ]] &amp;&amp; echo 1 || echo 0
+0
+[root@test ~]# [[ $a1 == $a2 ]] &amp;&amp; echo 1 || echo 0
+0
+[root@test ~]# (( $a1 &gt; $a2 )) &amp;&amp; echo 1 || echo 0
+0
+</code></pre>
+<h3 id="324--test命令测试的用法"><a class="header" href="#324--test命令测试的用法">3.2.4.  test命令测试的用法</a></h3>
+<pre><code>[root@test ~]# echo $file1
+/etc/services
+[root@test ~]# test -z "$file1" || echo 0
+0
+[root@test ~]# test -z "$file3" || echo 0
+[root@test ~]# test -z $a || echo 0
+0
+[root@test ~]# test -z $a $$ echo 1 || echo 0
+-bash: test: too many arguments
+0
+[root@test ~]# test -z $a &amp;&amp; echo 1 || echo 0
+0
+[root@test ~]# echo $a
+0001
+[root@test ~]# unset a
+[root@test ~]# test -z $a &amp;&amp; echo 1 || echo 0
+1
+[root@test ~]# test 1 -eq 1 &amp;&amp; echo 1 || echo 0
+1
+[root@test ~]# test dd = ff &amp;&amp; echo 1 || echo 0
+0
+[root@test ~]# test dd != ff &amp;&amp; echo 1 || echo 0
+1
+</code></pre>
+<h3 id="325--逻辑操作符举例"><a class="header" href="#325--逻辑操作符举例">3.2.5.  逻辑操作符举例</a></h3>
+<pre><code>read m n
+第一种写法：
+if [ ${m} -eq 1 ] &amp;&amp; [ ${n} -eq 2 ];then
+    echo "good"
+else
+    echo "bad"
+fi
+
+第二种写法：
+if [ ${m} -eq 1 -a ${n} -eq 2 ];then
+    echo "good"
+else
+    echo "bad"
+fi
+ 
+第三种写法：
+if [[ ${m} == 1 &amp;&amp; ${n} == 2 ]];then
+    echo "good"
+else
+    echo "bad"
+fi
+
+if [[ ${m} -eq 1 &amp;&amp; ${n} -eq 2 ]];then
+    echo "good"
+else
+    echo "bad"
+fi
+
+
+&amp;&amp; 与 -a 与逻辑符
+[root@test ~]# read m n
+1 2
+[root@test ~]# echo $m $n
+1 2
+[root@test ~]# if [ ${m} -eq 1 ] &amp;&amp; [ ${n} -eq 2 ];then
+&gt; echo "good"
+&gt; else
+&gt; echo "bad"
+&gt; fi
+good
+[root@test ~]# if [ ${m} -eq 1 -a ${n} -eq 2 ];then
+&gt; echo "good"
+&gt; else
+&gt; echo "bad"
+&gt; fi
+good
+[root@test ~]# if [[ ${m} == 1 &amp;&amp; ${n} == 2 ]];then
+&gt; echo "good"
+&gt; else
+&gt; echo "bad"
+&gt; fi
+good
+[root@test ~]# if [[ ${m} -eq 1 &amp;&amp; ${n} -eq 2 ]];then
+&gt; echo "good"
+&gt; else
+&gt; echo "bad"
+&gt; fi
+good
+</code></pre>
+<h1 id="4--分支与循环结构"><a class="header" href="#4--分支与循环结构">4.  分支与循环结构</a></h1>
+<h2 id="41----if条件"><a class="header" href="#41----if条件">4.1.    if条件</a></h2>
+<h3 id="411--if条件语法"><a class="header" href="#411--if条件语法">4.1.1.  if条件语法</a></h3>
+<pre><code>(1) 单分支结构
+if [条件]
+    then 
+    指令集 
+fi
+或
+if [条件];then 
+    指令集 
+fi
+提示：分号相当于命令换行。
+特殊写法：if [ -f "$file1" ];then echo 1;fi 
+
+
+(2) 双分支结构
+if 条件
+    then 
+    指令集 
+else 
+    指令集
+fi
+特殊写法：if [ -f "$file1" ];then echo 1 ;else echo 0;fi
+
+
+(3) 多分支结构
+if 条件
+    then 
+    指令集 
+elif 条件
+    then 
+指令集
+elif 条件
+    then 
+指令集
+……
+else 
+    指令集
+fi
+</code></pre>
+<h3 id="412--if条件举例"><a class="header" href="#412--if条件举例">4.1.2.  if条件举例</a></h3>
+<p>(1) 单分支结构</p>
+<pre><code>[root@test shell]# cat  if-single.sh 
+#!/bin/bash
+if [ 10 -lt 12 ]
+        then
+        echo "Yes, 10 is less than 12"
+fi
+
+echo "1.--------"
+if [ "10" -lt "12" ]
+    then
+    echo "Yes, 10 is less than 12"
+fi
+
+echo "2.--------"
+if [[ 10 &lt; 12 ]];then
+#if [[ 10&lt;12 ]];then  #error
+    echo "Yes, 10 is less than 12"
+fi
+[root@test shell]# sh if-single.sh 
+Yes, 10 is less than 12
+1.--------
+Yes, 10 is less than 12
+2.--------
+Yes, 10 is less than 12
+</code></pre>
+<p>(2) 双分支结构</p>
+<pre><code>[root@test shell]# cat if-double1.sh 
+#!/bin/bash
+a=3
+b=1
+if [ $a -lt $b ]
+        then
+        echo "$a &lt; $b"
+else
+        echo "$a &gt;= $b"
+fi
+[root@test shell]# sh if-double1.sh 
+3 &gt;= 1
+</code></pre>
+<p>(3) 多分支结构</p>
+<pre><code>[root@test shell]# cat if-judenum1.sh 
+#!/bin/bash
+if [ $1 -gt $2 ]  
+        then     
+        echo "$1 &gt; $2"
+elif [ $1 -eq $2 ]  
+        then      
+        echo "$1 = $2"
+else     
+        echo "$1 &lt; $2"
+fi
+[root@test shell]# sh if-judenum1.sh 1 2
+1 &lt; 2
+[root@test shell]# sh if-judenum1.sh 11 11
+11 = 11
+[root@test shell]# sh if-judenum1.sh 11 12
+11 &lt; 12
+[root@test shell]# sh if-judenum1.sh 
+ &gt;
+
+#加了判断
+[root@test shell]# cat if-judenum2.sh 
+#!/bin/bash
+
+print_error(){
+        printf "input error!\n"
+        echo -e "use eg. $0 num1 num2 "
+        exit 1
+}
+
+if [[ $# != 2 ]] 
+        then
+        print_error
+fi
+
+[ -n "`echo $1|sed 's/[0-9]//g'`" -a -n "`echo $2|sed 's/[0-9]//g'`"  ] &amp;&amp; \
+echo "two args must be number" &amp;&amp; exit 1
+
+[ -n "`echo $1|sed 's/[0-9]//g'`" ] &amp;&amp; echo "first args must be number" &amp;&amp; exit 1
+[ -n "`echo $2|sed 's/[0-9]//g'`" ] &amp;&amp; echo "second args must be number" &amp;&amp; exit 1
+   
+
+if [ $1 -gt $2 ]  
+        then     
+        echo "$1 &gt; $2"
+elif [ $1 -eq $2 ]  
+        then      
+        echo "$1 = $2"
+else     
+        echo "$1 &lt; $2"
+fi
+[root@test shell]# sh if-judenum2.sh 
+input error!
+use eg. if-judenum2.sh num1 num2 
+[root@test shell]# sh if-judenum2.sh 1 2
+1 &lt; 2
+[root@test shell]# sh if-judenum2.sh 11 b
+second args must be number
+[root@test shell]# sh if-judenum2.sh 11a 22c
+two args must be number
+[root@test shell]# sh if-judenum2.sh 11a 22
+first args must be number
+</code></pre>
+<p>扩展：判断字符串是否为数字?</p>
+<pre><code>方法1:sed加正则表达式
+[ -n "`echo $1|sed 's/[0-9]//g'`" -a -n "`echo $2|sed 's/[0-9]//g'`"  ] &amp;&amp; \
+echo "two args must be number" &amp;&amp; exit 1
+
+[ -n "`echo $1|sed 's/[0-9]//g'`" ] &amp;&amp; echo "first args must be number" &amp;&amp; exit 1
+
+#普通变量
+[ -n "`echo $num|sed 's/[0-9]//g'`" ] &amp;&amp; {
+    echo "参数必须为数字" 
+    exit 1
+}
+
+
+方法2:变量字串替换加正则表达式
+#不为0则是数字
+[ -z "`echo "${num//[0-9]/}"`" ] &amp;&amp; echo 1 || echo 0
+
+方法3: 变量字串替换加正则表达式
+#删除非数字之后，看是否等于本身
+[ -n "$num" -a "$num" = "${num//[^0-9]/}" ] &amp;&amp; echo "it is num"
+
+
+(4) 判断mysql是否启动，未启动则自动启动mysql
+思路1:如果mysql端口和进程同时存在，即认为mysql服务正常!
+[root@mysql-A shell]# cat if-judge-db0.sh 
+#!/bin/bash
+MYSQL_STARTUP="/data/3306/mysql"
+db_process_count=`ps -ef|grep mysql|grep -v grep|wc -l`
+db_port_count=`netstat -lnt|grep 3306|wc -l`
+
+if [ ${db_process_count} -eq 2 ] &amp;&amp; [ ${db_port_count} -eq 1 ]
+  then
+  echo "mysql is running! "
+else
+  ${MYSQL_STARTUP} start &gt;/tmp/mysql.log
+  sleep 10;
+  if [ ${db_process_count} -ne 2 ] || [ ${db_port_count} -ne 1 ]
+      then 
+          killall mysqld &gt;/dev/null 2&gt;&amp;1
+          sleep 5
+          killall mysqld &gt;/dev/null 2&gt;&amp;1
+          sleep 5
+          [ ${db_port_count} -eq 0 ] &amp;&amp; ${MYSQL_STARTUP} start &gt;&gt;/tmp/mysql.log 
+          [ $? -eq 0 ] &amp;&amp; echo "mysql is started"
+   fi
+   mail -s "mysql restarted" qxl_work@163.com &lt; /tmp/mysql.log
+fi
+ 
+思路2:模拟web服务器，通过mysql账户连接mysql，根据返回状态或返回内容确认mysql服务是否正常!(推荐)
+另外：通过web服务的url访问数据库来判断也可以。
+手动检查：
+[root@mysql-A shell]# mysql -uroot -p'123456' -S /data/3306/mysql.sock -e "select version();"
++------------+
+| version()  |
++------------+
+| 5.1.65-log |
++------------+
+
+
+脚本：
+[root@mysql-A shell]# cat if-judge-db1.sh 
+#!/bin/bash
+MYSQL_STARTUP="/data/3306/mysql"
+
+mysql -uroot -p'123456' -S /data/3306/mysql.sock -e "select version();" &gt;/dev/null 2&gt;&amp;1
+if [ $? -eq 0 ]
+  then
+  echo "mysql is running! "
+else
+  ${MYSQL_STARTUP} start &gt;/tmp/mysql.log
+  sleep 10;
+  mysql -uroot -p'123456' -S /data/3306/mysql.sock -e "select version();" &gt;/dev/null 2&gt;&amp;1
+  if [ $? -eq 0 ]
+      then 
+          killall mysqld &gt;/dev/null 2&gt;&amp;1
+          sleep 5
+          killall mysqld &gt;/dev/null 2&gt;&amp;1
+          sleep 5
+          ${MYSQL_STARTUP} start &gt;&gt;/tmp/mysql.log 
+          [ $? -eq 0 ] &amp;&amp; echo "mysql is started"
+   fi
+   mail -s "mysql restarted" qxl_work@163.com &lt; /tmp/mysql.log
+fi
+
+
+思路3:更专业的生产脚本解决方案
+#!/bin/bash 
+# this script is created by oldboy. 
+# e_mail:xxx@qq.com 
+# function: xxxx
+# version:1.1  
+################################################
+MYUSER=root
+MYPASS="oldboy"
+MYSOCK=/data/3306/mysql.sock
+MySQL_STARTUP="/data/3306/mysql"
+LOG_PATH=/tmp
+LOG_FILE=${LOG_PATH}/mysqllogs_`date +%F`.log
+MYSQL_PATH=/usr/local/mysql/bin
+MYSQL_CMD="$MYSQL_PATH/mysql -u$MYUSER -p$MYPASS -S $MYSOCK"
+$MYSQL_CMD -e "select version();" &gt;/dev/null 2&gt;&amp;1
+if [ $? -eq 0 ] 
+then
+    echo "MySQL is running! " 
+    exit 0
+else
+    $MySQL_STARTUP start &gt;$LOG_FILE
+    sleep 5;
+    $MYSQL_CMD -e "select version();" &gt;/dev/null 2&gt;&amp;1
+    if [ $? -ne 0 ]
+      then 
+        for num in `seq 5`
+        do
+           killall mysqld  &gt;/dev/null 2&gt;&amp;1 
+       [ $? -ne 0 ] &amp;&amp; break;
+           sleep 1
+        done
+        $MySQL_STARTUP start &gt;&gt;$LOG_FILE 
+    fi
+    $MYSQL_CMD -e "select version();" &gt;/dev/null 2&gt;&amp;1 &amp;&amp; Status="restarted" || Status="unknown"
+    mail -s "MySQL status is $Status" xxx@qq.com &lt; $LOG_FILE
+fi
+exit $RETVAL
+
+思考：完成异地模拟web服务器通过账号连接完成mysql服务监控的脚本。
+
+</code></pre>
+<p>(5) 监控apache服务</p>
+<pre><code>
+apachemon-1.sh
+#!/bin/bash 
+. /etc/init.d/functions
+LOG_FILE=/tmp/httpd.log
+apachectl="/application/apache/bin/apachectl"
+HTTPPORTNUM=`netstat -lnt|grep 80|grep -v grep|wc -l`
+HTTPPRONUM=`ps -ef|grep http|grep -v grep|wc -l`
+wget --quiet --spider http://10.0.0.179:8000 &amp;&amp; RETVAL=$?
+[ ! -f $LOG_FILE ] &amp;&amp; touch $LOG_FILE 
+if [ "$RETVAL" != "0" -o "$HTTPPORTNUM" -lt "1"  -o  "$HTTPPRONUM" \&lt; "1" ] ;then
+#echo $RETVAL $HTTPPORTNUM $HTTPPRONUM
+#exit
+   action "httpd is not running" /bin/false
+   echo -e "httpd is not running\n" &gt;$LOG_FILE
+   echo "Preparing start apache..."
+        for num in `seq 10`
+         do   
+            killall httpd  &gt;/dev/null 2&gt;&amp;1 
+            [ $? -ne 0 ] &amp;&amp; {
+              echo "httpd is killed" &gt;$LOG_FILE
+              break;
+         }
+        sleep 2
+     done
+     $apachectl start &gt;/dev/null 2&gt;&amp;1 &amp;&amp; Status="started" || Status="unknown" 
+     [ "$Status" = "started" ] &amp;&amp; action "httpd is started" /bin/true||\
+      action "httpd is started" /bin/false
+      mail -s "`uname -n`'s httpd status is $Status" xxx@qq.com &lt;$LOG_FILE
+      exit
+else
+    action "httpd is running" /bin/true
+    exit 0
+fi
+提示：以上对端口，进程，url同时检测的方法，在生产环境使用的不多，比较专业的做法是监控url更准确，端口和进程都是辅助手段。
+
+</code></pre>
+<p>一个常用简单版本：</p>
+<pre><code>apachemon-2.sh
+#!/bin/bash 
+. /etc/init.d/functions
+LOG_FILE=/tmp/httpd.log
+apachectl="/application/apache/bin/apachectl"
+wget --quiet --spider http://10.0.0.179:8000 &amp;&amp; RETVAL=$?
+[ ! -f $LOG_FILE ] &amp;&amp; touch $LOG_FILE 
+if [ "$RETVAL" != "0" ] 
+  then
+     echo -e "Httpd is not running\n" &gt;$LOG_FILE
+        for num in `seq 10`
+         do   
+            killall httpd  &gt;/dev/null 2&gt;&amp;1 
+            [ $? -ne 0 ] &amp;&amp; {
+              echo "Httpd is killed" &gt;&gt;$LOG_FILE
+              break;
+         }
+        sleep 2
+     done
+     $apachectl restart &gt;/dev/null 2&gt;&amp;1 &amp;&amp; Status="restarted" || Status="unknown" 
+     [ "$Status" = "restarted" ] &amp;&amp; action "Httpd is restarted" /bin/true||\
+      action "Httpd is restarted" /bin/false
+      mail -s "`uname -n`'s httpd status is $Status" xxx@qq.com &lt;$LOG_FILE
+      exit
+else
+    action "httpd is running" /bin/true
+    exit 0
+fi
+
+</code></pre>
+<p>监控端通过端口来监控</p>
+<pre><code>check_httpd_port.sh
+#!/bin/bash 
+ip_add="$1" 
+port="$2"
+print_usage(){
+       echo -e "$0 ip port"
+       exit 1
+}
+        
+#judge para num
+if [ $# -ne 2 ]
+    then
+        print_usage
+fi
+PORT_COUNT=`nmap $ip_add  -p $port|grep open|wc -l`
+#echo -e "\n" |telnet $ip_add $port||grep Connected
+#echo -e "\n"|telnet 10.0.0.179 8000|grep Connected
+[[ $PORT_COUNT -ge 1 ]] &amp;&amp; echo "$ip_add $port is ok." || echo "$ip_add $port is unknown."
+</code></pre>
+<h2 id="42----case结构条件"><a class="header" href="#42----case结构条件">4.2.    case结构条件</a></h2>
+<h3 id="421--case条件语法"><a class="header" href="#421--case条件语法">4.2.1.  case条件语法</a></h3>
+<pre><code>case "字符串变量" in
+    值1) 指令…
+;;
+    值2) 指令…
+;;
+    *) 指令…
+esac
+</code></pre>
+<p>案例1：简单实例</p>
+<pre><code>[root@mysql-A case]# cat case1.sh 
+#!/bin/bash
+read -p "Please input a number:" num
+case "$num" in 
+1)
+        echo "input 1"
+;;
+2)
+        echo "input 2"
+;;
+[3-9])
+        echo "input is $num"
+;;
+*)
+        echo "default , input is $num"
+        exit;
+;;
+esac
+[root@mysql-A case]# sh case1.sh 
+Please input a number:1
+input 1
+[root@mysql-A case]# sh case1.sh 
+Please input a number:23
+default , input is 23
+[root@mysql-A case]# sh case1.sh sda
+Please input a number:sd
+default , input is sd
+</code></pre>
+<p>案例2：判断用户输入了哪种水果?</p>
+<pre><code>[root@mysql-A case]# cat case2.sh 
+#!/bin/bash
+read -p "Please input the fruit name:" fruit
+case "$fruit" in
+apple|APPLE)
+    echo  "the fruit name is alpple"
+;;
+banana|BANANA)
+    echo  "the fruit name is banana"
+;;
+pear|PEAR)
+    echo  "the fruit name is pear"
+;;
+*)
+    echo "default ,fruit name is $fruit "
+    exit;
+;;
+esac
+
+[root@mysql-A case]# sh case2.sh 
+Please input the fruit name:d
+default ,fruit name is d 
+[root@mysql-A case]# sh case2.sh  
+Please input the fruit name:apple
+the fruit name is alpple
+[root@mysql-A case]# sh case2.sh apple
+Please input the fruit name:APPLE
+the fruit name is alpple
+</code></pre>
+<p>案例3：apache启动脚本</p>
+<pre><code>httpdctl-case-3.sh
+#!/bin/bash
+#author:xxx
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+httpd="/application/apache/bin/httpd"
+case "$1" in
+  start)
+        $httpd -k $1 &gt;/dev/null 2&gt;&amp;1
+        [ $? -eq 0 ] &amp;&amp; action "启动 httpd:" /bin/true ||\
+        action "启动 httpd:" /bin/false
+        ;;
+  stop)
+        $httpd -k $1 &gt;/dev/null 2&gt;&amp;1
+        if [ $? -eq 0 ] 
+        then
+          action "停止 httpd:" /bin/true
+        else
+          action "停止 httpd:" /bin/false
+        fi
+        ;;
+   restart)
+        $httpd -k $1 &gt;/dev/null 2&gt;&amp;1
+        [ $? -eq 0 ] &amp;&amp; action "重起 httpd:" /bin/true||\
+        action "重起 httpd:" /bin/false
+        ;;
+   *)
+        echo "Format error!"
+        echo $"Usage: $0 {start|stop|restart}"
+        exit 1
+        ;;
+esac
+</code></pre>
+<p>优化后脚本：</p>
+<pre><code>httpdctl-case4-1.sh
+#!/bin/bash
+#author:xxx
+# Source function library.
+[ -f /etc/rc.d/init.d/functions ] &amp;&amp; . /etc/rc.d/init.d/functions
+RETVAL=0
+httpd="/application/apache/bin/httpd"
+start() {
+        $httpd -k start &gt;/dev/null 2&gt;&amp;1
+        RETVAL=$?
+        [ $RETVAL -eq 0 ] &amp;&amp; action "启动 httpd:" /bin/true ||\
+        action "启动 httpd:" /bin/false
+        return $RETVAL
+}
+
+stop() {
+        $httpd -k stop &gt;/dev/null 2&gt;&amp;1
+        [ $? -eq 0 ] &amp;&amp; action "停止 httpd:" /bin/true ||\
+        action "停止 httpd:" /bin/false
+        return $RETVAL
+}
+case "$1" in
+  start)
+        start
+        ;;
+  stop)
+        stop
+        ;;
+  restart)
+       
+       sh $0 stop
+       sh $0 start
+        ;;
+   *)
+        echo "Format error!"
+        echo $"Usage: $0 {start|stop|restart}"
+        exit 1
+        ;;
+esac
+exit $RETVAL
+</code></pre>
+<p>案例4：学习系统apache httpd脚本</p>
+<pre><code>#!/bin/bash
+#
+# httpd        Startup script for the Apache HTTP Server
+#
+# chkconfig: - 85 15
+# description: Apache is a World Wide Web server.  It is used to serve \
+#          HTML files and CGI.
+# processname: httpd
+# config: /etc/httpd/conf/httpd.conf
+# config: /etc/sysconfig/httpd
+# pidfile: /var/run/httpd.pid
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+if [ -f /etc/sysconfig/httpd ]; then
+        . /etc/sysconfig/httpd
+fi
+
+# Start httpd in the C locale by default.
+HTTPD_LANG=${HTTPD_LANG-"C"}
+
+# This will prevent initlog from swallowing up a pass-phrase prompt if
+# mod_ssl needs a pass-phrase from the user.
+INITLOG_ARGS=""
+
+# Set HTTPD=/usr/sbin/httpd.worker in /etc/sysconfig/httpd to use a server
+# with the thread-based "worker" MPM; BE WARNED that some modules may not
+# work correctly with a thread-based MPM; notably PHP will refuse to start.
+
+# Path to the apachectl script, server binary, and short-form for messages.
+apachectl=/usr/sbin/apachectl
+httpd=${HTTPD-/usr/sbin/httpd}
+prog=httpd
+pidfile=${PIDFILE-/var/run/httpd.pid}
+lockfile=${LOCKFILE-/var/lock/subsys/httpd}
+RETVAL=0
+
+# check for 1.3 configuration
+check13 () {
+    CONFFILE=/etc/httpd/conf/httpd.conf
+    GONE="(ServerType|BindAddress|Port|AddModule|ClearModuleList|"
+    GONE="${GONE}AgentLog|RefererLog|RefererIgnore|FancyIndexing|"
+    GONE="${GONE}AccessConfig|ResourceConfig)"
+    if LANG=C grep -Eiq "^[[:space:]]*($GONE)" $CONFFILE; then
+        echo
+        echo 1&gt;&amp;2 " Apache 1.3 configuration directives found"
+        echo 1&gt;&amp;2 " please read /usr/share/doc/httpd-2.2.3/migration.html"
+        failure "Apache 1.3 config directives test"
+        echo
+        exit 1
+    fi
+}
+
+# The semantics of these two functions differ from the way apachectl does
+# things -- attempting to start while running is a failure, and shutdown
+# when not running is also a failure.  So we just do it the way init scripts
+# are expected to behave here.
+start() {
+        echo -n $"Starting $prog: "
+        check13 || exit 1
+        LANG=$HTTPD_LANG daemon --pidfile=${pidfile} $httpd $OPTIONS
+        RETVAL=$?
+        echo
+        [ $RETVAL = 0 ] &amp;&amp; touch ${lockfile}
+        return $RETVAL
+}
+
+# When stopping httpd a delay of &gt;10 second is required before SIGKILLing the
+# httpd parent; this gives enough time for the httpd parent to SIGKILL any
+# errant children.
+stop() {
+    echo -n $"Stopping $prog: "
+    killproc -p ${pidfile} -d 10 $httpd
+    RETVAL=$?
+    echo
+    [ $RETVAL = 0 ] &amp;&amp; rm -f ${lockfile} ${pidfile}
+}
+reload() {
+    echo -n $"Reloading $prog: "
+    if ! LANG=$HTTPD_LANG $httpd $OPTIONS -t &gt;&amp;/dev/null; then
+        RETVAL=$?
+        echo $"not reloading due to configuration syntax error"
+        failure $"not reloading $httpd due to configuration syntax error"
+    else
+        killproc -p ${pidfile} $httpd -HUP
+        RETVAL=$?
+    fi
+    echo
+}
+
+# See how we were called.
+case "$1" in
+  start)
+    start
+    ;;
+  stop)
+    stop
+    ;;
+  status)
+        status -p ${pidfile} $httpd
+    RETVAL=$?
+    ;;
+  restart)
+    stop
+    start
+    ;;
+  condrestart)
+    if [ -f ${pidfile} ] ; then
+        stop
+        start
+    fi
+    ;;
+  reload)
+        reload
+    ;;
+  graceful|help|configtest|fullstatus)
+    $apachectl $@
+    RETVAL=$?
+    ;;
+  *)
+    echo $"Usage: $prog {start|stop|restart|condrestart|reload|status|fullstatus|graceful|help|configtest}"
+    exit 1
+esac
+
+exit $RETVAL
+</code></pre>
+<p>案例5：学习系统portmap脚本</p>
+<pre><code>#! /bin/sh
+#
+# portmap       Start/Stop RPC portmapper
+#
+# chkconfig: 345 13 87
+# description: The portmapper manages RPC connections, which are used by \
+#              protocols such as NFS and NIS. The portmap server must be \
+#              running on machines which act as servers for protocols which \
+#              make use of the RPC mechanism.
+# processname: portmap
+
+
+# This is an interactive program, we need the current locale
+[ -f /etc/profile.d/lang.sh ] &amp;&amp; . /etc/profile.d/lang.sh
+# We can't Japanese on normal console at boot time, so force LANG=C.
+if [ "$LANG" = "ja" -o "$LANG" = "ja_JP.eucJP" ]; then
+    if [ "$TERM" = "linux" ] ; then
+        LANG=C
+    fi
+fi
+
+# Source function library.
+. /etc/init.d/functions
+
+# Get config.
+if [ -f /etc/sysconfig/network ]; then
+    . /etc/sysconfig/network
+else
+    echo $"Networking not configured - exiting"
+    exit 1
+fi
+
+prog="portmap"
+
+# Check that networking is up.
+if [ "$NETWORKING" = "no" ]; then
+    exit 0
+fi
+
+[ -f /sbin/portmap ] || exit 0
+
+[ -f /etc/sysconfig/$prog ] &amp;&amp; . /etc/sysconfig/$prog
+
+RETVAL=0
+
+start() {
+        echo -n $"Starting $prog: "
+        daemon portmap $PMAP_ARGS
+        RETVAL=$?
+        echo
+        [ $RETVAL -eq 0 ] &amp;&amp; touch /var/lock/subsys/portmap
+    return $RETVAL
+}
+
+
+stop() {
+        echo -n $"Stopping $prog: "
+        killproc portmap
+        RETVAL=$?
+        echo
+        [ $RETVAL -eq 0 ] &amp;&amp; rm -f /var/lock/subsys/portmap
+    return $RETVAL
+}
+
+restart() {
+    pmap_dump &gt; /var/run/portmap.state
+    stop
+    start
+    pmap_set &lt; /var/run/portmap.state
+    rm -f /var/run/portmap.state
+}
+
+# See how we were called.
+case "$1" in
+  start)
+    start
+    ;;
+  stop)
+    stop
+    ;;
+  status)
+    status portmap
+    ;;
+  restart|reload)
+    restart
+    ;;
+  condrestart)
+    [ -f /var/lock/subsys/portmap ] &amp;&amp; restart || :
+    ;;
+  *)
+    echo $"Usage: $0 {start|stop|status|restart|reload|condrestart}"
+    exit 1
+esac
+
+exit $?
+</code></pre>
+<pre><code>备注：要掌握的系统标杆脚本
+这里留个作业：请大家阅读并对下面脚本进行详细注释：
+/etc/init.d/functions  
+/etc/init.d/nfs  
+/etc/init.d/portmap  
+/etc/rc.d/rc.sysinit
+/etc/init.d/httpd
+提示：此类脚本网上有人注释过的，可以参考他们的去理解。
+</code></pre>
+<h2 id="43----while循环与util循环"><a class="header" href="#43----while循环与util循环">4.3.    while循环与util循环</a></h2>
+<h3 id="431--语法"><a class="header" href="#431--语法">4.3.1.  语法</a></h3>
+<pre><code>while 条件
+    do 
+    指令…
+done
+
+
+util 条件
+    do 
+    指令…
+done
+#util应用场合不多见，了解即可
+</code></pre>
+<h3 id="432--范例"><a class="header" href="#432--范例">4.3.2.  范例</a></h3>
+<p>范例1:每隔2秒记录一次系统负载情况</p>
+<pre><code>方法1：
+[root@mysql-A while]# cat while1.sh 
+#!/bin/bash
+while true
+do
+        uptime 
+        sleep 2
+done
+[root@mysql-A while]# sh while1.sh 
+ 12:21:02 up  4:35,  1 user,  load average: 0.00, 0.02, 0.00
+ 12:21:04 up  4:35,  1 user,  load average: 0.00, 0.02, 0.00
+ 12:21:06 up  4:35,  1 user,  load average: 0.00, 0.02, 0.00
+
+方法2：
+[root@mysql-A while]# cat while1-1.sh 
+#!/bin/bash
+while [ 1 ]
+do
+        uptime &gt;&gt;./uptime.log 
+        usleep 1000000
+done
+[root@mysql-A while]# sh while1-1.sh &amp;
+[2] 9195
+[root@mysql-A while]# tail -f uptime.log 
+ 13:13:41 up  5:28,  1 user,  load average: 0.00, 0.00, 0.00
+ 13:13:41 up  5:28,  1 user,  load average: 0.00, 0.00, 0.00
+ 13:13:41 up  5:28,  1 user,  load average: 0.00, 0.00, 0.00
+</code></pre>
+<pre><code>脚本后台执行知识拓展：
+功能  用途
+sh while1-1.sh &amp;    把脚本放到后台执行
+ctrl+c  停止执行当前脚本或任务
+ctrl+z  暂停执行当前脚本或任务
+bg  把当前脚本或任务放到后台执行
+fg  当前脚本或任务拿到前台执行，如果有多个任务，可以fg加任务编号调用,如fg 1
+jobs    查看执行的脚本或任务
+</code></pre>
+<p>资料：
+Linux 技巧：让进程在后台可靠运行的几种方法
+http://www.ibm.com/developerworks/cn/linux/l-cn-nohup/</p>
+<p>范例2:计算从1加到100之和</p>
+<pre><code>[root@mysql-A while]# cat sum.sh 
+#!/bn/bash
+i=1
+sum=0
+while ((i&lt;=100))
+do 
+        ((sum=sum+i))
+        ((i=i+1))
+done
+echo "sum=$sum"
+[root@mysql-A while]# sh sum.sh 
+sum=5050
+</code></pre>
+<h3 id="433--相关高级生产实战范例拓展"><a class="header" href="#433--相关高级生产实战范例拓展">4.3.3.  相关高级生产实战范例拓展</a></h3>
+<p>范例3:生产环境判断url是否正常的简单脚本</p>
+<pre><code>方法1:根据http code status判断
+#!/bin/sh
+while true
+do
+ status=`curl -I -s --connect-timeout 10 $1|head -1|cut -d " " -f 2`
+ if [ "$status" = "200"  ] ;then
+        echo "this url is good" 
+ else
+        echo " this url is bad"
+ fi
+ sleep 2
+done
+
+
+方法2:多条件组合判断
+#!/bin/sh
+while true
+do
+status=`curl -I -s --connect-timeout 10 $1|head -1| awk '{print $2}'`
+ok=`curl -I -s --connect-timeout 10 $1|head -1|cut -d " " -f 3`
+if [ "$status" = "200"  ] &amp;&amp; [ "$ok"="OK" ];then
+        echo "this url is good" 
+else
+        echo " this url is bad"
+fi
+  sleep 3
+done
+
+方法3:更专业的生产检查脚本(shell数组方法)
+#!/bin/bash
+# this script is created by xxx.
+# function:case example
+# version:1.1
+. /etc/init.d/functions
+
+url_list=(
+http://xxxx.org
+)
+
+function wait()
+{
+echo -n '3秒后,执行该操作.';
+for ((i=0;i&lt;3;i++))
+do
+  echo -n ".";sleep 1
+done
+echo
+}
+
+function check_url()
+{
+wait
+echo 'check url...'
+for ((i=0; i&lt;`echo ${#url_list[*]}`; i++))
+do
+judge=($(curl -I -s ${url_list[$i]}|head -1|tr "\r" "\n"))
+if [[ "${judge[1]}" == '200' &amp;&amp; "${judge[2]}"=='OK' ]]
+   then
+   action "${url_list[$i]}" /bin/true
+else
+   action "${url_list[$i]}" /bin/false
+fi
+done
+}
+
+check_url
+
+范例4:实战分析apache日志例子
+问题1：计算apache一天的日志access－2012－12－08.log中所有行的日志各元素的访问字节数的总和。
+while-6.sh
+exec &lt;$1
+sum=0
+while read line
+do
+  num=`echo $line|awk '{print $10}'`
+  [ -n "$num" -a "$num" = "${num//[^0-9]/}" ] || continue
+  ((sum=sum+$num))
+done
+  echo "${1}:${sum} bytes =`echo $((${sum}/1024))`KB"
+
+[root@stu412 logs]# sh while-6.sh access_log 
+access_log:2314225 bytes =2259KB
+
+范例5:分析图片服务日志，把日志排(每个图片访问次数*图片大小的总和)行，取top10,也就是计算每个url的总访问的大小。
+[root@stu412 logs]# awk '{array_num[$7]++;array_size[$7]+=$10}END{for(x in array_num){print array_size[x],array_num[x],x}}' access_2010-12-8.log  | sort -rn -k1 | head -10
+57254 1 /static/js/jquery-jquery-1.3.2.min.js
+46232 1 /?=
+44286 1 //back/upload/course/2010-10-25-23-48-59-048-18.jpg
+33897 3 /static/images/photos/2.jpg
+11809 1 /back/upload/teacher/2010-08-30-13-57-43-06210.jpg
+10850 1 /back/upload/teacher/2010-08-06-11-39-59-0469.jpg
+6417 1 /static/js/addToCart.js
+4460 1 /static/js/web_js.js
+3583 2 /static/flex/vedioLoading.swf
+2686 1 /static/js/default.js
+[root@stu412 logs]#
+
+范例6:把大文件按行分割成小文件。
+split-file.sh
+#!/bin/sh
+#mother file
+FILE_PATH=$1
+#linenum of each file
+FILE_NUM=$2
+i=1
+sub=1
+#母文件总行数
+totalline=`wc -l ${FILE_PATH} | awk '{print $1}'`
+#单个文件行数
+((inc=totalline/FILE_NUM))
+
+cat ${FILE_PATH} | while read line
+do
+
+    if ((i&lt;=inc))
+    then
+        ((i++))
+    else
+        ((sub++))
+         i=2
+    fi
+
+    echo ${line} &gt;&gt;${FILE_PATH}.${sub}
+done
+</code></pre>
+<h2 id="44----for循环"><a class="header" href="#44----for循环">4.4.    for循环</a></h2>
+<h3 id="441--语法"><a class="header" href="#441--语法">4.4.1.  语法</a></h3>
+<p>(1) for循环结构</p>
+<pre><code>for  变量名 in 变量取值列表
+do 
+    指令…
+done
+
+提示：" in 变量取值列表"可省略，省略时相当于in "$@",使用for i相当于for i in "$@"
+</code></pre>
+<p>(2) c语言型for循环结构</p>
+<pre><code>for  ((exp1;exp2;exp3))
+do 
+    指令…
+done
+</code></pre>
+<h3 id="442--范例"><a class="header" href="#442--范例">4.4.2.  范例</a></h3>
+<p>范例1:打印变量列表所有元素, 打印5,4,3,2,1</p>
+<pre><code>方法1：直接列出元素
+[root@mysql-A for]# cat for-1.sh 
+#!/bin/bash
+for num in 5 4 3 2 1 
+do 
+        echo $num
+done
+[root@mysql-A for]# sh for-1.sh 
+5
+4
+3
+2
+1
+</code></pre>
+<p>方法2：大括号方法</p>
+<pre><code>[root@mysql-A for]# cat for-2.sh 
+#!/bin/bash
+for num in {5..1} 
+do 
+        echo $num
+done
+[root@mysql-A for]# sh for-2.sh 
+5
+4
+3
+2
+1
+[root@mysql-A for]# echo {10..2}
+10 9 8 7 6 5 4 3 2
+[root@mysql-A for]# echo {a..f}
+a b c d e f
+方法3：seq用法
+[root@mysql-A for]# cat for-2-1.sh
+#!/bin/bash
+for num in `seq 5 -1 1`
+do 
+        echo $num
+done
+
+范例2:获取当前目录中的的有文件的文件名作为变量输出
+[root@mysql-A for]# cat for-3.sh 
+#!/bin/bash
+for filename in `ls`
+do 
+        echo $filename
+done
+</code></pre>
+<p>范例3: 批量修改文件名</p>
+<pre><code>方法1:
+#!/bin/sh
+for file in `ls ./*.jpg`  
+do
+ mv $file `echo $file|sed 's/_finished//g'` 
+done
+
+方法2:
+#!/bin/sh
+for file in `ls ./*.jpg` 
+ do 
+ /bin/mv $file `echo "${file%_finished*}.jpg"` 
+done
+
+方法3:
+ls |awk -F 'finished' '{print "mv "$0" "$1$2" "}'|/bin/bash
+
+
+方法4:
+rename "finished" ""  *
+</code></pre>
+<p>范例4: 打印9x9乘法表</p>
+<pre><code>#!/bin/bash  
+for a in `seq 1 9`
+do
+        for b in `seq 1 9`
+        do
+                if [ $a -ge $b ]
+                then
+                        echo -en "$a x $b = $(expr $a \* $b)  "
+                          
+                fi
+        done
+echo " "
+done
+
+#!/bin/bash  
+for a in `seq 9`
+do
+        for b in `seq 9`
+        do
+                [ $a -ge $b ] &amp;&amp; echo -en "$a x $b = $(expr $a \* $b)  "
+        done
+echo " "
+done
+</code></pre>
+<p>范例5: 清理开机启动的服务</p>
+<p>范例6: 生产环境批量检查web服务是否正常并且发送邮件或手机报警</p>
+<pre><code>check_web_service.sh
+#!/bin/bash
+# this script is created by oldboy.
+# version:1.1 
+################################################
+#set -x
+RETVAL=0
+SCRIPTS_PATH="/server/scripts"
+MAIL_GROUP="xxx@qq.com xxx@qq.com"
+## web detection function
+LOG_FILE="/tmp/web_check.log"
+function Get_Url_Status(){
+FAILCOUNT=0
+for (( i=1 ; $i &lt;= 3 ; i++ )) 
+ do 
+    wget -T 20 --tries=2 --spider http://${HOST_NAME} &gt;/dev/null 2&gt;&amp;1
+    if [ $? -ne 0 ]
+        then
+         let FAILCOUNT+=1;
+    fi
+done
+
+#if 3 times then send mail.
+if [ $FAILCOUNT -eq 3 ]
+     then 
+       RETVAL=1
+       NOW_TIME=`date +"%m-%d %H:%M:%S"`
+       SUBJECT_CONTENT="http://${HOST_NAME} service is error,${NOW_TIME}."
+       for MAIL_USER in $MAIL_GROUP
+         do 
+            echo "send to :$MAIL_USER ,Title:$SUBJECT_CONTENT" &gt;$LOG_FILE
+            mail -s "$SUBJECT_CONTENT " $MAIL_USER &lt;$LOG_FILE
+        done
+else
+      RETVAL=0
+fi
+return $RETVAL
+}
+#func end.
+[ ! -d "$SCRIPTS_PATH" ] &amp;&amp; {
+  mkdir -p $SCRIPTS_PATH
+EOF
+}
+
+[ ! -f "$SCRIPTS_PATH/domain.list" ] &amp;&amp; {
+  cat &gt;$SCRIPTS_PATH/domain.list&lt;&lt;EOF
+www.etiantian.org
+blog.etiantian.org
+EOF
+}
+#service check 
+for  HOST_NAME in `cat $SCRIPTS_PATH/domain.list`
+   do
+       echo -n "checking $HOST_NAME: "
+       #Get_Url_Status
+       Get_Url_Status &amp;&amp; echo ok||echo no
+done
+</code></pre>
+<p>范例7: 批量添加100个用户并设置指定密码(密码不能相同)</p>
+<pre><code>#!/bin/sh
+#author:xxx
+userchars="test"
+passfile="/tmp/user.log"
+for num in `seq 3`
+ do
+   useradd $userchars$num
+   passwd="`echo "date $RANDOM"|md5sum|cut -c3-11`"
+   echo "$passwd"|passwd --stdin $userchars$num
+   echo  -e "user:$userchars$num\tpasswd:$passwd"&gt;&gt;$passfile
+   #sleep 1
+done
+echo ------this is xxx contents----------------
+cat $passfile
+</code></pre>
+<h2 id="45----breakcontinueexit"><a class="header" href="#45----breakcontinueexit">4.5.    break,continue,exit</a></h2>
+<pre><code>命令  说明
+break n n 表示跳出循环的层数，如果省略n表示跳出整个循环。
+continue n  n 表示退到第n层继续循环，如果省略n表示跳出本次循环，忽略本次循环的剩余代码，进入循环的下一次循环。
+exit n  退出当前shell程序，并返回n。n也可以省略。
+</code></pre>
+<h1 id="5--shell函数"><a class="header" href="#5--shell函数">5.  shell函数</a></h1>
+<h2 id="51----函数语法"><a class="header" href="#51----函数语法">5.1.    函数语法</a></h2>
+<pre><code>函数名() {
+    指令…
+    return n
+}
+
+function 函数名() {
+    指令…
+}
+</code></pre>
+<h2 id="52----函数执行"><a class="header" href="#52----函数执行">5.2.    函数执行</a></h2>
+<pre><code>调用函数：
+(1) 直接执行函数名即可。注意，不需要带小括号。
+函数名
+
+(2) 带参数的函数执行方法：
+函数名 参数1 参数2
+说明：
+   函数体中位置参数($1,$2,…,$#,$*,$?,$@)都可以是函数的参数；
+   父脚本的参数则临时被函数参数所掩盖或隐藏。
+   $0比较特殊，他仍然是父脚本的名称。
+   当函数完成时，原来的命令行参数会恢复。
+   在shell函数里面，return命令的功能与工作方式与exit相同，用于跳出函数。
+   在shell函数体里使用exit会终止整个shell脚本。
+   return语句会返回一个退出值给调用的程序。
+</code></pre>
+<h2 id="53----范例略"><a class="header" href="#53----范例略">5.3.    范例(略)</a></h2>
+<h1 id="6--shell脚本调试"><a class="header" href="#6--shell脚本调试">6.  shell脚本调试</a></h1>
+<h2 id="61----常见错误范例"><a class="header" href="#61----常见错误范例">6.1.    常见错误范例</a></h2>
+<pre><code>(1) if条件句缺少if结尾关键字
+(2) 循环体结构缺少关键字
+(3) 成对的符号[],(),{},"",''等不匹配导致错误
+(4) 中括号[]两端没空格导致错误
+</code></pre>
+<h2 id="62----shell脚本调试技巧"><a class="header" href="#62----shell脚本调试技巧">6.2.    shell脚本调试技巧</a></h2>
+<pre><code>(1) 使用dos2unix处理脚本
+(2) 使用echo命令进行调试
+(3) 使用bash命令进行调试 
+sh [-nvx] script.sh
+参数：
+-n 不会执行该脚本，仅查询脚本语法是否有问题，并给出错误提示
+-v 在执行程序时，先将脚本的内容输出到屏幕上，如果有错误，也会给出错误提示。
+-x 将使用的脚本内容显示到屏幕上，这是对调试很有用的参数。
+特别说明：参数-x是一个不可多得的参数。如果执行脚本有问题，一般利用-x参数，就可以知道问题出在哪一行了。
+(4) 使用set命令调试部分脚本内容
+set命令可辅助脚本测试
+set -n 读命令但并不执行
+set -v 显示读取的所有行
+set -x 显示所有命令及其参数
+提示:
+   同bash的功能
+   开启调试功能set -x 命令，而关闭调试功能set +x
+
+(5) 扩展：使用Bash专用调试器 bashdb
+http://bashdb.sourceforge.net/
+
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../shell/shell.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../shell/shell_spec.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../shell/shell.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../shell/shell_spec.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

@@ -1,0 +1,802 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>iptables防火墙应用指南 - linux学习笔记</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('light')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">介绍</a></li><li class="chapter-item expanded "><a href="../install_linux/install_linux.html"><strong aria-hidden="true">1.</strong> Linux安装</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../install_linux/install_centos7.html"><strong aria-hidden="true">1.1.</strong> CentOS7.9系统安装文档</a></li><li class="chapter-item expanded "><a href="../install_linux/linux_boot_process.html"><strong aria-hidden="true">1.2.</strong> linux系统的开机启动过程</a></li><li class="chapter-item expanded "><a href="../install_linux/command_summary01.html"><strong aria-hidden="true">1.3.</strong> 命令总结(cat pwd ls rm mkdir touch head tail ln chkconfig)</a></li><li class="chapter-item expanded "><a href="../install_linux/linux_shortcut_keys.html"><strong aria-hidden="true">1.4.</strong> linux下常用的命令快捷键</a></li></ol></li><li class="chapter-item expanded "><a href="../linux_optimization/linux_optimization.html"><strong aria-hidden="true">2.</strong> Linux服务器优化</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../linux_optimization/linux_opt.html"><strong aria-hidden="true">2.1.</strong> 配置优化Centos5.X Linux操作系统</a></li><li class="chapter-item expanded "><a href="../linux_optimization/command_summary02.html"><strong aria-hidden="true">2.2.</strong> 命令总结(find、wc、tar、cut、grep、egrep、date、which、echo、shutdown、reboot)</a></li><li class="chapter-item expanded "><a href="../linux_optimization/diff_quotes.html"><strong aria-hidden="true">2.3.</strong> linux shell中单引号、双引号及不加引号的简单区别</a></li><li class="chapter-item expanded "><a href="../linux_optimization/linux_links_diff.html"><strong aria-hidden="true">2.4.</strong> linux下软链接和硬链接的区别</a></li></ol></li><li class="chapter-item expanded "><a href="../file_and_dir/file_and_dir.html"><strong aria-hidden="true">3.</strong> 文件与目录</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../file_and_dir/file_and_dir_perm.html"><strong aria-hidden="true">3.1.</strong> Linux文件和目录权限实战讲解</a></li><li class="chapter-item expanded "><a href="../file_and_dir/system_dir_and_important_path.html"><strong aria-hidden="true">3.2.</strong> 系统目录结构及重要路径</a></li><li class="chapter-item expanded "><a href="../file_and_dir/linux_file_types.html"><strong aria-hidden="true">3.3.</strong> linux文件类型总结</a></li><li class="chapter-item expanded "><a href="../file_and_dir/linux_perm.html"><strong aria-hidden="true">3.4.</strong> Linux文件和目录的属性及权限</a></li><li class="chapter-item expanded "><a href="../file_and_dir/command_summary_stat_sed_awk.html"><strong aria-hidden="true">3.5.</strong> 命令总结(stat、sed、awk)</a></li><li class="chapter-item expanded "><a href="../file_and_dir/command_summary_more_less.html"><strong aria-hidden="true">3.6.</strong> 命令总结-文件查看与处理命令(more、less、tree、chattr、lsattr)</a></li><li class="chapter-item expanded "><a href="../file_and_dir/command_summary_user.html"><strong aria-hidden="true">3.7.</strong> 命令总结-用户管理命令-用户(useradd、userdel、passwd、chage)</a></li><li class="chapter-item expanded "><a href="../file_and_dir/command_summary_group.html"><strong aria-hidden="true">3.8.</strong> 命令总结-用户管理命令-用户组(groupadd、groupdel)</a></li><li class="chapter-item expanded "><a href="../file_and_dir/command_summary_w.html"><strong aria-hidden="true">3.9.</strong> 命令总结-查看系统用户登录信息命令-(w、who、users、last)</a></li></ol></li><li class="chapter-item expanded "><a href="../crontab/crontab.html"><strong aria-hidden="true">4.</strong> crontab</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../crontab/linux_crontab.html"><strong aria-hidden="true">4.1.</strong> Linux系统定时任务详解</a></li><li class="chapter-item expanded "><a href="../crontab/linux_user_group.html"><strong aria-hidden="true">4.2.</strong> Linux系统的用户和用户组管理</a></li><li class="chapter-item expanded "><a href="../crontab/linux_su_sudo.html"><strong aria-hidden="true">4.3.</strong> Linux用户切换(su sudo)</a></li><li class="chapter-item expanded "><a href="../crontab/mount_unmount.html"><strong aria-hidden="true">4.4.</strong> 命令总结-磁盘空间的命令(mount umount)</a></li><li class="chapter-item expanded "><a href="../crontab/command_summary.html"><strong aria-hidden="true">4.5.</strong> 命令总结-附加命令(nohup watch time ps)</a></li></ol></li><li class="chapter-item expanded "><a href="../disk/disk.html"><strong aria-hidden="true">5.</strong> 硬盘</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../disk/disk_basic.html"><strong aria-hidden="true">5.1.</strong> 硬盘的基础知识介绍</a></li><li class="chapter-item expanded "><a href="../disk/disk_how_to_work.html"><strong aria-hidden="true">5.2.</strong> 硬盘的工作原理介绍</a></li><li class="chapter-item expanded "><a href="../disk/disk_partition.html"><strong aria-hidden="true">5.3.</strong> 硬盘分区相关知识介绍</a></li><li class="chapter-item expanded "><a href="../disk/raid.html"><strong aria-hidden="true">5.4.</strong> RAID技术</a></li><li class="chapter-item expanded "><a href="../disk/command_summary1.html"><strong aria-hidden="true">5.5.</strong> 命令总结-信息显示命令(uname hostname dmesg uptime du df)</a></li><li class="chapter-item expanded "><a href="../disk/command_summary2.html"><strong aria-hidden="true">5.6.</strong> 命令总结-磁盘空间的命令(fsck dd dump fdisk parted)</a></li><li class="chapter-item expanded "><a href="../disk/fdisk.html"><strong aria-hidden="true">5.7.</strong> fdisk分区命令实战讲解</a></li><li class="chapter-item expanded "><a href="../disk/fstab.html"><strong aria-hidden="true">5.8.</strong> fstab详细介绍及救援模式修复fstab实战案例</a></li><li class="chapter-item expanded "><a href="../disk/parted.html"><strong aria-hidden="true">5.9.</strong> parted分区命令实战讲解</a></li><li class="chapter-item expanded "><a href="../disk/file_system.html"><strong aria-hidden="true">5.10.</strong> linux文件系统知识介绍</a></li></ol></li><li class="chapter-item expanded "><a href="../nfs/nfs.html"><strong aria-hidden="true">6.</strong> nfs</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../nfs/nfs.html"><strong aria-hidden="true">6.1.</strong> nfs网络文件系统服务介绍与实战</a></li><li class="chapter-item expanded "><a href="../nfs/ssh_key.html"><strong aria-hidden="true">6.2.</strong> SSH KEY免密码验证分发、管理、备份实战讲解</a></li><li class="chapter-item expanded "><a href="../nfs/command_summary.html"><strong aria-hidden="true">6.3.</strong> 命令总结-基本网络操作命令(telnet ssh scp wget ping route ifconfig ifup ifdown netstat)</a></li></ol></li><li class="chapter-item expanded "><a href="../rsync/rsync.html"><strong aria-hidden="true">7.</strong> rsync</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../rsync/rsync_action.html"><strong aria-hidden="true">7.1.</strong> Rsync生产场景实战应用指南</a></li><li class="chapter-item expanded "><a href="../rsync/command_summary.html"><strong aria-hidden="true">7.2.</strong> 深入网络操作命令(mail mutt nslookup dig traceroute df du fsck dd)</a></li></ol></li><li class="chapter-item expanded "><a href="../mysql/mysql.html"><strong aria-hidden="true">8.</strong> MySQL基础</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../mysql/mysql_basic.html"><strong aria-hidden="true">8.1.</strong> MySQL常用基础命令操作实战讲解</a></li><li class="chapter-item expanded "><a href="../mysql/mysql_install.html"><strong aria-hidden="true">8.2.</strong> MySQL单实例的安装配置指南</a></li><li class="chapter-item expanded "><a href="../mysql/mysql_master-slave1.html"><strong aria-hidden="true">8.3.</strong> MySQL主从复制原理详解</a></li><li class="chapter-item expanded "><a href="../mysql/mysql_master-slave2.html"><strong aria-hidden="true">8.4.</strong> MySQL主从复制实践讲解</a></li><li class="chapter-item expanded "><a href="../mysql/mysql_perm.html"><strong aria-hidden="true">8.5.</strong> MySQL数据库安全权限控制管理思想</a></li><li class="chapter-item expanded "><a href="../mysql/mysql_recovery.html"><strong aria-hidden="true">8.6.</strong> MySQL灾难恢复实战多案例精华讲解</a></li><li class="chapter-item expanded "><a href="../mysql/mysqlbinlog.html"><strong aria-hidden="true">8.7.</strong> mysqlbinlog</a></li><li class="chapter-item expanded "><a href="../mysql/mysqldump.html"><strong aria-hidden="true">8.8.</strong> mysqldump</a></li></ol></li><li class="chapter-item expanded "><a href="../shell/shell.html"><strong aria-hidden="true">9.</strong> shell</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../shell/shell_scripts.html"><strong aria-hidden="true">9.1.</strong> shell脚本编程精讲</a></li><li class="chapter-item expanded "><a href="../shell/shell_spec.html"><strong aria-hidden="true">9.2.</strong> linux下shell脚本开发规范与制度</a></li></ol></li><li class="chapter-item expanded "><a href="../lvs_keepalived/lvs_keepalived.html"><strong aria-hidden="true">10.</strong> Lvs+keepalived集群</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../lvs/lvs_detail.html"><strong aria-hidden="true">10.1.</strong> Lvs负载均衡及Keepalived高可用技术应用详解</a></li><li class="chapter-item expanded "><a href="../lvs/lvs_action.html"><strong aria-hidden="true">10.2.</strong> Lvs+keepalived集群生产实战模拟</a></li><li class="chapter-item expanded "><a href="../lvs/lvs_key_point.html"><strong aria-hidden="true">10.3.</strong> Lvs+keepalived集群生产实战维护要点</a></li></ol></li><li class="chapter-item expanded "><a href="../iptables/iptables.html"><strong aria-hidden="true">11.</strong> iptables</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../iptables/iptables_guide.html" class="active"><strong aria-hidden="true">11.1.</strong> iptables防火墙应用指南</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">linux学习笔记</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="iptables防火墙应用指南"><a class="header" href="#iptables防火墙应用指南">iptables防火墙应用指南</a></h1>
+<h1 id="1-iptable防火墙"><a class="header" href="#1-iptable防火墙">1.	iptable防火墙</a></h1>
+<p>Iptables表、链、规则（图3）
+<img src="image/01.png" alt="" /></p>
+<h2 id="11-介绍"><a class="header" href="#11-介绍">1.1.	介绍</a></h2>
+<p>http://www.netfilter.org/documentation/HOWTO//packet-filtering-HOWTO-10.html</p>
+<p>iptables工作在OSI七层的2,3,4层。</p>
+<pre><code>Differences Between iptables and ipchains
+	Firstly, the names of the built-in chains have changed from lower case to UPPER case, because the INPUT and OUTPUT chains now only get locally-destined and locally-generated packets. They used to see all incoming and all outgoing packets respectively.
+	The `-i' flag now means the incoming interface, and only works in the INPUT and FORWARD chains. Rules in the FORWARD or OUTPUT chains that used `-i' should be changed to `-o'.
+	TCP and UDP ports now need to be spelled out with the --source-port or --sport (or --destination-port/--dport) options, and must be placed after the `-p tcp' or `-p udp' options, as this loads the TCP or UDP extensions respectively.
+	The TCP -y flag is now --syn, and must be after `-p tcp'.
+	The DENY target is now DROP, finally.
+	Zeroing single chains while listing them works.
+	Zeroing built-in chains also clears policy counters.
+	Listing chains gives you the counters as an atomic snapshot.
+	REJECT and LOG are now extended targets, meaning they are separate kernel modules.
+	Chain names can be up to 31 characters.
+	MASQ is now MASQUERADE and uses a different syntax. REDIRECT, while keeping the same name, has also undergone a syntax change. See the NAT-HOWTO for more information on how to configure both of these.
+	The -o option is no longer used to direct packets to the userspace device (see -i above). Packets are now sent to userspace via the QUEUE target.
+	Probably heaps of other things I forgot.
+</code></pre>
+<h2 id="12-iptables名称和术语"><a class="header" href="#12-iptables名称和术语">1.2.	iptables名称和术语</a></h2>
+<p>http://www.opsers.org/security/iptables-related-concepts-and-processes-the-packet-figure.html</p>
+<pre><code>匹配（match）：符合指定的条件，比如指定的 IP 地址和端口。
+丢弃（drop）：当一个包到达时，简单地丢弃，不做其它任何处理。
+接受（accept）：和丢弃相反，接受这个包，让这个包通过。
+拒绝（reject）：和丢弃相似，但它还会向发送这个包的源主机发送错误消息。这个错误消息可以指定，也可以自动产生。
+目标（target）：指定的动作，说明如何处理一个包，比如：丢弃，接受，或拒绝。
+跳转（jump）：和目标类似，不过它指定的不是一个具体的动作，而是另一个链，表示要跳转到那个链上。
+规则（rule）：一个或多个匹配及其对应的目标。
+链（chain）：每条链都包含有一系列的规则，这些规则会被依次应用到每个遍历该链的数据包上。每个链都有各自专门的用途， 这一点我们下面会详细讨论。
+表（table）：每个表包含有若干个不同的链，比如 filter 表默认包含有 INPUT，FORWARD，OUTPUT 三个链。iptables 有四个表，分别是：raw，nat，mangle和filter，每个表都有自己专门的用处，比如最常用filter表就是专门用来做包过滤的，而 nat 表是专门用来做NAT的。
+策略（police）：我们在这里提到的策略是指，对于 iptables 中某条链，当所有规则都匹配不成功时其默认的处理动作。
+连接跟踪（connection track）：又称为动态过滤，可以根据指定连接的状态进行一些适当的过滤，是一个很强大的功能，但同时也比较消耗内存资源。
+</code></pre>
+<h3 id="121-容器"><a class="header" href="#121-容器">1.2.1.	容器</a></h3>
+<h3 id="122-netfilteriptables"><a class="header" href="#122-netfilteriptables">1.2.2.	Netfilter/iptables</a></h3>
+<p>Netfilter是表的容器。</p>
+<h3 id="123-表tables"><a class="header" href="#123-表tables">1.2.3.	表(tables)</a></h3>
+<h3 id="124-链chains"><a class="header" href="#124-链chains">1.2.4.	链(chains)</a></h3>
+<h3 id="125-规则policy"><a class="header" href="#125-规则policy">1.2.5.	规则(policy)</a></h3>
+<h2 id="13-iptables的工作流程"><a class="header" href="#13-iptables的工作流程">1.3.	iptables的工作流程</a></h2>
+<h3 id="131-iptables进入主机进行过滤的流程图"><a class="header" href="#131-iptables进入主机进行过滤的流程图">1.3.1.	iptables进入主机进行过滤的流程图</a></h3>
+<p><img src="image/02.png" alt="" />
+提示：防火墙规则的执行顺序默认为从前到后依次执行，遇到匹配的规则就不在继续向下检查，如果遇到不匹配的规则则会继续向下执行。</p>
+<p>重点：匹配上拒绝规则也是匹配，因此，不再向下执行。</p>
+<p>对于交换机的acl数据包过滤，除了顺序匹配外，还有深度匹配，即会读完所有规则，然后进行对比，匹配最精确匹配的规则。</p>
+<h2 id="14-iptables的表tables和链chains"><a class="header" href="#14-iptables的表tables和链chains">1.4.	iptables的表(tables)和链(chains)</a></h2>
+<p>iptables根据功能和表的定义划分，最常用的有三个表，分别为filter,nat,mangle,其中，每个表又各自包含不同的操作链(Chains)。
+额外还有一个raw表，平时基本用不到。</p>
+<p>表和链的关系</p>
+<p><img src="image/03.png" alt="" /></p>
+<h3 id="141-filter表介绍"><a class="header" href="#141-filter表介绍">1.4.1.	Filter表介绍</a></h3>
+<p>filter表	和主机自身有关，负责防火墙功能(过滤本机流入、流出的数据包)。是iptables默认使用的表。</p>
+<p>INPUT	负责过滤所有目标地址是本机(防火墙)地址的数据包。就是过滤进入主机的数据包</p>
+<p>FORWARD	负责转发流经主机但不进入本机的数据包。起转发作用，和nat表关系很大。</p>
+<p>OUTPUT	处理所有原地址是本机地址的数据包。就是处理从主机发出去的数据包。</p>
+<p>英文解释：filter</p>
+<p>This  is  the  default  table  (if no -t option is passed).  It contains the built-in chains INPUT (for packets destined to local sockets), FORWARD (for packets being routed through the box), and OUTPUT (for locally-generated packets).</p>
+<p>对于filter表的控制是我们实现本机防火墙功能的重要手段。</p>
+<h3 id="142-nat表介绍"><a class="header" href="#142-nat表介绍">1.4.2.	Nat表介绍</a></h3>
+<p>nat表	NAT英文全称是Network Address Translation，称是网络地址转换。负责来源与目的IP地址和port的转换。和主机本身无关。一般用于局域网多人共享上网或者内网IP映射外网IP及不同端口转换服务等功能，nat表的功能很重要。</p>
+<p>OUTPUT	和主机发出去的数据包有关。在数据包路由之前改变主机产生的数据包的目标地址等</p>
+<p>PREROUTING	在数据包刚到达防火墙时，进行路由判断之前执行的规则，改变包的目的地址(DNAT功能)、端口等。此链多用于把外部IP地址端口的服务，映射为内部IP地址端口的服务，映射为内部IP地址及端口。</p>
+<p>POSTROUTING	在数据包离开防火墙时进行路由判断之后执行的规则，改变包的源地址(SNAT)、端口等。此链多用于局域网共享上网，把局域网的地址，转换为公网地址上网。</p>
+<p>英文解释：nat:</p>
+<p>This table is consulted when a packet that creates a new connection is encountered.  It consists of three  built-ins:  PREROUTING (for altering packets as soon as they come in), OUTPUT (for altering locally-generated packets before routing), and POSTROUTING (for altering packets as they are about to go out).</p>
+<p>1.4.3.	Mangle表介绍
+mangle表	主要负责修改数据包中特殊的路由标记，如TTL,TOS,MASK等</p>
+<p>INPUT	同filter的INPUT</p>
+<p>FORWARD	同filter的FORWARD</p>
+<p>OUTPUT	同filter的OUTPUT</p>
+<p>PREROUTING	同nat的PREROUTING</p>
+<p>POSTROUTING	同nat的POSTROUTING</p>
+<p>英文解释：mangle:</p>
+<p>This table is used for specialized packet alteration.  Until kernel 2.4.17 it had  two  built-in  chains:  PREROUTING  (for altering incoming packets before routing) and OUTPUT (for altering locally-generated packets before routing).  Since kernel 2.4.18, three other built-in chains are also supported: INPUT (for packets coming into the box itself), FORWARD (for alteing packets being routed through the box), and POSTROUTING (for altering packets as they are about to go out).</p>
+<h1 id="15-iptables的表与链工作流程图"><a class="header" href="#15-iptables的表与链工作流程图">1.5.	iptables的表与链工作流程图</a></h1>
+<p><img src="image/04.png" alt="" />
+iptables包处理流程图</p>
+<h1 id="2-iptable命令规则"><a class="header" href="#2-iptable命令规则">2.	iptable命令规则</a></h1>
+<h2 id="21-iptables--h-帮助"><a class="header" href="#21-iptables--h-帮助">2.1.	iptables -h 帮助</a></h2>
+<pre><code>[root@lnmp ~]# iptables -h
+iptables v1.3.5
+
+Usage: iptables -[AD] chain rule-specification [options]
+iptables -[RI] chain rulenum rule-specification [options]
+iptables -D chain rulenum [options]
+iptables -[LFZ] [chain] [options]
+iptables -[NX] chain
+iptables -E old-chain-name new-chain-name
+iptables -P chain target [options]
+iptables -h (print this help information)
+
+Commands:
+Either long or short options are allowed.
+--append  -A chain            Append to chain
+--delete  -D chain            Delete matching rule from chain
+--delete  -D chain rulenum
+Delete rule rulenum (1 = first) from chain
+--insert  -I chain [rulenum]
+Insert in chain as rulenum (default 1=first)
+--replace -R chain rulenum
+Replace rule rulenum (1 = first) in chain
+--list    -L [chain]          List the rules in a chain or all chains
+--flush   -F [chain]          Delete all rules in  chain or all chains
+--zero    -Z [chain]          Zero counters in chain or all chains
+--new     -N chain            Create a new user-defined chain
+--delete-chain
+-X [chain]          Delete a user-defined chain
+--policy  -P chain target
+Change policy on chain to target
+--rename-chain
+-E old-chain new-chain
+Change chain name, (moving any references)
+Options:
+--proto       -p [!] proto    protocol: by number or name, eg. `tcp'
+--source      -s [!] address[/mask]
+source specification
+--destination -d [!] address[/mask]
+destination specification
+--in-interface -i [!] input name[+]
+network interface name ([+] for wildcard)
+--jump        -j target
+target for rule (may load target extension)
+--goto      -g chain
+jump to chain with no return
+--match       -m match
+extended match (may load extension)
+--numeric     -n              numeric output of addresses and ports
+--out-interface -o [!] output name[+]
+network interface name ([+] for wildcard)
+--table       -t table        table to manipulate (default: `filter')
+--verbose     -v              verbose mode
+--line-numbers                print line numbers when listing
+--exact       -x              expand numbers (display exact values)
+[!] --fragment  -f              match second or further fragments only
+--modprobe=&lt;command&gt;          try to insert modules using this command
+--set-counters PKTS BYTES     set the counter during insert/append
+[!] --version   -V              print package version.
+</code></pre>
+<h2 id="22-实践iptables命令"><a class="header" href="#22-实践iptables命令">2.2.	实践iptables命令</a></h2>
+<h3 id="221-启动并查看iptables"><a class="header" href="#221-启动并查看iptables">2.2.1.	启动并查看iptables</a></h3>
+<pre><code>/etc/init.d/iptables start
+iptables -L -n　或 iptables -t filter -L -n 或iptables -L -n -v -x
+--list    -L [chain]          List the rules in a chain or all chains
+--numeric     -n              numeric output of addresses and ports
+--table       -t table        table to manipulate (default: `filter')
+--exact       -x              expand numbers (display exact values)
+(在v的基础上，自动换算K,m)
+--verbose     -v              verbose mode
+提示：/etc/init.d/iptables start 启动不了
+setup-&gt;firewall configuration--&gt;enable 进行激活。
+
+
+[root@lnmp ~]# /etc/init.d/iptables start
+Flushing firewall rules: [  OK  ]
+Setting chains to policy ACCEPT: filter [  OK  ]
+Unloading iptables modules: [  OK  ]
+Applying iptables firewall rules: [  OK  ]
+Loading additional iptables modules: ip_conntrack_netbios_ns [  OK  ]
+[root@lnmp ~]# /etc/init.d/iptables status
+Table: filter
+Chain INPUT (policy ACCEPT)
+num  target     prot opt source               destination         
+1    RH-Firewall-1-INPUT  all  --  0.0.0.0/0            0.0.0.0/0
+
+Chain FORWARD (policy ACCEPT)
+num  target     prot opt source               destination         
+1    RH-Firewall-1-INPUT  all  --  0.0.0.0/0            0.0.0.0/0
+
+Chain OUTPUT (policy ACCEPT)
+num  target     prot opt source               destination
+
+Chain RH-Firewall-1-INPUT (2 references)
+num  target     prot opt source               destination         
+1    ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0           
+2    ACCEPT     icmp --  0.0.0.0/0            0.0.0.0/0           icmp type 255
+3    ACCEPT     esp  --  0.0.0.0/0            0.0.0.0/0           
+4    ACCEPT     ah   --  0.0.0.0/0            0.0.0.0/0           
+5    ACCEPT     udp  --  0.0.0.0/0            224.0.0.251         udp dpt:5353
+6    ACCEPT     udp  --  0.0.0.0/0            0.0.0.0/0           udp dpt:631
+7    ACCEPT     tcp  --  0.0.0.0/0            0.0.0.0/0           tcp dpt:631
+8    ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0           state RELATED,ESTABLISHED
+9    ACCEPT     tcp  --  0.0.0.0/0            0.0.0.0/0           state NEW tcp dpt:22
+10   REJECT     all  --  0.0.0.0/0            0.0.0.0/0           reject-with icmp-host-prohibited
+
+[root@lnmp ~]# iptables -L -n
+Chain INPUT (policy ACCEPT)
+target     prot opt source               destination         
+RH-Firewall-1-INPUT  all  --  0.0.0.0/0            0.0.0.0/0
+
+Chain FORWARD (policy ACCEPT)
+target     prot opt source               destination         
+RH-Firewall-1-INPUT  all  --  0.0.0.0/0            0.0.0.0/0
+
+Chain OUTPUT (policy ACCEPT)
+target     prot opt source               destination
+
+Chain RH-Firewall-1-INPUT (2 references)
+target     prot opt source               destination         
+ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0           
+ACCEPT     icmp --  0.0.0.0/0            0.0.0.0/0           icmp type 255
+ACCEPT     esp  --  0.0.0.0/0            0.0.0.0/0           
+ACCEPT     ah   --  0.0.0.0/0            0.0.0.0/0           
+ACCEPT     udp  --  0.0.0.0/0            224.0.0.251         udp dpt:5353
+ACCEPT     udp  --  0.0.0.0/0            0.0.0.0/0           udp dpt:631
+ACCEPT     tcp  --  0.0.0.0/0            0.0.0.0/0           tcp dpt:631
+ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0           state RELATED,ESTABLISHED
+ACCEPT     tcp  --  0.0.0.0/0            0.0.0.0/0           state NEW tcp dpt:22
+REJECT     all  --  0.0.0.0/0            0.0.0.0/0           reject-with icmp-host-prohibited
+</code></pre>
+<h3 id="222-清除所有规则"><a class="header" href="#222-清除所有规则">2.2.2. 清除所有规则</a></h3>
+<pre><code>iptables -F  	//清除所有规则
+iptables -X		//删除用户自定义的链
+iptables -Z 		//链的记录数清零
+iptables -F
+iptables -X
+iptables -Z
+清除规则实际是对filter表的操作，如果是nat表，需iptables -t nat -F
+
+[root@lnmp ~]# iptables -F
+[root@lnmp ~]# iptables -X
+[root@lnmp ~]# iptables -Z
+[root@lnmp ~]# iptables -L -n
+Chain INPUT (policy ACCEPT)
+target     prot opt source               destination
+
+Chain FORWARD (policy ACCEPT)
+target     prot opt source               destination
+
+Chain OUTPUT (policy ACCEPT)
+target     prot opt source               destination         
+[root@lnmp ~]# /etc/init.d/iptables restart
+Flushing firewall rules: [  OK  ]
+Setting chains to policy ACCEPT: filter [  OK  ]
+Unloading iptables modules: [  OK  ]
+Applying iptables firewall rules: [  OK  ]
+Loading additional iptables modules: ip_conntrack_netbios_ns [  OK  ]
+[root@lnmp ~]# iptables -L -n
+Chain INPUT (policy ACCEPT)
+target     prot opt source               destination         
+RH-Firewall-1-INPUT  all  --  0.0.0.0/0            0.0.0.0/0
+
+Chain FORWARD (policy ACCEPT)
+target     prot opt source               destination         
+RH-Firewall-1-INPUT  all  --  0.0.0.0/0            0.0.0.0/0
+
+Chain OUTPUT (policy ACCEPT)
+target     prot opt source               destination
+
+Chain RH-Firewall-1-INPUT (2 references)
+target     prot opt source               destination         
+ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0           
+ACCEPT     icmp --  0.0.0.0/0            0.0.0.0/0           icmp type 255
+ACCEPT     esp  --  0.0.0.0/0            0.0.0.0/0           
+ACCEPT     ah   --  0.0.0.0/0            0.0.0.0/0           
+ACCEPT     udp  --  0.0.0.0/0            224.0.0.251         udp dpt:5353
+ACCEPT     udp  --  0.0.0.0/0            0.0.0.0/0           udp dpt:631
+ACCEPT     tcp  --  0.0.0.0/0            0.0.0.0/0           tcp dpt:631
+ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0           state RELATED,ESTABLISHED
+ACCEPT     tcp  --  0.0.0.0/0            0.0.0.0/0           state NEW tcp dpt:22
+REJECT     all  --  0.0.0.0/0            0.0.0.0/0           reject-with icmp-host-prohibited
+</code></pre>
+<h3 id="223-iptables规则语法"><a class="header" href="#223-iptables规则语法">2.2.3.	iptables规则语法</a></h3>
+<p>(1)	禁止ssh默认的22端口</p>
+<pre><code>iptables -A INPUT -p tcp --dport 22 -j DROP
+iptables -t filter -A INPUT -p tcp --dport 22 -j DROP
+</code></pre>
+<p>规则清除：</p>
+<pre><code>方法1:
+iptables -D INPUT -p tcp --dport 22 -j DROP
+
+方法2:
+iptables -L -n --line-number
+iptables -D INPUT 1
+</code></pre>
+<pre><code>[root@lnmp ~]# iptables -A INPUT -p tcp --dport 222 -j DROP
+[root@lnmp ~]# iptables -L -n --line-number
+Chain INPUT (policy ACCEPT)
+num  target     prot opt source               destination         
+1    DROP       tcp  --  0.0.0.0/0            0.0.0.0/0           tcp dpt:222
+
+Chain FORWARD (policy ACCEPT)
+num  target     prot opt source               destination
+
+Chain OUTPUT (policy ACCEPT)
+num  target     prot opt source               destination         
+[root@lnmp ~]# iptables -D INPUT 1
+[root@lnmp ~]# iptables -L -n --line-number
+Chain INPUT (policy ACCEPT)
+num  target     prot opt source               destination
+
+Chain FORWARD (policy ACCEPT)
+num  target     prot opt source               destination
+
+Chain OUTPUT (policy ACCEPT)
+num  target     prot opt source               destination
+</code></pre>
+<p>(2)	禁止10.0.10.0/24网段连入</p>
+<pre><code>iptables -A INPUT -i eth0 -s 10.0.10.0/24 -j DROP
+iptables -t filter -A INPUT -i eth0 -s 10.0.10.0/24 -j DROP
+
+[root@lnmp ~]# iptables -A INPUT -i eth0 -s 10.0.10.0/24 -j DROP
+[root@lnmp ~]# iptables -L -n
+Chain INPUT (policy ACCEPT)
+target     prot opt source               destination         
+DROP       all  --  10.0.10.0/24         0.0.0.0/0
+
+Chain FORWARD (policy ACCEPT)
+target     prot opt source               destination
+
+Chain OUTPUT (policy ACCEPT)
+target     prot opt source               destination
+
+生产场景中，我们封一个非法IP及端口习惯使用如下语法：
+iptables -A INPUT -p tcp -s 10.0.10.12 -j DROP
+iptables -A INPUT -p tcp --dport 22 -j DROP
+</code></pre>
+<p>(3)	测试 ! [非]</p>
+<pre><code>A.	源地址不是10.0.0.128的禁止连接
+iptables -t filter -I INPUT -i eth0 -s ! 10.0.0.128 -j DROP
+
+#禁止ping的功能
+iptables -t filter -I INPUT -p icmp --icmp-type 8 -i eth0 -s ! 10.0.0.128 -j DROP
+
+B.	源地址不是10.0.0.0/24的禁止连接
+iptables -t filter -I INPUT -i eth0 -s ! 10.0.0.0/24 -j DROP
+等价于
+iptables -t filter -I INPUT -i eth0 -s 10.0.0.0/24 -j ACCEPT
+
+C.	匹配指定的协议
+iptables -A INPUT -p tcp
+iptables -A INPUT -p udp
+-p参数可以匹配协议名或协议号
+--proto       -p [!] proto    protocol: by number or name, eg. `tcp'
+-p, --protocol [!] protocol
+The protocol of the rule or of the packet to check.  The specified protocol can be one of tcp, udp, icmp, or all, or it can be a numeric value, representing one of these protocols or a different one.  A protocol name from /etc/protocols is also allowed.  A "!" argument  before the protocol inverts the test.  The number zero is equivalent  to  all.   Protocol  all will match with all protocols and is taken as default when this option is omitted.
+
+D.	匹配协议外的所有协议
+iptables -A INPUT -p ! tcp
+
+E.	匹配主机
+iptables -A INPUT -s 10.0.0.14
+iptables -A INPUT -s ! 10.0.0.14
+
+F.	匹配网段
+iptables -A INPUT -s 10.0.0.0/24
+iptables -A INPUT -s ! 10.0.0.0/24
+
+G.	匹配单一端口
+iptables -A INPUT -p tcp --sport 53 -j DROP
+iptables -A INPUT -p udp --dport 53 -j DROP
+#sport	源端口
+#dport	目的端口
+
+H.	匹配端口范围
+iptables -A INPUT -p tcp --sport 22:80 -j DROP		#端口范围22到80
+iptables -A INPUT -p tcp --sport 22,23,24 -j DROP		#错误语法
+iptables -A INPUT -p tcp -m multiport --sport 22,23,24 -j DROP
+
+I.	匹配指定网络接口
+iptables -A INPUT -i eth0
+iptables -A FORWARD -o eth0
+
+--in-interface -i [!] input name[+]
+--out-interface -o [!] output name[+]
+J.	安全保护
+iptables -A FORWARD -p tcp --syn -m limit --limit 1/s -j ACCEPT
+</code></pre>
+<h3 id="224-常用服务的iptables规则实践"><a class="header" href="#224-常用服务的iptables规则实践">2.2.4.	常用服务的iptables规则实践</a></h3>
+<p>以下服务默认以拒绝规则设计的。</p>
+<p>(1)	仅允许内部合法的IP地址</p>
+<pre><code>iptables -I INPUT -i eth0 -s 10.0.0.0/24 -j ACCEPT
+iptables -I INPUT -i eth0 -s 122.0.0.0/24 -j ACCEPT
+…省略…
+提示：合法的IP段为：办公iP段,IDC内外网IP段及其它公司机房的IP段,除此之外都会拒绝
+(2)	仅允许内部合法的IP段访问监控服务nagios
+iptables -I INPUT -s 10.0.0.0/24 -p tcp --dport 5666 -j ACCEPT
+…省略…
+
+(3)	仅允许内部合法的IP段访问mysql数据库和oracle数据库
+iptables -I INPUT -s 10.0.0.0/24 -p tcp --dport 3306 -j ACCEPT
+iptables -I INPUT -s 10.0.0.0/24 -p tcp --dport 3307 -j ACCEPT
+iptables -I INPUT -s 10.0.0.0/24 -p tcp --dport 1521 -j ACCEPT
+…省略…
+提示：以上仅适用于lamp一体环境或数据库有外网ip的情况，否则可以不开启防火墙。
+(4)	仅允许内部合法的IP段访问SSH远程连接服务
+iptables -I INPUT -s 10.0.0.0/24 -p tcp --dport 50718 -j ACCEPT
+…省略…
+
+
+(5)	对http服务的不同限制
+a)	对外提供http服务的业务，要允许http服务通过，并且不限制IP
+iptables -I INPUT  -p tcp --dport 80 -j ACCEPT
+
+b)	对内提供http服务的业务，一般用特殊端口，并且限制合法IP连接或VPN连接
+iptables -A INPUT -s 10.0.0.0/24 -p tcp -m multiport --sport 8080,8081,8082 -j ACCEPT
+…省略…
+c)	snmp限制
+iptables -A INPUT -s 10.0.0.0/24 -p udp --dport 161 -j ACCEPT
+…省略…
+d)	rsync服务限制策略
+iptables -A INPUT -s 10.0.0.0/24 -p tcp -m tcp --dport 873 -j ACCEPT
+…省略…
+提示：无外网ip的情况，否则可以不开启防火墙。
+e)	nfs服务限制
+iptables -A INPUT -s 10.0.0.0/24 -p tcp  -m multiport --dport 111,892,2049 -j ACCEPT
+iptables -A INPUT -s 10.0.0.0/24 -p udp  -m multiport --dport 111,892,2049 -j ACCEPT
+提示：无外网ip的情况，否则可以不开启防火墙。
+
+
+f)	ftp服务限制
+iptables -A INPUT -p tcp --dport 21 -j ACCEPT
+iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+iptables -A OUTPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+#表示对已经建立连接的数据包或发出去的数据包允许通过
+
+g)	icmp协议的限制
+iptables -A INPUT -p icmp -m icmp --icmp-type any -j ACCEPT
+iptables -A INPUT -p icmp --icmp-type 8 -j ACCEPT
+</code></pre>
+<h1 id="3-手动执行iptable命令配置生产环境主机防火墙"><a class="header" href="#3-手动执行iptable命令配置生产环境主机防火墙">3.	手动执行iptable命令配置生产环境主机防火墙</a></h1>
+<h2 id="31-主机防火墙工作流程图"><a class="header" href="#31-主机防火墙工作流程图">3.1.	主机防火墙工作流程图</a></h2>
+<p>对于iptables的数据包而言，有以下几个流向：</p>
+<p>PREROUTING→FORWARD→POSTROUTING</p>
+<p>PREROUTING→INPUT→本机→OUTPUT→POSTROUTING</p>
+<p><img src="image/05.png" alt="" /></p>
+<p>http://www.netfilter.org/documentation/HOWTO//packet-filtering-HOWTO-6.html</p>
+<h2 id="32-手工配置生产环境主机防火墙"><a class="header" href="#32-手工配置生产环境主机防火墙">3.2.	手工配置生产环境主机防火墙</a></h2>
+<pre><code>#1.清除当前所有规则和计数器
+#remove any existing rules
+iptables -F
+iptables -X
+iptables -Z
+
+#2.配置允许SSH登录端口进入
+#allow ssh port
+iptables -A INPUT -p tcp --dport 22 -s 10.0.0.0/24 -j ACCEPT
+
+#3.允许lo接口的进入和流出
+#setting for loopback interface
+iptables -A INPUT -i lo -j ACCEPT
+iptables -A OUTPUT -o lo -j ACCEPT
+
+#4.设置默认的防火墙禁止和允许规则
+#policy -P chain target
+#默认DROP掉FORWARD,INPUT链，允许OUTPUT链
+iptables --policy OUTPUT ACCEPT
+iptables -P FORWARD DROP
+iptables -P INPUT DROP
+#此步完成后，默认情况下，所有进入服务器的请求都将被阻挡。当然排除SSH登录规则。
+
+#5.开启信任的IP网段
+#setting Lan access rules
+#允许IDC LAN和办公网IP的访问
+iptables -A INPUT -s 124.43.62.96/27 -p all -j ACCEPT
+iptables -A INPUT -s 192.168.1.0/24 -p all -j ACCEPT
+iptables -A INPUT -s 10.0.0.0/24 -p all -j ACCEPT
+
+#6.允许http服务无条件通过
+#outter service
+iptables -A INPUT -p tcp --dport 80 -j ACCEPT
+#7.允许icmp类型协议通过
+iptables -A INPUT -p icmp -m icmp --icmp-type any -j ACCEPT
+#iptables -A INPUT -s 10.0.0.0/24 -p icmp -m icmp --icmp-type any -j ACCEPT
+#iptables -A INPUT -p icmp --icmp-type 8 -j ACCEPT
+
+#8.允许关联的状态包通过
+iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+iptables -A OUTPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+
+
+#永久保存成配置文件
+方法1: /etc/init.d/iptables save
+方法2: iptables-save &gt;/etc/sysconfig/iptables
+
+[root@lnmp ~]# /etc/init.d/iptables save
+Saving firewall rules to /etc/sysconfig/iptables: [  OK  ]
+[root@lnmp ~]# iptables-save &gt;/etc/sysconfig/iptables
+[root@lnmp ~]# cat /etc/sysconfig/iptables
+# Generated by iptables-save v1.3.5 on Sat Oct 20 13:39:25 2012
+*filter
+:INPUT DROP [365:28720]
+:FORWARD DROP [0:0]
+:OUTPUT ACCEPT [444:45304]
+-A INPUT -s 10.0.0.0/255.255.255.0 -p tcp -m tcp --dport 22 -j ACCEPT
+-A INPUT -i lo -j ACCEPT
+-A INPUT -s 124.43.62.96/255.255.255.224 -j ACCEPT
+-A INPUT -s 192.168.1.0/255.255.255.0 -j ACCEPT
+-A INPUT -s 10.0.0.0/255.255.255.0 -j ACCEPT
+-A INPUT -p tcp -m tcp --dport 80 -j ACCEPT
+-A INPUT -p icmp -m icmp --icmp-type any -j ACCEPT
+-A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+-A OUTPUT -o lo -j ACCEPT
+-A OUTPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+COMMIT
+# Completed on Sat Oct 20 13:39:25 2012
+</code></pre>
+<h1 id="4-把linux服务器配置为上网网关和端口映射功能"><a class="header" href="#4-把linux服务器配置为上网网关和端口映射功能">4.	把linux服务器配置为上网网关和端口映射功能</a></h1>
+<h2 id="41-nat表相关名称"><a class="header" href="#41-nat表相关名称">4.1.	nat表相关名称</a></h2>
+<h3 id="411-dnat"><a class="header" href="#411-dnat">4.1.1.	DNAT</a></h3>
+<h3 id="412-snat"><a class="header" href="#412-snat">4.1.2.	SNAT</a></h3>
+<h3 id="413-masquerade"><a class="header" href="#413-masquerade">4.1.3.	MASQUERADE</a></h3>
+<h2 id="42-生产实战案例"><a class="header" href="#42-生产实战案例">4.2.	生产实战案例</a></h2>
+<h3 id="421-办公室路由网关架构图"><a class="header" href="#421-办公室路由网关架构图">4.2.1.	办公室路由网关架构图</a></h3>
+<p><img src="image/06.png" alt="" /></p>
+<h3 id="422-根据上图来实现如下要求"><a class="header" href="#422-根据上图来实现如下要求">4.2.2.	根据上图来实现如下要求</a></h3>
+<pre><code>(1)	实现C可经过B,通过A上因特网(默认情况C是无法上网的)
+(2)	在10段的主机可通过访问B的外网卡10.0.0.128:80端口，就可访问到10.0.0.129的端口。
+(3)	实现10.0.0段机器和10.0.10段机器互相访问(生产环境大于254台机器如何扩展网段)。
+</code></pre>
+<h2 id="43-演示前期准备工作"><a class="header" href="#43-演示前期准备工作">4.3.	演示前期准备工作</a></h2>
+<h3 id="431-网关b需具备如下条件"><a class="header" href="#431-网关b需具备如下条件">4.3.1.	网关B需具备如下条件</a></h3>
+<pre><code>(1)	B需要双网卡，且和内外网处于联通状态。
+(2)	B自身可以上网
+(3)	B内核转发文件/etc/sysctl.conf需要开启转发功能,修改值为：net.ipv4.ip_forward = 1，执行sysctl -p生效。
+sed -i 's#net.ipv4.ip_forward = 0#net.ipv4.ip_forward = 1#' /etc/sysctl.conf
+sysctl -p
+(4)	iptables的filter表的FORWARD链允许转发。
+</code></pre>
+<h3 id="432-网关b下面局域网的机器"><a class="header" href="#432-网关b下面局域网的机器">4.3.2.	网关B下面局域网的机器</a></h3>
+<p>(1)	确保局域网10.0.10.0/24的机器，默认设置了网关服务器B的eth1内网卡IP。</p>
+<p>(2)	在C上ping网关服务器B的内外网卡IP都应该是通的。</p>
+<h3 id="433-配置并检查上面的环境准备情况"><a class="header" href="#433-配置并检查上面的环境准备情况">4.3.3.	配置并检查上面的环境准备情况</a></h3>
+<pre><code>(1)	主机C上,ping www.baidu.com 不通
+(2)	…
+(3)	加入如下基本内核模块
+modprobe ip_tables
+modprobe iptable_filter
+modprobe iptable_nat
+modprobe ip_conntrack
+modprobe ip_conntrack_ftp
+modprobe ip_nat_ftp
+modprobe ipt_state
+</code></pre>
+<h3 id="434-实现c可经过b通过a上因特网实战"><a class="header" href="#434-实现c可经过b通过a上因特网实战">4.3.4.	实现C可经过B,通过A上因特网实战</a></h3>
+<pre><code>以下在网关B上操作
+提示：如果配不好，可以在GW上先/etc/init.d/iptables stop后加命令。
+问题1答案：
+方法1:
+iptables -t nat -A POSTROUTING -s 10.0.10.0/255.255.255.0 -o eth0 -j SNAT --to-source 10.0.0.128
+方法2:
+iptables -t nat -A POSTROUTING -s 10.0.10.0/24 -j MASQUERADE
+
+问题2答案：
+iptables -t nat -A PREROUTING -d 10.0.0.128 -p tcp --dport 80 -j DNAT --to-destination 10.0.10.129:80
+#以上方法仅是端口之间的映射，实际上我们也可以实现IP一对一的映射，即DMZ的功能。方法如下：
+-A PREROUTING -d 124.42.33.22 -j DNAT --to-destination 10.0.10.129
+-A PREROUTING -s 10.0.0.8 -o eth0 -j DNAT --to-destination 124.42.33.22
+-A PREROUTING -s 10.0.0.0/255.255.255.0 -d 10.0.0.8 -j DNAT --to-source 10.0.0.2
+提示：以上内容放在配置文件里面
+
+问题3答案：
+在10.0.10段机器添加如下内容：route add -net 10.0.10.0/24 gw 10.0.0.128
+提示：对于办公室小流量的跨网段访问这样实现是可以的（甚至可以改子网掩码不用网关路由来实现），如果是IDC机房大流量跨网段访问我们就需要三层交换机来替代了。
+
+# 5.	附录
+# 5.1.	iptables默认配置文件
+      [root@memcached ~]# cat /etc/sysconfig/iptables
+# Firewall configuration written by system-config-securitylevel
+# Manual customization of this file is not recommended.
+*filter
+:INPUT ACCEPT [0:0]
+:FORWARD ACCEPT [0:0]
+:OUTPUT ACCEPT [0:0]
+:RH-Firewall-1-INPUT - [0:0]
+-A INPUT -j RH-Firewall-1-INPUT
+-A FORWARD -j RH-Firewall-1-INPUT
+-A RH-Firewall-1-INPUT -i lo -j ACCEPT
+-A RH-Firewall-1-INPUT -p icmp --icmp-type any -j ACCEPT
+-A RH-Firewall-1-INPUT -p 50 -j ACCEPT
+-A RH-Firewall-1-INPUT -p 51 -j ACCEPT
+-A RH-Firewall-1-INPUT -p udp --dport 5353 -d 224.0.0.251 -j ACCEPT
+-A RH-Firewall-1-INPUT -p udp -m udp --dport 631 -j ACCEPT
+-A RH-Firewall-1-INPUT -p tcp -m tcp --dport 631 -j ACCEPT
+-A RH-Firewall-1-INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+-A RH-Firewall-1-INPUT -m state --state NEW -m tcp -p tcp --dport 22 -j ACCEPT
+-A RH-Firewall-1-INPUT -j REJECT --reject-with icmp-host-prohibited
+COMMIT
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../iptables/iptables.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../iptables/iptables.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

@@ -1,0 +1,555 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>fdisk分区命令实战讲解 - linux学习笔记</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('light')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">介绍</a></li><li class="chapter-item expanded "><a href="../install_linux/install_linux.html"><strong aria-hidden="true">1.</strong> Linux安装</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../install_linux/install_centos7.html"><strong aria-hidden="true">1.1.</strong> CentOS7.9系统安装文档</a></li><li class="chapter-item expanded "><a href="../install_linux/linux_boot_process.html"><strong aria-hidden="true">1.2.</strong> linux系统的开机启动过程</a></li><li class="chapter-item expanded "><a href="../install_linux/command_summary01.html"><strong aria-hidden="true">1.3.</strong> 命令总结(cat pwd ls rm mkdir touch head tail ln chkconfig)</a></li><li class="chapter-item expanded "><a href="../install_linux/linux_shortcut_keys.html"><strong aria-hidden="true">1.4.</strong> linux下常用的命令快捷键</a></li></ol></li><li class="chapter-item expanded "><a href="../linux_optimization/linux_optimization.html"><strong aria-hidden="true">2.</strong> Linux服务器优化</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../linux_optimization/linux_opt.html"><strong aria-hidden="true">2.1.</strong> 配置优化Centos5.X Linux操作系统</a></li><li class="chapter-item expanded "><a href="../linux_optimization/command_summary02.html"><strong aria-hidden="true">2.2.</strong> 命令总结(find、wc、tar、cut、grep、egrep、date、which、echo、shutdown、reboot)</a></li><li class="chapter-item expanded "><a href="../linux_optimization/diff_quotes.html"><strong aria-hidden="true">2.3.</strong> linux shell中单引号、双引号及不加引号的简单区别</a></li><li class="chapter-item expanded "><a href="../linux_optimization/linux_links_diff.html"><strong aria-hidden="true">2.4.</strong> linux下软链接和硬链接的区别</a></li></ol></li><li class="chapter-item expanded "><a href="../file_and_dir/file_and_dir.html"><strong aria-hidden="true">3.</strong> 文件与目录</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../file_and_dir/file_and_dir_perm.html"><strong aria-hidden="true">3.1.</strong> Linux文件和目录权限实战讲解</a></li><li class="chapter-item expanded "><a href="../file_and_dir/system_dir_and_important_path.html"><strong aria-hidden="true">3.2.</strong> 系统目录结构及重要路径</a></li><li class="chapter-item expanded "><a href="../file_and_dir/linux_file_types.html"><strong aria-hidden="true">3.3.</strong> linux文件类型总结</a></li><li class="chapter-item expanded "><a href="../file_and_dir/linux_perm.html"><strong aria-hidden="true">3.4.</strong> Linux文件和目录的属性及权限</a></li><li class="chapter-item expanded "><a href="../file_and_dir/command_summary_stat_sed_awk.html"><strong aria-hidden="true">3.5.</strong> 命令总结(stat、sed、awk)</a></li><li class="chapter-item expanded "><a href="../file_and_dir/command_summary_more_less.html"><strong aria-hidden="true">3.6.</strong> 命令总结-文件查看与处理命令(more、less、tree、chattr、lsattr)</a></li><li class="chapter-item expanded "><a href="../file_and_dir/command_summary_user.html"><strong aria-hidden="true">3.7.</strong> 命令总结-用户管理命令-用户(useradd、userdel、passwd、chage)</a></li><li class="chapter-item expanded "><a href="../file_and_dir/command_summary_group.html"><strong aria-hidden="true">3.8.</strong> 命令总结-用户管理命令-用户组(groupadd、groupdel)</a></li><li class="chapter-item expanded "><a href="../file_and_dir/command_summary_w.html"><strong aria-hidden="true">3.9.</strong> 命令总结-查看系统用户登录信息命令-(w、who、users、last)</a></li></ol></li><li class="chapter-item expanded "><a href="../crontab/crontab.html"><strong aria-hidden="true">4.</strong> crontab</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../crontab/linux_crontab.html"><strong aria-hidden="true">4.1.</strong> Linux系统定时任务详解</a></li><li class="chapter-item expanded "><a href="../crontab/linux_user_group.html"><strong aria-hidden="true">4.2.</strong> Linux系统的用户和用户组管理</a></li><li class="chapter-item expanded "><a href="../crontab/linux_su_sudo.html"><strong aria-hidden="true">4.3.</strong> Linux用户切换(su sudo)</a></li><li class="chapter-item expanded "><a href="../crontab/mount_unmount.html"><strong aria-hidden="true">4.4.</strong> 命令总结-磁盘空间的命令(mount umount)</a></li><li class="chapter-item expanded "><a href="../crontab/command_summary.html"><strong aria-hidden="true">4.5.</strong> 命令总结-附加命令(nohup watch time ps)</a></li></ol></li><li class="chapter-item expanded "><a href="../disk/disk.html"><strong aria-hidden="true">5.</strong> 硬盘</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../disk/disk_basic.html"><strong aria-hidden="true">5.1.</strong> 硬盘的基础知识介绍</a></li><li class="chapter-item expanded "><a href="../disk/disk_how_to_work.html"><strong aria-hidden="true">5.2.</strong> 硬盘的工作原理介绍</a></li><li class="chapter-item expanded "><a href="../disk/disk_partition.html"><strong aria-hidden="true">5.3.</strong> 硬盘分区相关知识介绍</a></li><li class="chapter-item expanded "><a href="../disk/raid.html"><strong aria-hidden="true">5.4.</strong> RAID技术</a></li><li class="chapter-item expanded "><a href="../disk/command_summary1.html"><strong aria-hidden="true">5.5.</strong> 命令总结-信息显示命令(uname hostname dmesg uptime du df)</a></li><li class="chapter-item expanded "><a href="../disk/command_summary2.html"><strong aria-hidden="true">5.6.</strong> 命令总结-磁盘空间的命令(fsck dd dump fdisk parted)</a></li><li class="chapter-item expanded "><a href="../disk/fdisk.html" class="active"><strong aria-hidden="true">5.7.</strong> fdisk分区命令实战讲解</a></li><li class="chapter-item expanded "><a href="../disk/fstab.html"><strong aria-hidden="true">5.8.</strong> fstab详细介绍及救援模式修复fstab实战案例</a></li><li class="chapter-item expanded "><a href="../disk/parted.html"><strong aria-hidden="true">5.9.</strong> parted分区命令实战讲解</a></li><li class="chapter-item expanded "><a href="../disk/file_system.html"><strong aria-hidden="true">5.10.</strong> linux文件系统知识介绍</a></li></ol></li><li class="chapter-item expanded "><a href="../nfs/nfs.html"><strong aria-hidden="true">6.</strong> nfs</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../nfs/nfs.html"><strong aria-hidden="true">6.1.</strong> nfs网络文件系统服务介绍与实战</a></li><li class="chapter-item expanded "><a href="../nfs/ssh_key.html"><strong aria-hidden="true">6.2.</strong> SSH KEY免密码验证分发、管理、备份实战讲解</a></li><li class="chapter-item expanded "><a href="../nfs/command_summary.html"><strong aria-hidden="true">6.3.</strong> 命令总结-基本网络操作命令(telnet ssh scp wget ping route ifconfig ifup ifdown netstat)</a></li></ol></li><li class="chapter-item expanded "><a href="../rsync/rsync.html"><strong aria-hidden="true">7.</strong> rsync</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../rsync/rsync_action.html"><strong aria-hidden="true">7.1.</strong> Rsync生产场景实战应用指南</a></li><li class="chapter-item expanded "><a href="../rsync/command_summary.html"><strong aria-hidden="true">7.2.</strong> 深入网络操作命令(mail mutt nslookup dig traceroute df du fsck dd)</a></li></ol></li><li class="chapter-item expanded "><a href="../mysql/mysql.html"><strong aria-hidden="true">8.</strong> MySQL基础</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../mysql/mysql_basic.html"><strong aria-hidden="true">8.1.</strong> MySQL常用基础命令操作实战讲解</a></li><li class="chapter-item expanded "><a href="../mysql/mysql_install.html"><strong aria-hidden="true">8.2.</strong> MySQL单实例的安装配置指南</a></li><li class="chapter-item expanded "><a href="../mysql/mysql_master-slave1.html"><strong aria-hidden="true">8.3.</strong> MySQL主从复制原理详解</a></li><li class="chapter-item expanded "><a href="../mysql/mysql_master-slave2.html"><strong aria-hidden="true">8.4.</strong> MySQL主从复制实践讲解</a></li><li class="chapter-item expanded "><a href="../mysql/mysql_perm.html"><strong aria-hidden="true">8.5.</strong> MySQL数据库安全权限控制管理思想</a></li><li class="chapter-item expanded "><a href="../mysql/mysql_recovery.html"><strong aria-hidden="true">8.6.</strong> MySQL灾难恢复实战多案例精华讲解</a></li><li class="chapter-item expanded "><a href="../mysql/mysqlbinlog.html"><strong aria-hidden="true">8.7.</strong> mysqlbinlog</a></li><li class="chapter-item expanded "><a href="../mysql/mysqldump.html"><strong aria-hidden="true">8.8.</strong> mysqldump</a></li></ol></li><li class="chapter-item expanded "><a href="../shell/shell.html"><strong aria-hidden="true">9.</strong> shell</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../shell/shell_scripts.html"><strong aria-hidden="true">9.1.</strong> shell脚本编程精讲</a></li><li class="chapter-item expanded "><a href="../shell/shell_spec.html"><strong aria-hidden="true">9.2.</strong> linux下shell脚本开发规范与制度</a></li></ol></li><li class="chapter-item expanded "><a href="../lvs_keepalived/lvs_keepalived.html"><strong aria-hidden="true">10.</strong> Lvs+keepalived集群</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../lvs/lvs_detail.html"><strong aria-hidden="true">10.1.</strong> Lvs负载均衡及Keepalived高可用技术应用详解</a></li><li class="chapter-item expanded "><a href="../lvs/lvs_action.html"><strong aria-hidden="true">10.2.</strong> Lvs+keepalived集群生产实战模拟</a></li><li class="chapter-item expanded "><a href="../lvs/lvs_key_point.html"><strong aria-hidden="true">10.3.</strong> Lvs+keepalived集群生产实战维护要点</a></li></ol></li><li class="chapter-item expanded "><a href="../iptables/iptables.html"><strong aria-hidden="true">11.</strong> iptables</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../iptables/iptables_guide.html"><strong aria-hidden="true">11.1.</strong> iptables防火墙应用指南</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">linux学习笔记</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="fdisk分区命令实战讲解"><a class="header" href="#fdisk分区命令实战讲解">fdisk分区命令实战讲解</a></h1>
+<h1 id="题目"><a class="header" href="#题目">题目</a></h1>
+<pre><code>在虚拟机里添加一块1G的虚拟磁盘，请使用fdisk进行分区
+分成2P+E的方式
+P1大小200M
+P2大小200M
+E大小600M，对于E分区，在分两个逻辑驱动器，分别为300M。
+提示：对分区格式化方法mkfs.ext3 /dev/sda1（分区名）
+</code></pre>
+<h1 id="1-虚拟机添加一块1g的虚拟磁盘"><a class="header" href="#1-虚拟机添加一块1g的虚拟磁盘">1.	虚拟机添加一块1G的虚拟磁盘</a></h1>
+<p>关闭虚拟机，执行如下操作：
+<img src="image/100.png" alt="" /></p>
+<p><img src="image/101.png" alt="" /></p>
+<p><img src="image/102.png" alt="" /></p>
+<p><img src="image/103.png" alt="" /></p>
+<p><img src="image/104.png" alt="" /></p>
+<p><img src="image/105.png" alt="" /></p>
+<p><img src="image/106.png" alt="" /></p>
+<p>重起虚拟机后，即可</p>
+<h1 id="2-分区操作"><a class="header" href="#2-分区操作">2.	分区操作</a></h1>
+<h2 id="21-fdisk分区"><a class="header" href="#21-fdisk分区">2.1.	fdisk分区</a></h2>
+<pre><code>[root@stu412 ~]# fdisk –l		#查看分区表
+
+Disk /dev/sda: 21.4 GB, 21474836480 bytes
+255 heads, 63 sectors/track, 2610 cylinders
+Units = cylinders of 16065 * 512 = 8225280 bytes
+
+Device Boot      Start         End      Blocks   Id  System
+/dev/sda1   *           1          16      128488+  83  Linux
+/dev/sda2              17        2544    20306160   83  Linux
+/dev/sda3            2545        2609      522112+  82  Linux swap / Solaris
+
+Disk /dev/sdb: 1073 MB, 1073741824 bytes
+255 heads, 63 sectors/track, 130 cylinders
+Units = cylinders of 16065 * 512 = 8225280 bytes
+
+Disk /dev/sdb doesn't contain a valid partition table		#注意这里
+
+[root@stu412 ~]# fdisk /dev/sdb
+Device contains neither a valid DOS partition table, nor Sun, SGI or OSF disklabel
+Building a new DOS disklabel. Changes will remain in memory only,
+until you decide to write them. After that, of course, the previous
+content won't be recoverable.
+
+Warning: invalid flag 0x0000 of partition table 4 will be corrected by w(rite)
+
+Command (m for help): m
+Command action
+a   toggle a bootable flag
+b   edit bsd disklabel
+c   toggle the dos compatibility flag
+d   delete a partition
+l   list known partition types
+m   print this menu
+n   add a new partition
+o   create a new empty DOS partition table
+p   print the partition table
+q   quit without saving changes
+s   create a new empty Sun disklabel
+t   change a partition's system id
+u   change display/entry units
+v   verify the partition table
+w   write table to disk and exit
+x   extra functionality (experts only)
+Command (m for help): l				#查看分区类型
+0  Empty           1e  Hidden W95 FAT1 80  Old Minix       bf  Solaris        
+1  FAT12           24  NEC DOS         81  Minix / old Lin c1  DRDOS/sec (FAT-
+2  XENIX root      39  Plan 9          82  Linux swap / So c4  DRDOS/sec (FAT-
+3  XENIX usr       3c  PartitionMagic  83  Linux           c6  DRDOS/sec (FAT-
+4  FAT16 &lt;32M      40  Venix 80286     84  OS/2 hidden C:  c7  Syrinx         
+5  Extended        41  PPC PReP Boot   85  Linux extended  da  Non-FS data    
+6  FAT16           42  SFS             86  NTFS volume set db  CP/M / CTOS / .
+7  HPFS/NTFS       4d  QNX4.x          87  NTFS volume set de  Dell Utility   
+8  AIX             4e  QNX4.x 2nd part 88  Linux plaintext df  BootIt         
+9  AIX bootable    4f  QNX4.x 3rd part 8e  Linux LVM       e1  DOS access     
+a  OS/2 Boot Manag 50  OnTrack DM      93  Amoeba          e3  DOS R/O        
+b  W95 FAT32       51  OnTrack DM6 Aux 94  Amoeba BBT      e4  SpeedStor      
+c  W95 FAT32 (LBA) 52  CP/M            9f  BSD/OS          eb  BeOS fs        
+e  W95 FAT16 (LBA) 53  OnTrack DM6 Aux a0  IBM Thinkpad hi ee  EFI GPT        
+f  W95 Ext'd (LBA) 54  OnTrackDM6      a5  FreeBSD         ef  EFI (FAT-12/16/
+10  OPUS            55  EZ-Drive        a6  OpenBSD         f0  Linux/PA-RISC b
+11  Hidden FAT12    56  Golden Bow      a7  NeXTSTEP        f1  SpeedStor      
+12  Compaq diagnost 5c  Priam Edisk     a8  Darwin UFS      f4  SpeedStor      
+14  Hidden FAT16 &lt;3 61  SpeedStor       a9  NetBSD          f2  DOS secondary  
+16  Hidden FAT16    63  GNU HURD or Sys ab  Darwin boot     fb  VMware VMFS    
+17  Hidden HPFS/NTF 64  Novell Netware  b7  BSDI fs         fc  VMware VMKCORE
+18  AST SmartSleep  65  Novell Netware  b8  BSDI swap       fd  Linux raid auto
+1b  Hidden W95 FAT3 70  DiskSecure Mult bb  Boot Wizard hid fe  LANstep        
+1c  Hidden W95 FAT3 75  PC/IX           be  Solaris boot    ff  BBT
+
+Command (m for help): n		#建立一个新分区
+Command action
+e   extended
+p   primary partition (1-4)
+p								#建立主分区
+Partition number (1-4): 1	#选择分区号
+First cylinder (1-130, default 1):
+Using default value 1
+Last cylinder or +size or +sizeM or +sizeK (1-130, default 130): +200M
+
+Command (m for help): p		#列出当前分区表情况
+
+Disk /dev/sdb: 1073 MB, 1073741824 bytes
+255 heads, 63 sectors/track, 130 cylinders
+Units = cylinders of 16065 * 512 = 8225280 bytes
+
+Device Boot      Start         End      Blocks   Id  System
+/dev/sdb1               1          25      200781   83  Linux
+Command (m for help): n		#再建立一个200M主分区
+Command action
+e   extended
+p   primary partition (1-4)
+p
+Partition number (1-4): 2
+First cylinder (26-130, default 26):
+Using default value 26
+Last cylinder or +size or +sizeM or +sizeK (26-130, default 130): +200M
+
+Command (m for help): p		#列出当前分区表情况
+
+Disk /dev/sdb: 1073 MB, 1073741824 bytes
+255 heads, 63 sectors/track, 130 cylinders
+Units = cylinders of 16065 * 512 = 8225280 bytes
+
+Device Boot      Start         End      Blocks   Id  System
+/dev/sdb1               1          25      200781   83  Linux
+/dev/sdb2              26          50      200812+  83  Linux
+Command (m for help): n		#建立扩展分区
+Command action
+e   extended
+p   primary partition (1-4)
+e
+Partition number (1-4): 4
+First cylinder (51-130, default 51):
+Using default value 51
+Last cylinder or +size or +sizeM or +sizeK (51-130, default 130):
+#使用默认,将剩余空间分给此分区
+Using default value 130
+
+Command (m for help): p
+
+Disk /dev/sdb: 1073 MB, 1073741824 bytes
+255 heads, 63 sectors/track, 130 cylinders
+Units = cylinders of 16065 * 512 = 8225280 bytes
+
+Device Boot      Start         End      Blocks   Id  System
+/dev/sdb1               1          25      200781   83  Linux
+/dev/sdb2              26          50      200812+  83  Linux
+/dev/sdb4              51         130      642600    5  Extended
+
+Command (m for help): n			#建一个逻辑分区，分别为300M。
+Command action
+l   logical (5 or over)		#已经没有扩展分区标记了
+p   primary partition (1-4)
+l
+First cylinder (51-130, default 51):
+Using default value 51
+Last cylinder or +size or +sizeM or +sizeK (51-130, default 130): +300M
+
+Command (m for help): n			#再建一个300M的逻辑分区
+Command action
+l   logical (5 or over)
+p   primary partition (1-4)
+l
+First cylinder (88-130, default 88):
+Using default value 88
+Last cylinder or +size or +sizeM or +sizeK (88-130, default 130):
+Using default value 130
+
+Command (m for help): p
+
+Disk /dev/sdb: 1073 MB, 1073741824 bytes
+255 heads, 63 sectors/track, 130 cylinders
+Units = cylinders of 16065 * 512 = 8225280 bytes
+
+Device Boot      Start         End      Blocks   Id  System
+/dev/sdb1               1          25      200781   83  Linux
+/dev/sdb2              26          50      200812+  83  Linux
+/dev/sdb4              51         130      642600    5  Extended
+/dev/sdb5              51          87      297171   83  Linux
+/dev/sdb6              88         130      345366   83  Linux
+</code></pre>
+<h2 id="22-将分区表存入磁盘"><a class="header" href="#22-将分区表存入磁盘">2.2.	将分区表存入磁盘</a></h2>
+<pre><code>Command (m for help): w			#将分区表存入磁盘
+The partition table has been altered!
+
+Calling ioctl() to re-read partition table.
+Syncing disks.
+
+
+[root@stu412 ~]# partprobe		#通知操作系统分区表已经改变了,而不需要重新启动
+[root@stu412 ~]# fdisk -l
+
+Disk /dev/sda: 21.4 GB, 21474836480 bytes
+255 heads, 63 sectors/track, 2610 cylinders
+Units = cylinders of 16065 * 512 = 8225280 bytes
+
+Device Boot      Start         End      Blocks   Id  System
+/dev/sda1   *           1          16      128488+  83  Linux
+/dev/sda2              17        2544    20306160   83  Linux
+/dev/sda3            2545        2609      522112+  82  Linux swap / Solaris
+
+Disk /dev/sdb: 1073 MB, 1073741824 bytes
+255 heads, 63 sectors/track, 130 cylinders
+Units = cylinders of 16065 * 512 = 8225280 bytes
+
+Device Boot      Start         End      Blocks   Id  System
+/dev/sdb1               1          25      200781   83  Linux
+/dev/sdb2              26          50      200812+  83  Linux
+/dev/sdb4              51         130      642600    5  Extended
+/dev/sdb5              51          87      297171   83  Linux
+/dev/sdb6              88         130      345366   83  Linux
+</code></pre>
+<h2 id="23-格式化分区"><a class="header" href="#23-格式化分区">2.3.	格式化分区</a></h2>
+<pre><code>[root@stu412 ~]# mkfs.ext3 /dev/sdb1		#格式化分区
+mke2fs 1.39 (29-May-2006)
+Filesystem label=
+OS type: Linux
+Block size=1024 (log=0)
+Fragment size=1024 (log=0)
+50200 inodes, 200780 blocks
+10039 blocks (5.00%) reserved for the super user
+First data block=1
+Maximum filesystem blocks=67371008
+25 block groups
+8192 blocks per group, 8192 fragments per group
+2008 inodes per group
+Superblock backups stored on blocks:
+8193, 24577, 40961, 57345, 73729
+
+Writing inode tables: done                            
+Creating journal (4096 blocks): done
+Writing superblocks and filesystem accounting information: done
+
+This filesystem will be automatically checked every 29 mounts or
+180 days, whichever comes first.  Use tune2fs -c or -i to override.
+[root@stu412 ~]# dumpe2fs /dev/sdb1 | grep -i "block size"	#查看block大小
+dumpe2fs 1.39 (29-May-2006)
+Block size:               1024
+
+[root@stu412 ~]# mkfs.ext3 -b 4096 /dev/sdb2	#指定block size大小
+mke2fs 1.39 (29-May-2006)
+Filesystem label=
+OS type: Linux
+Block size=4096 (log=2)
+Fragment size=4096 (log=2)
+50240 inodes, 50203 blocks
+2510 blocks (5.00%) reserved for the super user
+First data block=0
+Maximum filesystem blocks=54525952
+2 block groups
+32768 blocks per group, 32768 fragments per group
+25120 inodes per group
+Superblock backups stored on blocks:
+32768
+
+Writing inode tables: done                            
+Creating journal (4096 blocks): done
+Writing superblocks and filesystem accounting information: done
+
+This filesystem will be automatically checked every 39 mounts or
+180 days, whichever comes first.  Use tune2fs -c or -i to override.
+[root@stu412 ~]# mkfs.ext3 -b 4096 /dev/sdb5	 
+[root@stu412 ~]# mkfs.ext3 -b 4096 /dev/sdb6
+</code></pre>
+<h2 id="24-tune2fs调整查看ext2ext3文件系统的文件系统参数"><a class="header" href="#24-tune2fs调整查看ext2ext3文件系统的文件系统参数">2.4.	tune2fs:调整/查看ext2/ext3文件系统的文件系统参数</a></h2>
+<pre><code>[root@stu412 ~]# tune2fs -c 1 /dev/sdb1
+#设置强制自检的挂载次数，如果开启，每挂载一次mount conut就会加1，超过次数就会强制自检
+tune2fs 1.39 (29-May-2006)
+Setting maximal mount count to 1
+[root@stu412 ~]# tune2fs -c 1 /dev/sdb2
+tune2fs 1.39 (29-May-2006)
+Setting maximal mount count to 1
+[root@stu412 ~]# tune2fs -c 1 /dev/sdb5
+[root@stu412 ~]# tune2fs -c 1 /dev/sdb6
+</code></pre>
+<h2 id="25-挂载到目录"><a class="header" href="#25-挂载到目录">2.5.	挂载到目录</a></h2>
+<pre><code>[root@stu412 data]# mkdir -p /data/disk
+[root@stu412 data]# mount /dev/sdb1 /data/disk
+[root@stu412 disk]# df -h
+Filesystem            Size  Used Avail Use% Mounted on
+/dev/sda2              19G  2.4G   16G  13% /
+/dev/sda1             122M   12M  104M  10% /boot
+tmpfs                 506M     0  506M   0% /dev/shm
+/dev/sdb1             190M  5.6M  175M   4% /data/disk
+
+[root@stu412 data]# cd /data/disk/
+[root@stu412 disk]# ll
+total 12
+drwx------ 2 root root 12288 Jul 28 16:24 lost+found
+[root@stu412 disk]# touch file1
+[root@stu412 disk]# mkdir dir
+
+#但是这样一重启后，挂载信息就会丢失，可以写入/etc/fstab,实现开机时自动挂载
+[root@stu412 disk]# cat /etc/fstab
+LABEL=/                 /                       ext3    defaults        1 1
+LABEL=/boot             /boot                   ext3    defaults        1 2
+tmpfs                   /dev/shm                tmpfs   defaults        0 0
+devpts                  /dev/pts                devpts  gid=5,mode=620  0 0
+sysfs                   /sys                    sysfs   defaults        0 0
+proc                    /proc                   proc    defaults        0 0
+LABEL=SWAP-sda3         swap                    swap    defaults        0 0
+/dev/sdb1               /data/disk              ext3    defaults        0 0
+#手动添加最后一行内容
+
+[root@stu412 disk]# mount –a #加载所有的挂载, mount –a测试请看下面
+[root@stu412 disk]# df -h
+Filesystem            Size  Used Avail Use% Mounted on
+/dev/sda2              19G  2.4G   16G  13% /
+/dev/sda1             122M   12M  104M  10% /boot
+tmpfs                 506M     0  506M   0% /dev/shm
+/dev/sdb1             190M  5.6M  175M   4% /data/disk
+
+#mount –a测试,启用/etc/fstab里的挂载
+[root@stu412 data]# umount /data/disk/
+[root@stu412 data]# df -h
+Filesystem            Size  Used Avail Use% Mounted on
+/dev/sda2              19G  2.4G   16G  13% /
+/dev/sda1             122M   12M  104M  10% /boot
+tmpfs                 506M     0  506M   0% /dev/shm
+[root@stu412 data]# mount -a
+[root@stu412 data]# df -h
+Filesystem            Size  Used Avail Use% Mounted on
+/dev/sda2              19G  2.4G   16G  13% /
+/dev/sda1             122M   12M  104M  10% /boot
+tmpfs                 506M     0  506M   0% /dev/shm
+/dev/sdb1             190M  5.6M  175M   4% /data/disk
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../disk/command_summary2.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../disk/fstab.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../disk/command_summary2.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../disk/fstab.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

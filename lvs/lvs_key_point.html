@@ -1,0 +1,334 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Lvs+keepalived集群生产实战维护要点 - linux学习笔记</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('light')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">介绍</a></li><li class="chapter-item expanded "><a href="../install_linux/install_linux.html"><strong aria-hidden="true">1.</strong> Linux安装</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../install_linux/install_centos7.html"><strong aria-hidden="true">1.1.</strong> CentOS7.9系统安装文档</a></li><li class="chapter-item expanded "><a href="../install_linux/linux_boot_process.html"><strong aria-hidden="true">1.2.</strong> linux系统的开机启动过程</a></li><li class="chapter-item expanded "><a href="../install_linux/command_summary01.html"><strong aria-hidden="true">1.3.</strong> 命令总结(cat pwd ls rm mkdir touch head tail ln chkconfig)</a></li><li class="chapter-item expanded "><a href="../install_linux/linux_shortcut_keys.html"><strong aria-hidden="true">1.4.</strong> linux下常用的命令快捷键</a></li></ol></li><li class="chapter-item expanded "><a href="../linux_optimization/linux_optimization.html"><strong aria-hidden="true">2.</strong> Linux服务器优化</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../linux_optimization/linux_opt.html"><strong aria-hidden="true">2.1.</strong> 配置优化Centos5.X Linux操作系统</a></li><li class="chapter-item expanded "><a href="../linux_optimization/command_summary02.html"><strong aria-hidden="true">2.2.</strong> 命令总结(find、wc、tar、cut、grep、egrep、date、which、echo、shutdown、reboot)</a></li><li class="chapter-item expanded "><a href="../linux_optimization/diff_quotes.html"><strong aria-hidden="true">2.3.</strong> linux shell中单引号、双引号及不加引号的简单区别</a></li><li class="chapter-item expanded "><a href="../linux_optimization/linux_links_diff.html"><strong aria-hidden="true">2.4.</strong> linux下软链接和硬链接的区别</a></li></ol></li><li class="chapter-item expanded "><a href="../file_and_dir/file_and_dir.html"><strong aria-hidden="true">3.</strong> 文件与目录</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../file_and_dir/file_and_dir_perm.html"><strong aria-hidden="true">3.1.</strong> Linux文件和目录权限实战讲解</a></li><li class="chapter-item expanded "><a href="../file_and_dir/system_dir_and_important_path.html"><strong aria-hidden="true">3.2.</strong> 系统目录结构及重要路径</a></li><li class="chapter-item expanded "><a href="../file_and_dir/linux_file_types.html"><strong aria-hidden="true">3.3.</strong> linux文件类型总结</a></li><li class="chapter-item expanded "><a href="../file_and_dir/linux_perm.html"><strong aria-hidden="true">3.4.</strong> Linux文件和目录的属性及权限</a></li><li class="chapter-item expanded "><a href="../file_and_dir/command_summary_stat_sed_awk.html"><strong aria-hidden="true">3.5.</strong> 命令总结(stat、sed、awk)</a></li><li class="chapter-item expanded "><a href="../file_and_dir/command_summary_more_less.html"><strong aria-hidden="true">3.6.</strong> 命令总结-文件查看与处理命令(more、less、tree、chattr、lsattr)</a></li><li class="chapter-item expanded "><a href="../file_and_dir/command_summary_user.html"><strong aria-hidden="true">3.7.</strong> 命令总结-用户管理命令-用户(useradd、userdel、passwd、chage)</a></li><li class="chapter-item expanded "><a href="../file_and_dir/command_summary_group.html"><strong aria-hidden="true">3.8.</strong> 命令总结-用户管理命令-用户组(groupadd、groupdel)</a></li><li class="chapter-item expanded "><a href="../file_and_dir/command_summary_w.html"><strong aria-hidden="true">3.9.</strong> 命令总结-查看系统用户登录信息命令-(w、who、users、last)</a></li></ol></li><li class="chapter-item expanded "><a href="../crontab/crontab.html"><strong aria-hidden="true">4.</strong> crontab</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../crontab/linux_crontab.html"><strong aria-hidden="true">4.1.</strong> Linux系统定时任务详解</a></li><li class="chapter-item expanded "><a href="../crontab/linux_user_group.html"><strong aria-hidden="true">4.2.</strong> Linux系统的用户和用户组管理</a></li><li class="chapter-item expanded "><a href="../crontab/linux_su_sudo.html"><strong aria-hidden="true">4.3.</strong> Linux用户切换(su sudo)</a></li><li class="chapter-item expanded "><a href="../crontab/mount_unmount.html"><strong aria-hidden="true">4.4.</strong> 命令总结-磁盘空间的命令(mount umount)</a></li><li class="chapter-item expanded "><a href="../crontab/command_summary.html"><strong aria-hidden="true">4.5.</strong> 命令总结-附加命令(nohup watch time ps)</a></li></ol></li><li class="chapter-item expanded "><a href="../disk/disk.html"><strong aria-hidden="true">5.</strong> 硬盘</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../disk/disk_basic.html"><strong aria-hidden="true">5.1.</strong> 硬盘的基础知识介绍</a></li><li class="chapter-item expanded "><a href="../disk/disk_how_to_work.html"><strong aria-hidden="true">5.2.</strong> 硬盘的工作原理介绍</a></li><li class="chapter-item expanded "><a href="../disk/disk_partition.html"><strong aria-hidden="true">5.3.</strong> 硬盘分区相关知识介绍</a></li><li class="chapter-item expanded "><a href="../disk/raid.html"><strong aria-hidden="true">5.4.</strong> RAID技术</a></li><li class="chapter-item expanded "><a href="../disk/command_summary1.html"><strong aria-hidden="true">5.5.</strong> 命令总结-信息显示命令(uname hostname dmesg uptime du df)</a></li><li class="chapter-item expanded "><a href="../disk/command_summary2.html"><strong aria-hidden="true">5.6.</strong> 命令总结-磁盘空间的命令(fsck dd dump fdisk parted)</a></li><li class="chapter-item expanded "><a href="../disk/fdisk.html"><strong aria-hidden="true">5.7.</strong> fdisk分区命令实战讲解</a></li><li class="chapter-item expanded "><a href="../disk/fstab.html"><strong aria-hidden="true">5.8.</strong> fstab详细介绍及救援模式修复fstab实战案例</a></li><li class="chapter-item expanded "><a href="../disk/parted.html"><strong aria-hidden="true">5.9.</strong> parted分区命令实战讲解</a></li><li class="chapter-item expanded "><a href="../disk/file_system.html"><strong aria-hidden="true">5.10.</strong> linux文件系统知识介绍</a></li></ol></li><li class="chapter-item expanded "><a href="../nfs/nfs.html"><strong aria-hidden="true">6.</strong> nfs</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../nfs/nfs.html"><strong aria-hidden="true">6.1.</strong> nfs网络文件系统服务介绍与实战</a></li><li class="chapter-item expanded "><a href="../nfs/ssh_key.html"><strong aria-hidden="true">6.2.</strong> SSH KEY免密码验证分发、管理、备份实战讲解</a></li><li class="chapter-item expanded "><a href="../nfs/command_summary.html"><strong aria-hidden="true">6.3.</strong> 命令总结-基本网络操作命令(telnet ssh scp wget ping route ifconfig ifup ifdown netstat)</a></li></ol></li><li class="chapter-item expanded "><a href="../rsync/rsync.html"><strong aria-hidden="true">7.</strong> rsync</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../rsync/rsync_action.html"><strong aria-hidden="true">7.1.</strong> Rsync生产场景实战应用指南</a></li><li class="chapter-item expanded "><a href="../rsync/command_summary.html"><strong aria-hidden="true">7.2.</strong> 深入网络操作命令(mail mutt nslookup dig traceroute df du fsck dd)</a></li></ol></li><li class="chapter-item expanded "><a href="../mysql/mysql.html"><strong aria-hidden="true">8.</strong> MySQL基础</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../mysql/mysql_basic.html"><strong aria-hidden="true">8.1.</strong> MySQL常用基础命令操作实战讲解</a></li><li class="chapter-item expanded "><a href="../mysql/mysql_install.html"><strong aria-hidden="true">8.2.</strong> MySQL单实例的安装配置指南</a></li><li class="chapter-item expanded "><a href="../mysql/mysql_master-slave1.html"><strong aria-hidden="true">8.3.</strong> MySQL主从复制原理详解</a></li><li class="chapter-item expanded "><a href="../mysql/mysql_master-slave2.html"><strong aria-hidden="true">8.4.</strong> MySQL主从复制实践讲解</a></li><li class="chapter-item expanded "><a href="../mysql/mysql_perm.html"><strong aria-hidden="true">8.5.</strong> MySQL数据库安全权限控制管理思想</a></li><li class="chapter-item expanded "><a href="../mysql/mysql_recovery.html"><strong aria-hidden="true">8.6.</strong> MySQL灾难恢复实战多案例精华讲解</a></li><li class="chapter-item expanded "><a href="../mysql/mysqlbinlog.html"><strong aria-hidden="true">8.7.</strong> mysqlbinlog</a></li><li class="chapter-item expanded "><a href="../mysql/mysqldump.html"><strong aria-hidden="true">8.8.</strong> mysqldump</a></li></ol></li><li class="chapter-item expanded "><a href="../shell/shell.html"><strong aria-hidden="true">9.</strong> shell</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../shell/shell_scripts.html"><strong aria-hidden="true">9.1.</strong> shell脚本编程精讲</a></li><li class="chapter-item expanded "><a href="../shell/shell_spec.html"><strong aria-hidden="true">9.2.</strong> linux下shell脚本开发规范与制度</a></li></ol></li><li class="chapter-item expanded "><a href="../lvs_keepalived/lvs_keepalived.html"><strong aria-hidden="true">10.</strong> Lvs+keepalived集群</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../lvs/lvs_detail.html"><strong aria-hidden="true">10.1.</strong> Lvs负载均衡及Keepalived高可用技术应用详解</a></li><li class="chapter-item expanded "><a href="../lvs/lvs_action.html"><strong aria-hidden="true">10.2.</strong> Lvs+keepalived集群生产实战模拟</a></li><li class="chapter-item expanded "><a href="../lvs/lvs_key_point.html" class="active"><strong aria-hidden="true">10.3.</strong> Lvs+keepalived集群生产实战维护要点</a></li></ol></li><li class="chapter-item expanded "><a href="../iptables/iptables.html"><strong aria-hidden="true">11.</strong> iptables</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../iptables/iptables_guide.html"><strong aria-hidden="true">11.1.</strong> iptables防火墙应用指南</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">linux学习笔记</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="lvskeepalived集群生产实战维护要点"><a class="header" href="#lvskeepalived集群生产实战维护要点">Lvs+keepalived集群生产实战维护要点</a></h1>
+<h1 id="1-lvskeepalived负载均衡部署问题排错思路"><a class="header" href="#1-lvskeepalived负载均衡部署问题排错思路">1.	LVS+keepalived负载均衡部署问题排错思路</a></h1>
+<h2 id="11-iptables防火墙问题"><a class="header" href="#11-iptables防火墙问题">1.1.	iptables防火墙问题</a></h2>
+<p>[Director和Real Server]</p>
+<p>iptables防火墙造成Client用户、Director和RS真实服务器3者之者任意两者连接问题，在实际部署过程中，我们最好配置防火墙允许LAN内所有IP互相访问，如果是学习测试环境，建议把iptables防火墙关掉测试。Directors之间failover切换会被防火墙影响，建议LVS Director两边都启动VIP发生裂脑。</p>
+<h2 id="12-linux负载均衡器转发问题director"><a class="header" href="#12-linux负载均衡器转发问题director">1.2.	LINUX负载均衡器转发问题[Director]</a></h2>
+<p>对于NAT模式，LINUX内核转发及iptables转发功能需要开放。对于DR模式的负载均衡，转发开关可以不打开。</p>
+<h2 id="13-rs端抑制arp问题rs"><a class="header" href="#13-rs端抑制arp问题rs">1.3.	RS端抑制ARP问题[RS]</a></h2>
+<p>这个经常忘记执行，要注意，每个RS端都搞，习惯通过一个脚本来执行(ipvs_client)。</p>
+<h2 id="14-rs端lo上绑定业务vip多业务vip每个rs都要绑定rs"><a class="header" href="#14-rs端lo上绑定业务vip多业务vip每个rs都要绑定rs">1.4.	RS端lo上绑定业务VIP,多业务VIP，每个RS都要绑定[RS]</a></h2>
+<p>这个经常忘记执行，要注意，每个RS端都搞，习惯通过一个脚本来执行(ipvs_client)。</p>
+<pre><code>#!/bin/bash
+# description: Config realserver lo and apply noarp 
+VIP=(
+        192.168.65.123
+     )
+
+. /etc/rc.d/init.d/functions
+
+case "$1" in
+start)
+        for ((i=0; i&lt;`echo ${#VIP[*]}`; i++))
+        do
+           interface="lo:`echo ${VIP[$i]}|awk -F . '{print $4}'`"
+           /sbin/ifconfig $interface ${VIP[$i]} broadcast ${VIP[$i]} netmask 255.255.255.255 up
+        done
+        echo "1" &gt;/proc/sys/net/ipv4/conf/lo/arp_ignore
+        echo "2" &gt;/proc/sys/net/ipv4/conf/lo/arp_announce
+        echo "1" &gt;/proc/sys/net/ipv4/conf/all/arp_ignore
+        echo "2" &gt;/proc/sys/net/ipv4/conf/all/arp_announce
+	    action "Start LVS of RearServer.by old1boy"
+        ;;
+stop)
+        for ((i=0; i&lt;`echo ${#VIP[*]}`; i++))
+        do
+            interface="lo:`echo ${VIP[$i]}|awk -F . '{print $4}'`"
+            /sbin/ifconfig $interface ${VIP[$i]} broadcast ${VIP[$i]} netmask 255.255.255.255 down
+        done
+        echo "0" &gt;/proc/sys/net/ipv4/conf/lo/arp_ignore
+        echo "0" &gt;/proc/sys/net/ipv4/conf/lo/arp_announce
+        echo "0" &gt;/proc/sys/net/ipv4/conf/all/arp_ignore
+        echo "0" &gt;/proc/sys/net/ipv4/conf/all/arp_announce
+	    action "Close LVS of RearServer.by old2boy"
+        ;;
+*)
+        echo "Usage: $0 {start|stop}"
+        exit 1
+esac
+
+</code></pre>
+<h2 id="15-rs端lo上绑定业务vip有时lo接口vip会丢失例如执行etcinitdnetwork-restart后"><a class="header" href="#15-rs端lo上绑定业务vip有时lo接口vip会丢失例如执行etcinitdnetwork-restart后">1.5.	RS端lo上绑定业务VIP,有时lo接口VIP会丢失，例如执行/etc/init.d/network restart后</a></h2>
+<p>解决方法：</p>
+<p>(1)	将ipvs_client完整脚本启动命令放入/etc/rc.local</p>
+<p>(2)	通过nagios监控对RS端lo上绑定的业务VIP做监控报警</p>
+<p>(3)	将RS端lo上绑定的业务VIP做成网卡配置文件提供服务如/etc/sysconfig/network-scripts/ ifcfg-lo:127</p>
+<pre><code>#cat /etc/sysconfig/network-scripts/ifcfg-lo:127
+DEVICE=lo:127
+IPADDR=192.168.65.127
+NETMASK=255.255.255.255
+ONBOOT=yes
+NAME=loopback
+</code></pre>
+<h2 id="16-确保clientdirector和rs-任意两者之间可访问"><a class="header" href="#16-确保clientdirector和rs-任意两者之间可访问">1.6.	确保client,Director和RS 任意两者之间可访问</a></h2>
+<p>检查可用wget或telnet命令</p>
+<h2 id="17-ipvsadm--l--n检查lvs真实服务器情况及vip连接及配置"><a class="header" href="#17-ipvsadm--l--n检查lvs真实服务器情况及vip连接及配置">1.7.	ipvsadm -L -n检查LVS真实服务器情况及VIP连接及配置</a></h2>
+<h2 id="18-检查keepalived配置文件主从的不同"><a class="header" href="#18-检查keepalived配置文件主从的不同">1.8.	检查keepalived配置文件(主从的不同)</a></h2>
+<p>主要配置文件的不同是：route_id,state,priority</p>
+<h2 id="19-查看系统日志varlogmessages"><a class="header" href="#19-查看系统日志varlogmessages">1.9.	查看系统日志/var/log/messages</a></h2>
+<h2 id="110-通过tcpdump跳跃数据包流向"><a class="header" href="#110-通过tcpdump跳跃数据包流向">1.10.	通过tcpdump跳跃数据包流向</a></h2>
+<h2 id="111-注意lvs配置语法尤其是大括号问题可写个脚本判断大括号是不是成对"><a class="header" href="#111-注意lvs配置语法尤其是大括号问题可写个脚本判断大括号是不是成对">1.11.	注意lvs配置语法，尤其是大括号问题，可写个脚本判断大括号是不是成对</a></h2>
+<h1 id="2-lvskeepalived生产环境负载均衡维护思路"><a class="header" href="#2-lvskeepalived生产环境负载均衡维护思路">2.	LVS+keepalived生产环境负载均衡维护思路</a></h1>
+<p>(1)	业务高峰期尽量不修改负载均衡配置，以免发生故障影响用户体验。</p>
+<p>(2)	修改keepalived.conf时，执行临时备份：/bin/cp keepalived.conf keepalived.conf.oldboy.2012090101</p>
+<p>(3)	修改keepalived.conf时，将两个负载均衡器的keepalived.conf改名标识好，然后下载下来，保留原始备份，然后复制出两份，通过比较工具修改另一份。线上可用diff.</p>
+<p>(4)	替换正式配置文件后，主负载均衡器可以通过执行/etc/init.d/keepalived stop，把业务切到备份负载均衡器上，也可以直接/etc/init.d/keepalived restart重启直接让主生效。如果有异常，立即stop,用事先准备好的命令恢复(脚本瞬间恢复)。</p>
+<p>主负载均衡器调整好之后，备份负载均衡器直接/etc/init.d/keepalived restart重启直接生效。如果有必要切换分别测试下，以免配置不对导致以后自动切换时异常。</p>
+<h1 id="3-lvs均衡器下多台rs代码上线方案思路"><a class="header" href="#3-lvs均衡器下多台rs代码上线方案思路">3.	LVS均衡器下多台RS代码上线方案思路</a></h1>
+<p>集群节点多，上线时，希望最大限度不影响用户体验</p>
+<p>(1)	通过ipvsadm命令下线机器</p>
+<p>ipvsadm -d -t 192.168.1.181:80 -r 192.168.1.179:80</p>
+<p>(2)	通过url做健康检查，然后移除检查文件。这要Director会把此RS从转发池中移除。</p>
+<p>然后对下线机进行测试。</p>
+<h1 id="4-lvs其它相关经验"><a class="header" href="#4-lvs其它相关经验">4.	LVS其它相关经验</a></h1>
+<pre><code>(1)	LVS调度的最小单位是"连接"
+(2)	当apache的KeepAlive被设置为Off时，"连接"才能被均衡的调度。
+(3)	当不指定-p参数时,lvs才真正以"连接"为单位按"权值"调度流量。
+(4)	在指定-p参数时，则一个client在一定时间内，将会被调度到同一台RS
+(5)	可以通过"ipvsadm --set tcp tcpfin udp"来调整TCP和UDP的超时，让连接淘汰得快一些。
+ipvsadm --set 30 5 60
+ipvsadm -Ln --timeout
+(6)	在NAT模式时,rs的port参数才有意义，DR模式负载均衡无法做端口的转换。
+(7)	DR和TUN模式时，InActConn是没有意义的。
+(8)	在使用脚本部署LVS时，需要执行/sbin/arping -f -q -c 5 -I eth0 -s $WEB_VIP -U $GW,在发生failover切换时通知服务器清空arp缓存。
+/sbin/arping -I eth0 -c 3 -s 192.168.1.181 192.168.1.1
+</code></pre>
+<h1 id="5-lvs性能调优"><a class="header" href="#5-lvs性能调优">5.	LVS性能调优</a></h1>
+<pre><code>(1)	关闭iptables,使用硬件防火墙
+(2)	performance Tuning base LVS调整连接超时时间
+(3)	内核优化(安装操作系统时)
+(4)	网卡优化
+使用更快的网卡,如千兆，万兆网卡
+可以进一步将两块或多块网卡绑定,bonding时mode=0 (balance-rr)或者mod=4(802.3ad,需要交换机支持聚合端口)，miimon=80或miimon=100(ms)
+(5)	TCP/IP优化
+net.core.netdev_max_backlog=65000
+(6)	硬件优化(服务器稳定即可，高配置是种浪费)
+(7)	增大哈希表,调ip_vs_conn_tab_bigs到20
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../lvs/lvs_action.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../iptables/iptables.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../lvs/lvs_action.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../iptables/iptables.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

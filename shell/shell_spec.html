@@ -1,0 +1,437 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>linux下shell脚本开发规范与制度 - linux学习笔记</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('light')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">介绍</a></li><li class="chapter-item expanded "><a href="../install_linux/install_linux.html"><strong aria-hidden="true">1.</strong> Linux安装</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../install_linux/install_centos7.html"><strong aria-hidden="true">1.1.</strong> CentOS7.9系统安装文档</a></li><li class="chapter-item expanded "><a href="../install_linux/linux_boot_process.html"><strong aria-hidden="true">1.2.</strong> linux系统的开机启动过程</a></li><li class="chapter-item expanded "><a href="../install_linux/command_summary01.html"><strong aria-hidden="true">1.3.</strong> 命令总结(cat pwd ls rm mkdir touch head tail ln chkconfig)</a></li><li class="chapter-item expanded "><a href="../install_linux/linux_shortcut_keys.html"><strong aria-hidden="true">1.4.</strong> linux下常用的命令快捷键</a></li></ol></li><li class="chapter-item expanded "><a href="../linux_optimization/linux_optimization.html"><strong aria-hidden="true">2.</strong> Linux服务器优化</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../linux_optimization/linux_opt.html"><strong aria-hidden="true">2.1.</strong> 配置优化Centos5.X Linux操作系统</a></li><li class="chapter-item expanded "><a href="../linux_optimization/command_summary02.html"><strong aria-hidden="true">2.2.</strong> 命令总结(find、wc、tar、cut、grep、egrep、date、which、echo、shutdown、reboot)</a></li><li class="chapter-item expanded "><a href="../linux_optimization/diff_quotes.html"><strong aria-hidden="true">2.3.</strong> linux shell中单引号、双引号及不加引号的简单区别</a></li><li class="chapter-item expanded "><a href="../linux_optimization/linux_links_diff.html"><strong aria-hidden="true">2.4.</strong> linux下软链接和硬链接的区别</a></li></ol></li><li class="chapter-item expanded "><a href="../file_and_dir/file_and_dir.html"><strong aria-hidden="true">3.</strong> 文件与目录</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../file_and_dir/file_and_dir_perm.html"><strong aria-hidden="true">3.1.</strong> Linux文件和目录权限实战讲解</a></li><li class="chapter-item expanded "><a href="../file_and_dir/system_dir_and_important_path.html"><strong aria-hidden="true">3.2.</strong> 系统目录结构及重要路径</a></li><li class="chapter-item expanded "><a href="../file_and_dir/linux_file_types.html"><strong aria-hidden="true">3.3.</strong> linux文件类型总结</a></li><li class="chapter-item expanded "><a href="../file_and_dir/linux_perm.html"><strong aria-hidden="true">3.4.</strong> Linux文件和目录的属性及权限</a></li><li class="chapter-item expanded "><a href="../file_and_dir/command_summary_stat_sed_awk.html"><strong aria-hidden="true">3.5.</strong> 命令总结(stat、sed、awk)</a></li><li class="chapter-item expanded "><a href="../file_and_dir/command_summary_more_less.html"><strong aria-hidden="true">3.6.</strong> 命令总结-文件查看与处理命令(more、less、tree、chattr、lsattr)</a></li><li class="chapter-item expanded "><a href="../file_and_dir/command_summary_user.html"><strong aria-hidden="true">3.7.</strong> 命令总结-用户管理命令-用户(useradd、userdel、passwd、chage)</a></li><li class="chapter-item expanded "><a href="../file_and_dir/command_summary_group.html"><strong aria-hidden="true">3.8.</strong> 命令总结-用户管理命令-用户组(groupadd、groupdel)</a></li><li class="chapter-item expanded "><a href="../file_and_dir/command_summary_w.html"><strong aria-hidden="true">3.9.</strong> 命令总结-查看系统用户登录信息命令-(w、who、users、last)</a></li></ol></li><li class="chapter-item expanded "><a href="../crontab/crontab.html"><strong aria-hidden="true">4.</strong> crontab</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../crontab/linux_crontab.html"><strong aria-hidden="true">4.1.</strong> Linux系统定时任务详解</a></li><li class="chapter-item expanded "><a href="../crontab/linux_user_group.html"><strong aria-hidden="true">4.2.</strong> Linux系统的用户和用户组管理</a></li><li class="chapter-item expanded "><a href="../crontab/linux_su_sudo.html"><strong aria-hidden="true">4.3.</strong> Linux用户切换(su sudo)</a></li><li class="chapter-item expanded "><a href="../crontab/mount_unmount.html"><strong aria-hidden="true">4.4.</strong> 命令总结-磁盘空间的命令(mount umount)</a></li><li class="chapter-item expanded "><a href="../crontab/command_summary.html"><strong aria-hidden="true">4.5.</strong> 命令总结-附加命令(nohup watch time ps)</a></li></ol></li><li class="chapter-item expanded "><a href="../disk/disk.html"><strong aria-hidden="true">5.</strong> 硬盘</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../disk/disk_basic.html"><strong aria-hidden="true">5.1.</strong> 硬盘的基础知识介绍</a></li><li class="chapter-item expanded "><a href="../disk/disk_how_to_work.html"><strong aria-hidden="true">5.2.</strong> 硬盘的工作原理介绍</a></li><li class="chapter-item expanded "><a href="../disk/disk_partition.html"><strong aria-hidden="true">5.3.</strong> 硬盘分区相关知识介绍</a></li><li class="chapter-item expanded "><a href="../disk/raid.html"><strong aria-hidden="true">5.4.</strong> RAID技术</a></li><li class="chapter-item expanded "><a href="../disk/command_summary1.html"><strong aria-hidden="true">5.5.</strong> 命令总结-信息显示命令(uname hostname dmesg uptime du df)</a></li><li class="chapter-item expanded "><a href="../disk/command_summary2.html"><strong aria-hidden="true">5.6.</strong> 命令总结-磁盘空间的命令(fsck dd dump fdisk parted)</a></li><li class="chapter-item expanded "><a href="../disk/fdisk.html"><strong aria-hidden="true">5.7.</strong> fdisk分区命令实战讲解</a></li><li class="chapter-item expanded "><a href="../disk/fstab.html"><strong aria-hidden="true">5.8.</strong> fstab详细介绍及救援模式修复fstab实战案例</a></li><li class="chapter-item expanded "><a href="../disk/parted.html"><strong aria-hidden="true">5.9.</strong> parted分区命令实战讲解</a></li><li class="chapter-item expanded "><a href="../disk/file_system.html"><strong aria-hidden="true">5.10.</strong> linux文件系统知识介绍</a></li></ol></li><li class="chapter-item expanded "><a href="../nfs/nfs.html"><strong aria-hidden="true">6.</strong> nfs</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../nfs/nfs.html"><strong aria-hidden="true">6.1.</strong> nfs网络文件系统服务介绍与实战</a></li><li class="chapter-item expanded "><a href="../nfs/ssh_key.html"><strong aria-hidden="true">6.2.</strong> SSH KEY免密码验证分发、管理、备份实战讲解</a></li><li class="chapter-item expanded "><a href="../nfs/command_summary.html"><strong aria-hidden="true">6.3.</strong> 命令总结-基本网络操作命令(telnet ssh scp wget ping route ifconfig ifup ifdown netstat)</a></li></ol></li><li class="chapter-item expanded "><a href="../rsync/rsync.html"><strong aria-hidden="true">7.</strong> rsync</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../rsync/rsync_action.html"><strong aria-hidden="true">7.1.</strong> Rsync生产场景实战应用指南</a></li><li class="chapter-item expanded "><a href="../rsync/command_summary.html"><strong aria-hidden="true">7.2.</strong> 深入网络操作命令(mail mutt nslookup dig traceroute df du fsck dd)</a></li></ol></li><li class="chapter-item expanded "><a href="../mysql/mysql.html"><strong aria-hidden="true">8.</strong> MySQL基础</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../mysql/mysql_basic.html"><strong aria-hidden="true">8.1.</strong> MySQL常用基础命令操作实战讲解</a></li><li class="chapter-item expanded "><a href="../mysql/mysql_install.html"><strong aria-hidden="true">8.2.</strong> MySQL单实例的安装配置指南</a></li><li class="chapter-item expanded "><a href="../mysql/mysql_master-slave1.html"><strong aria-hidden="true">8.3.</strong> MySQL主从复制原理详解</a></li><li class="chapter-item expanded "><a href="../mysql/mysql_master-slave2.html"><strong aria-hidden="true">8.4.</strong> MySQL主从复制实践讲解</a></li><li class="chapter-item expanded "><a href="../mysql/mysql_perm.html"><strong aria-hidden="true">8.5.</strong> MySQL数据库安全权限控制管理思想</a></li><li class="chapter-item expanded "><a href="../mysql/mysql_recovery.html"><strong aria-hidden="true">8.6.</strong> MySQL灾难恢复实战多案例精华讲解</a></li><li class="chapter-item expanded "><a href="../mysql/mysqlbinlog.html"><strong aria-hidden="true">8.7.</strong> mysqlbinlog</a></li><li class="chapter-item expanded "><a href="../mysql/mysqldump.html"><strong aria-hidden="true">8.8.</strong> mysqldump</a></li></ol></li><li class="chapter-item expanded "><a href="../shell/shell.html"><strong aria-hidden="true">9.</strong> shell</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../shell/shell_scripts.html"><strong aria-hidden="true">9.1.</strong> shell脚本编程精讲</a></li><li class="chapter-item expanded "><a href="../shell/shell_spec.html" class="active"><strong aria-hidden="true">9.2.</strong> linux下shell脚本开发规范与制度</a></li></ol></li><li class="chapter-item expanded "><a href="../lvs_keepalived/lvs_keepalived.html"><strong aria-hidden="true">10.</strong> Lvs+keepalived集群</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../lvs/lvs_detail.html"><strong aria-hidden="true">10.1.</strong> Lvs负载均衡及Keepalived高可用技术应用详解</a></li><li class="chapter-item expanded "><a href="../lvs/lvs_action.html"><strong aria-hidden="true">10.2.</strong> Lvs+keepalived集群生产实战模拟</a></li><li class="chapter-item expanded "><a href="../lvs/lvs_key_point.html"><strong aria-hidden="true">10.3.</strong> Lvs+keepalived集群生产实战维护要点</a></li></ol></li><li class="chapter-item expanded "><a href="../iptables/iptables.html"><strong aria-hidden="true">11.</strong> iptables</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../iptables/iptables_guide.html"><strong aria-hidden="true">11.1.</strong> iptables防火墙应用指南</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">linux学习笔记</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="linux下shell脚本开发规范与制度"><a class="header" href="#linux下shell脚本开发规范与制度">linux下shell脚本开发规范与制度</a></h1>
+<h1 id="1-命名规范"><a class="header" href="#1-命名规范">1.	命名规范</a></h1>
+<h2 id="11-版本和运行参数"><a class="header" href="#11-版本和运行参数">1.1.	版本和运行参数</a></h2>
+<pre><code>(1)	在开发脚本之前，在脚本开头以注释形式标清脚本版本号;
+(2)	为脚本添加必须的运行参数，如基本参数：-v 显示版本号; -h 显示帮助信息
+</code></pre>
+<h2 id="12-变量命名"><a class="header" href="#12-变量命名">1.2.	变量命名</a></h2>
+<pre><code>(1)	变量命名要统一,使用全部大写字母，如APACHE_ERR_NUM,语义要清晰，能够正确表达变量内容的含义。过长的英文单词可采用前几个字符代替。多个单词连接使用"_"号连接，引用时，最好以${APACHE_ERR_NUM}加大括号或"${APACHE_ERR_NUM}"外面加双引号方式引用变量;
+(2)	避免无意义的字符或数字;
+(3)	全局变量和局部变量命名
+全局变量定义：如OLD_HOME,在使用变量时，使用{}将变量括起。
+局部变量定义：在funtion中,要以local方式进行声明。
+(4)	变量合并：当其些变量或配置项要组合起来才有意义时，如文件的路径和文件名称，建议将要组合的变量合并到一起赋值给一个新的变量，这样调用方便，也为以后修改提供了方便。
+(5)	变量定义总结：多学习模仿/etc/init.d/functions函数库脚本定义思路。
+</code></pre>
+<h3 id="121-环境变量补充"><a class="header" href="#121-环境变量补充">1.2.1.	环境变量(补充)</a></h3>
+<p>变量：全部是大写字母</p>
+<p>变量引用：全部以变量名加双引号引用，如”$TERMTYPE”，或“${TERMTYPE}”，如果变量类型是数值型不引用。</p>
+<p>如果需要从配置文件导出变量，则在变量前加一大写字母，以识别导出变量与自定义环境变量的区别。</p>
+<p>变量值的引用尽量以$开头，如$(ls inst_*.sh)，避免使用<code>ls inst_*。sh</code></p>
+<p>循环控制变量可以命名为单个字母， 比如 i、j等。 也可以是更有意义的名称， 比如 UserIndex。</p>
+<p>环境变量在脚本开头定义。</p>
+<p>函数中使用较多的文件，以环境变量的形式在文件开头定义</p>
+<h2 id="13-函数命名"><a class="header" href="#13-函数命名">1.3.	函数命名</a></h2>
+<pre><code>(1)	函数以动名词形式存储，且第二个单词首字母要大写，如updateConfig()
+(2)	可以加前后缀,如后缀Max为最大值,前缀is为判断型函数,do为处理函数。
+(3)	注意在使用单词缩写时，也使用首字母大写，如getHtml而不是getHTML,尽量使用命名规范统一。
+(4)	名字尽量不使用缩写,除非它是众所周知的。
+(5)	每个函数控制在50－100行，超出行数建议分成两个函数
+(6)	多次反复调用的程序最好分成函数，可以简化程序，使程序条理更清楚
+</code></pre>
+<h2 id="14-脚本模块命名"><a class="header" href="#14-脚本模块命名">1.4.	脚本(模块命名)</a></h2>
+<pre><code>(1)	shell脚本使用统一后辍：.sh
+(2)	模块的启动和停止脚本统一命名为start_{模块名}.sh和stop_{模块名}.sh
+(3)	监控脚本可以以*_mon.sh为后辍，控制脚本以*_ctl.sh为后辍;
+(4)	模块(及其脚本和二进制程序)命名应该代表其特性和功能，不要使用个人名字缩写等形式命名。
+(5)	模块中的脚本和二进制程序命名禁止和其它脚本和二进制程序重名
+</code></pre>
+<h2 id="15-临时文件命名"><a class="header" href="#15-临时文件命名">1.5.	临时文件命名</a></h2>
+<p>尽量避免临时文件，如果一定要使用临时文件，请使用脚本的pid作为后辍，并在脚本结束时清除临时文件。</p>
+<pre><code>PID=$$
+TMP_FILE="/tmp/xxx."${PID}
+…
+[ -f ${TMP_FILE} ] &amp;&amp; rm –f${TMP_FILE} &amp;&amp; cd -
+</code></pre>
+<h1 id="2-代码风格规范"><a class="header" href="#2-代码风格规范">2.	代码风格规范</a></h1>
+<h2 id="21-代码框架"><a class="header" href="#21-代码框架">2.1.	代码框架</a></h2>
+<pre><code>(1)	脚本开头解释器声明为#/bin/bash,也可以为#!/bin/sh,尽量要统一。
+(2)	配置文件及库函数脚本等的引用如,source conf/httpd.conf
+(3)	主脚本过程只实现程序主干,功能实现尽量封装在子函数中。
+(4)	对于能独立执行的脚本要有usaage和version函数，可以输出脚本用法和版本信息。
+(5)	规范代码如下：
+</code></pre>
+<pre><code>bin
+conf
+func
+</code></pre>
+<pre><code>(6)	空行起着分隔程序段落的作用，使得程序看起来成"块状"，逻辑结构清晰。建议：
+</code></pre>
+<pre><code>	每个函数定义结束后要加空行
+	逻辑块之间要有空行分隔，且添有简短说注释
+	逻辑紧密的语句之间不加空行
+</code></pre>
+<h2 id="22-函数规范"><a class="header" href="#22-函数规范">2.2.	函数规范</a></h2>
+<pre><code>  (1)	函数定义时在函数名前加上function关键字。
+  (2)	显示函数返回值：在函数的结尾显示包含return语句，并跟上返回值。
+  (3)	一个函数的长度应该在20-50行之间比较合适，如果太长或者太短则建议对函数进行分割或合并。
+</code></pre>
+<h2 id="23-条件语句与循环"><a class="header" href="#23-条件语句与循环">2.3.	条件语句与循环</a></h2>
+<pre><code>  (1)	在使用条件语句及循环时，尽量使用统一格式，而不是使用";"分隔。
+  (2)	尽量一行一条语句，而不是使用";"将多个语句隔开。尽可能多的判断操作是否成功，并对其进行相应处理,如DoSth&amp;&amp;DoRIght||DoWrong或直接DoSth&amp;&amp;DoRight及DoSth||DoWrong.这样简化了语句,也使语义变得更加清晰明了。
+  (3)	要使用简单的语句.特别是应该避免多重管道的命令，多重管道的命令在每次阅读时都需要关注每条管道的信息,直到最后一个命令,如果将其拆成分成多个语句,可读性增强。
+  (4)	脚本中grep cut awk sed等命令一起配合的复杂语句请考虑简化语句。
+</code></pre>
+<h2 id="24-缩进规范"><a class="header" href="#24-缩进规范">2.4.	缩进规范</a></h2>
+<pre><code>  (1)	由于shell没有很好的编辑环境，所以，缩进应该是每行1个TAB，不建议用空格缩进。
+
+  (2)	每行不要超过80行，如果超出，建议用"\"折行，有管道的命令行除外。
+</code></pre>
+<h1 id="3-注释规范"><a class="header" href="#3-注释规范">3.	注释规范</a></h1>
+<pre><code>  文件注释：每个Shell Script文件应该包含文件注释，文件用途、版本、作者、生成日期。
+  函数注释：每个函数应该包含注释，说明函数用途、参数及返回值，函数添加时间（修改原有代码情况下）。
+  代码段注释：函数体中的代码段应该包含必要的注释，方便理解相应逻辑。
+</code></pre>
+<h2 id="31-文件模块注释"><a class="header" href="#31-文件模块注释">3.1.	文件/模块注释</a></h2>
+<pre><code>  说明模块主要用途，版本信息，输入输出文件，依赖工具及其版本信息，前后流程脚本(可选),格式统一即可。
+  (1)	第一行一般为调用使用的语言
+  (2)	下面要有这个程序名，避免更改文件名为无法找到正确的文件
+  (3)	版本号
+  (4)	更改后的时间
+  (5)	作者相关信息
+  (6)	该程序的作用，及注意事项
+  (7)	版权与是否开放共享GNU说明
+  (8)	最后是各版本的更新简要说明
+</code></pre>
+<p>如下面的例子：</p>
+<pre><code class="language-bash">#!/bin/bash
+# -------------------------------------------------------------------------------
+# Filename:    check_mem.sh
+# Revision:    1.1
+# Date:        2009/02/10
+# Author:      xxx
+# Email:       xxx#gmail.com
+# Website:     www.xx.com
+# Description: Plugin to monitor the memory of the system
+# Notes:       This plugin uses the "" command
+# -------------------------------------------------------------------------------
+# Copyright:   2009 (c) xx
+# License:     GPL
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty
+# of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+#
+# you should have received a copy of the GNU General Public License
+# along with this program (or with Nagios);
+#
+# Credits go to Ethan Galstad for coding Nagios
+# If any changes are made to this script, please mail me a copy of the changes
+# -------------------------------------------------------------------------------
+#Version 1.0
+#The first one , can monitor the system memory
+#Version 1.1
+#Modify the method of the script ,more fast
+</code></pre>
+<h2 id="32-重要函数注释"><a class="header" href="#32-重要函数注释">3.2.	重要函数注释</a></h2>
+<p>对于重要函数，需要说明函数用途，参数，返回值，作者，版本</p>
+<h2 id="33-养成写注释的好习惯"><a class="header" href="#33-养成写注释的好习惯">3.3.	养成写注释的好习惯</a></h2>
+<p>脚本中要有详细的注释,包括变量的定义,函数的定义，返回值的函数，每步操作的目的等，注释尽量使用标准的英文。</p>
+<h1 id="4-引用符号使用规范"><a class="header" href="#4-引用符号使用规范">4.	引用符号使用规范</a></h1>
+<pre><code>  shell中有三种引用符号：双引号、单引号和反引号，对引号符号的使用规定如下：
+  (1)	尽量少用单引号，对一个字符串需要进行多个特殊字符进行屏蔽特殊含义时才使用单引号；
+  (2)	对极个特殊字符进行屏蔽特殊含义时，使用\(反斜线)进行屏蔽。
+  (3)	使用单引号进行屏蔽字符时，单引号一般不使用其它引用符号，除非是打印特殊符号本身。
+  (4)	使用反引号引用shell命令时，反引号内一般加其它引用符号，除非需要屏蔽特殊字符时才使用反斜线和单引号。
+</code></pre>
+<h1 id="5-日志规范"><a class="header" href="#5-日志规范">5.	日志规范</a></h1>
+<pre><code>  (1)	脚本和c程序一样，需要有日志记录脚本的运行状态，操作过程等，推荐：每条日志要以记录的当前时间为开头，然后是记录的日志描述信息，描述信息要包括日志的级别如FATAL,WARNING,NOTICE等。
+  (2)	每个脚本程序要有自己的日志文件，不要将多个脚本的日志记录到同一个日志文件中。
+</code></pre>
+<h1 id="6-接口文件规范"><a class="header" href="#6-接口文件规范">6.	接口文件规范</a></h1>
+<pre><code>  (1)	所有模块接口文件必须在生成的同时生成md5检验码，并且一个文件对应一个md5文件，md5文件的命名为接口文件名加上".md5"
+  (2)	机器之间拷贝推荐使用wget,尽量少用scp和ssh的使用。wget获取远程数据，使用md5检验数据的完整性。
+  (3)	推荐所有接口文件都进行格式检查，对空文件和不存在的文件判断方式应该一致。
+  (4)	推荐接口文件最好有相应的flag文件指明生成时间，以便检查和容错。
+</code></pre>
+<h1 id="7-配置规范"><a class="header" href="#7-配置规范">7.	配置规范</a></h1>
+<pre><code>  在多个脚本协同工作时，应该尽量使用公共函数库来完成近似的功能，使用配置文件统一变量及外部数据的引用，这样便于日后功能升级及环境的变更配置。如果使用了公共函数库，建议在配置文件中添加公共函数库脚本的路径，即使是在当前目录下也要进行配置，如FILENAME_PATH="./"，脚本中的公共函数库及配置文件使用source ${FILENAME_PATH}/filename.sh方式加载。
+  7.1.	配置文件规范
+  (1)	把脚本的功能和配置明确分开
+  (2)	配置文件，以"功能.cfg"来命名，例：ha_service.cfg (推荐)
+  (3)	配置项放在目录conf/目录下，引用时通过在脚本开头使用source conf/ha_service.cfg的形式加载;
+  (4)	配置项的命名规范与变量命名规范相同，所有的配置项都应有值，避免内容为空的配置项出现，配置项内容由引号括起，如：OUTPUT_FILE_PATH="./output"
+  (5)	路径参数的配置;脚本中经常需要配置路径、本地路径或远程机器的路径。路径的配置强烈推荐使用全局路径，全局路径以"/"开头，末尾没有"/",脚本中使用路径的配置项时，必须以"/"分隔不同的配置项、变量或通配符等，不可以省略"/"。
+  (6)	易变参数的配置：易变参数中主要是指状态报告和报警的收件人，都必须写成配置。
+  机器名、端口和用户名引用;所有线上脚本都必须通过配置引用机器名、端口和用户名等信息。
+  (7)	二进制程序引用：当模块中需要调用非本模块维护的二进制程序/脚本时，要通过一个可配置的路径来间接引用，禁止直接复制其它模块的二进制程序到自身目录使用。
+  (8)	规范的目录结构如下：
+  --bin
+  --conf
+  --func
+  --tools
+  7.2.	配置项检查
+  脚本中要检查配置项是否为空，尤其是一些重要的，影响下面脚本正常运行的配置项，必须要进行是否为空的检查，避免配置文件中有遗漏等错误，检查格式如下：
+  if [ -z "${OUTPUT_FILE-PATH}" ]
+  then
+  echo "…"
+  fi
+</code></pre>
+<h1 id="8-脚本存放规范"><a class="header" href="#8-脚本存放规范">8.	脚本存放规范</a></h1>
+<pre><code>  脚本控制脚本统一放置在/server/scripts目录下，如果有多个运维人员，可以放在以自己用户命名的二级目录下，如/server/scripts/username
+</code></pre>
+<h1 id="9-补充规范19条"><a class="header" href="#9-补充规范19条">9.	补充规范19条</a></h1>
+<pre><code>  (1)	必须要有基本的日志输出
+  (2)	要关注脚本的效率和系统消耗，要综合平衡的考虑。
+  (3)	函数参数传递：在调用函数时，向函数传递的参数如果是以变量的方式传递，必须使用双引号将变量括起，这是为了防止某个变量中含有多个以空格分隔的字段，导致函数误以为是多个参数。
+  (4)	避免cat大文件。比如for id in `cat id_file`; do … done 。而是采用readline形式读入 文件。
+  (5)	对上一个命令需要if [ $? ] 来判断返回值，对于异常分支，需要相应的处理策略；或打印warning日志，或提示后退出。
+  (6)	sort超过1G的数据文件时，必须用-T指定临时文件夹，推荐在使用到sort的时候使用-T指定到自身的TMP目录。
+  (7)	避免使用大的while/for循环，如果实在需要，请考虑使用awk命令替代。(推荐)
+  (8)	对于一系列有严格依赖关系的命令，请使用&amp;&amp;来处理，比如make mydir &amp;&amp; mv myfile mydir;对于有前后次序的脚本，禁止采用后台运行 &amp; 命令。(推荐)
+  (9)	脚本运行前后，注意清除过期数据(上次运行生成的数据)，注意rm的风险，可考虑替代方法，如find。
+  (10)	对于功能较为复杂的脚本，考虑使用一些函数对功能点进行封装。这样可使脚本清晰易读；(推荐)
+  (11)	任何出错情况必须将出错信息打印到日志中；严重的错误必须以邮件或短信报警的形式发出。(必须)
+  (12)	对于逻辑比较复杂的脚本，可以使用set -x 来打印命令执行情况，便于调试和排错。(推荐)
+  (13)	wget之前，注意先删除本地文件；(推荐)
+  (14)	拷贝比较大的文件时，最好先将文件cp到一个临时文件夹,然后mv到目标文件夹。避免下游模块读取到不完整文件。
+  (15)	mv,cp等命令，注意要使用命令全路径，直接强制替换，如/bin/cp -ap oldboy /tmp/。
+  (16)	脚本中，要注意对单引号''双引号""的转义。不明确转义含义，在自测的时候多加小心。(推荐)
+  (17)	使用ps axuw|grep来获取信息时，注意ps打印的最大宽度。建议多打几个w，例如ps axuwww|grep … ; (推荐)
+  (18)	使用sort,uniq,join,comm等命令时，要注意两点：1.是否要求排序(例如uniq,join,comm要求输入文件是排序好的)；2.如果排序，要求以什么方式排序(例如,comm要求输入文件是字典序的,而不是数值序)；(推荐)
+  (19)	对于java程序脚本等需要环境变量，在写脚本前，最好通过export重新声明环境变量，以免在定时任务等场合使用出现问题。
+</code></pre>
+<h1 id="10-优秀开发习惯"><a class="header" href="#10-优秀开发习惯">10.	优秀开发习惯</a></h1>
+<pre><code>   (1)	尽量少用中文注释
+   (2)	尽量以.sh为扩展名
+   (3)	书写代码习惯：
+    成对内容一次写出来。如:{},[],’’,``,””
+    流程控制语句一次性书写完(if,for等)
+    变量的字符串定义加双引号，等号前后不能有空格。
+    变量的引用加双引号、大括号，如”${OLDBOY_FILE}”
+    特别注意，脚本中的单引号及双引号，必须为英文状态下的符号。
+   (4)	调整vim高度语法配置，及内容自动补全配置。
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../shell/shell_scripts.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../lvs_keepalived/lvs_keepalived.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../shell/shell_scripts.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../lvs_keepalived/lvs_keepalived.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

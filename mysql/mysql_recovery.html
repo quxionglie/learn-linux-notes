@@ -1,0 +1,899 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>MySQL灾难恢复实战多案例精华讲解 - linux学习笔记</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('light')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">介绍</a></li><li class="chapter-item expanded "><a href="../install_linux/install_linux.html"><strong aria-hidden="true">1.</strong> Linux安装</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../install_linux/install_centos7.html"><strong aria-hidden="true">1.1.</strong> CentOS7.9系统安装文档</a></li><li class="chapter-item expanded "><a href="../install_linux/linux_boot_process.html"><strong aria-hidden="true">1.2.</strong> linux系统的开机启动过程</a></li><li class="chapter-item expanded "><a href="../install_linux/command_summary01.html"><strong aria-hidden="true">1.3.</strong> 命令总结(cat pwd ls rm mkdir touch head tail ln chkconfig)</a></li><li class="chapter-item expanded "><a href="../install_linux/linux_shortcut_keys.html"><strong aria-hidden="true">1.4.</strong> linux下常用的命令快捷键</a></li></ol></li><li class="chapter-item expanded "><a href="../linux_optimization/linux_optimization.html"><strong aria-hidden="true">2.</strong> Linux服务器优化</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../linux_optimization/linux_opt.html"><strong aria-hidden="true">2.1.</strong> 配置优化Centos5.X Linux操作系统</a></li><li class="chapter-item expanded "><a href="../linux_optimization/command_summary02.html"><strong aria-hidden="true">2.2.</strong> 命令总结(find、wc、tar、cut、grep、egrep、date、which、echo、shutdown、reboot)</a></li><li class="chapter-item expanded "><a href="../linux_optimization/diff_quotes.html"><strong aria-hidden="true">2.3.</strong> linux shell中单引号、双引号及不加引号的简单区别</a></li><li class="chapter-item expanded "><a href="../linux_optimization/linux_links_diff.html"><strong aria-hidden="true">2.4.</strong> linux下软链接和硬链接的区别</a></li></ol></li><li class="chapter-item expanded "><a href="../file_and_dir/file_and_dir.html"><strong aria-hidden="true">3.</strong> 文件与目录</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../file_and_dir/file_and_dir_perm.html"><strong aria-hidden="true">3.1.</strong> Linux文件和目录权限实战讲解</a></li><li class="chapter-item expanded "><a href="../file_and_dir/system_dir_and_important_path.html"><strong aria-hidden="true">3.2.</strong> 系统目录结构及重要路径</a></li><li class="chapter-item expanded "><a href="../file_and_dir/linux_file_types.html"><strong aria-hidden="true">3.3.</strong> linux文件类型总结</a></li><li class="chapter-item expanded "><a href="../file_and_dir/linux_perm.html"><strong aria-hidden="true">3.4.</strong> Linux文件和目录的属性及权限</a></li><li class="chapter-item expanded "><a href="../file_and_dir/command_summary_stat_sed_awk.html"><strong aria-hidden="true">3.5.</strong> 命令总结(stat、sed、awk)</a></li><li class="chapter-item expanded "><a href="../file_and_dir/command_summary_more_less.html"><strong aria-hidden="true">3.6.</strong> 命令总结-文件查看与处理命令(more、less、tree、chattr、lsattr)</a></li><li class="chapter-item expanded "><a href="../file_and_dir/command_summary_user.html"><strong aria-hidden="true">3.7.</strong> 命令总结-用户管理命令-用户(useradd、userdel、passwd、chage)</a></li><li class="chapter-item expanded "><a href="../file_and_dir/command_summary_group.html"><strong aria-hidden="true">3.8.</strong> 命令总结-用户管理命令-用户组(groupadd、groupdel)</a></li><li class="chapter-item expanded "><a href="../file_and_dir/command_summary_w.html"><strong aria-hidden="true">3.9.</strong> 命令总结-查看系统用户登录信息命令-(w、who、users、last)</a></li></ol></li><li class="chapter-item expanded "><a href="../crontab/crontab.html"><strong aria-hidden="true">4.</strong> crontab</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../crontab/linux_crontab.html"><strong aria-hidden="true">4.1.</strong> Linux系统定时任务详解</a></li><li class="chapter-item expanded "><a href="../crontab/linux_user_group.html"><strong aria-hidden="true">4.2.</strong> Linux系统的用户和用户组管理</a></li><li class="chapter-item expanded "><a href="../crontab/linux_su_sudo.html"><strong aria-hidden="true">4.3.</strong> Linux用户切换(su sudo)</a></li><li class="chapter-item expanded "><a href="../crontab/mount_unmount.html"><strong aria-hidden="true">4.4.</strong> 命令总结-磁盘空间的命令(mount umount)</a></li><li class="chapter-item expanded "><a href="../crontab/command_summary.html"><strong aria-hidden="true">4.5.</strong> 命令总结-附加命令(nohup watch time ps)</a></li></ol></li><li class="chapter-item expanded "><a href="../disk/disk.html"><strong aria-hidden="true">5.</strong> 硬盘</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../disk/disk_basic.html"><strong aria-hidden="true">5.1.</strong> 硬盘的基础知识介绍</a></li><li class="chapter-item expanded "><a href="../disk/disk_how_to_work.html"><strong aria-hidden="true">5.2.</strong> 硬盘的工作原理介绍</a></li><li class="chapter-item expanded "><a href="../disk/disk_partition.html"><strong aria-hidden="true">5.3.</strong> 硬盘分区相关知识介绍</a></li><li class="chapter-item expanded "><a href="../disk/raid.html"><strong aria-hidden="true">5.4.</strong> RAID技术</a></li><li class="chapter-item expanded "><a href="../disk/command_summary1.html"><strong aria-hidden="true">5.5.</strong> 命令总结-信息显示命令(uname hostname dmesg uptime du df)</a></li><li class="chapter-item expanded "><a href="../disk/command_summary2.html"><strong aria-hidden="true">5.6.</strong> 命令总结-磁盘空间的命令(fsck dd dump fdisk parted)</a></li><li class="chapter-item expanded "><a href="../disk/fdisk.html"><strong aria-hidden="true">5.7.</strong> fdisk分区命令实战讲解</a></li><li class="chapter-item expanded "><a href="../disk/fstab.html"><strong aria-hidden="true">5.8.</strong> fstab详细介绍及救援模式修复fstab实战案例</a></li><li class="chapter-item expanded "><a href="../disk/parted.html"><strong aria-hidden="true">5.9.</strong> parted分区命令实战讲解</a></li><li class="chapter-item expanded "><a href="../disk/file_system.html"><strong aria-hidden="true">5.10.</strong> linux文件系统知识介绍</a></li></ol></li><li class="chapter-item expanded "><a href="../nfs/nfs.html"><strong aria-hidden="true">6.</strong> nfs</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../nfs/nfs.html"><strong aria-hidden="true">6.1.</strong> nfs网络文件系统服务介绍与实战</a></li><li class="chapter-item expanded "><a href="../nfs/ssh_key.html"><strong aria-hidden="true">6.2.</strong> SSH KEY免密码验证分发、管理、备份实战讲解</a></li><li class="chapter-item expanded "><a href="../nfs/command_summary.html"><strong aria-hidden="true">6.3.</strong> 命令总结-基本网络操作命令(telnet ssh scp wget ping route ifconfig ifup ifdown netstat)</a></li></ol></li><li class="chapter-item expanded "><a href="../rsync/rsync.html"><strong aria-hidden="true">7.</strong> rsync</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../rsync/rsync_action.html"><strong aria-hidden="true">7.1.</strong> Rsync生产场景实战应用指南</a></li><li class="chapter-item expanded "><a href="../rsync/command_summary.html"><strong aria-hidden="true">7.2.</strong> 深入网络操作命令(mail mutt nslookup dig traceroute df du fsck dd)</a></li></ol></li><li class="chapter-item expanded "><a href="../mysql/mysql.html"><strong aria-hidden="true">8.</strong> MySQL基础</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../mysql/mysql_basic.html"><strong aria-hidden="true">8.1.</strong> MySQL常用基础命令操作实战讲解</a></li><li class="chapter-item expanded "><a href="../mysql/mysql_install.html"><strong aria-hidden="true">8.2.</strong> MySQL单实例的安装配置指南</a></li><li class="chapter-item expanded "><a href="../mysql/mysql_master-slave1.html"><strong aria-hidden="true">8.3.</strong> MySQL主从复制原理详解</a></li><li class="chapter-item expanded "><a href="../mysql/mysql_master-slave2.html"><strong aria-hidden="true">8.4.</strong> MySQL主从复制实践讲解</a></li><li class="chapter-item expanded "><a href="../mysql/mysql_perm.html"><strong aria-hidden="true">8.5.</strong> MySQL数据库安全权限控制管理思想</a></li><li class="chapter-item expanded "><a href="../mysql/mysql_recovery.html" class="active"><strong aria-hidden="true">8.6.</strong> MySQL灾难恢复实战多案例精华讲解</a></li><li class="chapter-item expanded "><a href="../mysql/mysqlbinlog.html"><strong aria-hidden="true">8.7.</strong> mysqlbinlog</a></li><li class="chapter-item expanded "><a href="../mysql/mysqldump.html"><strong aria-hidden="true">8.8.</strong> mysqldump</a></li></ol></li><li class="chapter-item expanded "><a href="../shell/shell.html"><strong aria-hidden="true">9.</strong> shell</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../shell/shell_scripts.html"><strong aria-hidden="true">9.1.</strong> shell脚本编程精讲</a></li><li class="chapter-item expanded "><a href="../shell/shell_spec.html"><strong aria-hidden="true">9.2.</strong> linux下shell脚本开发规范与制度</a></li></ol></li><li class="chapter-item expanded "><a href="../lvs_keepalived/lvs_keepalived.html"><strong aria-hidden="true">10.</strong> Lvs+keepalived集群</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../lvs/lvs_detail.html"><strong aria-hidden="true">10.1.</strong> Lvs负载均衡及Keepalived高可用技术应用详解</a></li><li class="chapter-item expanded "><a href="../lvs/lvs_action.html"><strong aria-hidden="true">10.2.</strong> Lvs+keepalived集群生产实战模拟</a></li><li class="chapter-item expanded "><a href="../lvs/lvs_key_point.html"><strong aria-hidden="true">10.3.</strong> Lvs+keepalived集群生产实战维护要点</a></li></ol></li><li class="chapter-item expanded "><a href="../iptables/iptables.html"><strong aria-hidden="true">11.</strong> iptables</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../iptables/iptables_guide.html"><strong aria-hidden="true">11.1.</strong> iptables防火墙应用指南</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">linux学习笔记</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="mysql灾难恢复实战多案例精华讲解"><a class="header" href="#mysql灾难恢复实战多案例精华讲解">MySQL灾难恢复实战多案例精华讲解</a></h1>
+<p>2012年写的笔记，部分内容可能已经过时，仅供参考。</p>
+<h1 id="1-mysql增量恢复必备条件"><a class="header" href="#1-mysql增量恢复必备条件">1.	MySQL增量恢复必备条件</a></h1>
+<h2 id="11-开启mysql-log-bin日志功能"><a class="header" href="#11-开启mysql-log-bin日志功能">1.1.	开启MySQL log-bin日志功能</a></h2>
+<pre><code>[root@stu412 ~]# grep log-bin /data/3306/my.cnf
+log-bin = /data/3306/mysql-bin
+</code></pre>
+<h2 id="12-存在mysql数据库全备"><a class="header" href="#12-存在mysql数据库全备">1.2.	存在MySQL数据库全备</a></h2>
+<h3 id="121-生产环境mysqldump备份命令"><a class="header" href="#121-生产环境mysqldump备份命令">1.2.1.	生产环境mysqldump备份命令</a></h3>
+<pre><code>mysqldump -u$MYUSER -p$MYPASS -S $MYSOCK -F -B $DBNAME --default-character-set=gbk --single-transaction -e | gzip &gt; $DATA_FILE
+</code></pre>
+<h3 id="122-生产环境mysqldump备份脚本"><a class="header" href="#122-生产环境mysqldump备份脚本">1.2.2.	生产环境mysqldump备份脚本</a></h3>
+<p>mysqlbak.sh脚本</p>
+<pre><code>#!/bin/sh
+################################################
+#this scripts is created by oldboy
+################################################
+#parameter defined
+BAKDATE=`date +%F`
+MYUSER=root
+MYPASS="oldboy"
+MYSOCK=/data/3306/mysql.sock
+DBNAME="oldboy"
+MAIN_PATH=/server/backup
+DATA_PATH=/server/backup
+LOG_FILE=${DATA_PATH}/mysql_logs_${BAKDATE}.log
+DATA_FILE=${DATA_PATH}/mysql_backup_${BAKDATE}.sql.gz
+
+#command defined
+MYSQL_PATH=/usr/local/mysql/bin
+#MYSQL_DUMP="$MYSQL_PATH/mysqldump -u$MYUSER -p$MYPASS -S $MYSOCK -A  -B -F --single-transaction -e"
+MYSQL_DUMP="$MYSQL_PATH/mysqldump -u$MYUSER -p$MYPASS -S $MYSOCK -F -B $DBNAME --default-character-set=gbk --single-transaction -e"
+#backup command
+${MYSQL_DUMP} | gzip &gt; $DATA_FILE
+#check backup result
+du -sh $DATA_FILE &gt;$LOG_FILE
+mail -s "${BAKDATE} mysql bak log" xxx@qq.com &lt; $LOG_FILE
+</code></pre>
+<h1 id="2-mysql增量恢复案例图解"><a class="header" href="#2-mysql增量恢复案例图解">2.	MySQL增量恢复案例图解</a></h1>
+<h1 id="3-恢复数据库场景"><a class="header" href="#3-恢复数据库场景">3.	恢复数据库场景</a></h1>
+<h2 id="31-多实例数据库主库为例"><a class="header" href="#31-多实例数据库主库为例">3.1.	多实例数据库主库为例</a></h2>
+<p>启动数据库</p>
+<pre><code>/data/3306/mysql start
+</code></pre>
+<pre><code>查看端口
+[root@stu412 ~]# netstat -lnt | grep 3306
+tcp        0      0 0.0.0.0:3306                0.0.0.0:*                   LISTEN
+
+登录方式
+mysql -uroot -p'123456' -S /data/3306/mysql.sock
+</code></pre>
+<h2 id="32-建库建表及数据语句"><a class="header" href="#32-建库建表及数据语句">3.2.	建库建表及数据语句</a></h2>
+<h3 id="321-建立gbk格式oldboy库语句"><a class="header" href="#321-建立gbk格式oldboy库语句">3.2.1.	建立GBK格式oldboy库语句</a></h3>
+<pre><code>create database oldboy DEFAULT CHARACTER SET gbk COLLATE gbk_chinese_ci;
+</code></pre>
+<h3 id="322-建立gbk格式student表语句"><a class="header" href="#322-建立gbk格式student表语句">3.2.2.	建立GBK格式student表语句</a></h3>
+<pre><code>use oldboy;
+set names gbk;
+create table student(
+Sno int(10) NOT NULL COMMENT '学号',
+Sname varchar(16) NOT NULL COMMENT '姓名',
+Ssex char(2) NOT NULL COMMENT '性别',
+Sage tinyint(2)  NOT NULL default '0' COMMENT '学生年龄',
+Sdept varchar(16)  default NULL  COMMENT '学生所在系别',
+PRIMARY KEY  (Sno)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=gbk;
+</code></pre>
+<h3 id="323-向student表插入数据语句"><a class="header" href="#323-向student表插入数据语句">3.2.3.	向student表插入数据语句</a></h3>
+<pre><code>set names gbk;
+INSERT INTO student values(0001,'陆亚','男',24,'计算机网络');
+INSERT INTO student values(0002,'elain ','男',26,'computer application');
+INSERT INTO student values(0003,'xiaozhang','男',28,'物流管理');
+INSERT INTO student values(0004,'jeacen','男',20,'computer application');
+INSERT INTO student values(0005,'张阳','男',29,'计算机科学与技术');
+</code></pre>
+<h2 id="33-模拟误删数据语句"><a class="header" href="#33-模拟误删数据语句">3.3.	模拟误删数据语句</a></h2>
+<pre><code>drop database oldboy;
+#这里权模拟未执行
+</code></pre>
+<h1 id="4-执行语句并检查环境"><a class="header" href="#4-执行语句并检查环境">4.	执行语句并检查环境</a></h1>
+<h2 id="41-执行建库建表及插入数据语句"><a class="header" href="#41-执行建库建表及插入数据语句">4.1.	执行建库建表及插入数据语句</a></h2>
+<pre><code>[root@stu412 ~]# mysql -uroot -p'123456' -S /data/3306/mysql.sock
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 7
+Server version: 5.1.65-log Source distribution
+
+Copyright (c) 2000, 2011, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql&gt; create database oldboy DEFAULT CHARACTER SET gbk COLLATE gbk_chinese_ci;
+Query OK, 1 row affected (0.00 sec)
+
+mysql&gt; set names gbk;
+Query OK, 0 rows affected (0.00 sec)
+mysql&gt; show databases like 'oldboy';
++-------------------+
+| Database (oldboy) |
++-------------------+
+| oldboy            |
++-------------------+
+1 row in set (0.00 sec)
+
+mysql&gt; use oldboy;
+Database changed
+
+mysql&gt; set names gbk;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql&gt; create table student(
+-&gt; Sno int(10) NOT NULL COMMENT '学号',
+-&gt; Sname varchar(16) NOT NULL COMMENT '姓名',
+-&gt; Ssex char(2) NOT NULL COMMENT '性别',
+-&gt; Sage tinyint(2)  NOT NULL default '0' COMMENT '学生年龄',
+-&gt; Sdept varchar(16)  default NULL  COMMENT '学生所在系别',
+-&gt; PRIMARY KEY  (Sno)
+-&gt; ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=gbk;
+Query OK, 0 rows affected (0.04 sec)
+
+mysql&gt; INSERT INTO student values(0001,'陆亚','男',24,'计算机网络');
+ERROR 1598 (HY000): Binary logging not possible. Message: Transaction level 'READ-COMMITTED' in InnoDB is not safe for binlog mode 'STATEMENT'
+
+mysql&gt; set session binlog_format=mixed;
+Query OK, 0 rows affected (0.00 sec)
+#其后，我在my.cnf中加入binlog_format=mixed,并重启了mysql
+
+mysql&gt; INSERT INTO student values(0001,'陆亚','男',24,'计算机网络');
+Query OK, 1 row affected (0.02 sec)
+</code></pre>
+<h2 id="42-检查数据库及数据"><a class="header" href="#42-检查数据库及数据">4.2.	检查数据库及数据</a></h2>
+<pre><code>mysql&gt; show create database oldboy\G
+*************************** 1. row ***************************
+Database: oldboy
+Create Database: CREATE DATABASE `oldboy` /*!40100 DEFAULT CHARACTER SET gbk */
+1 row in set (0.00 sec)
+mysql&gt; show create table student\G
+*************************** 1. row ***************************
+Table: student
+Create Table: CREATE TABLE `student` (
+`Sno` int(10) NOT NULL COMMENT '学号',
+`Sname` varchar(16) NOT NULL COMMENT '姓名',
+`Ssex` char(2) NOT NULL COMMENT '性别',
+`Sage` tinyint(2) NOT NULL DEFAULT '0' COMMENT '学生年龄',
+`Sdept` varchar(16) DEFAULT NULL COMMENT '学生所在系别',
+PRIMARY KEY (`Sno`)
+) ENGINE=InnoDB DEFAULT CHARSET=gbk
+1 row in set (0.00 sec)
+mysql&gt; desc student;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| Sno   | int(10)     | NO   | PRI | NULL    |       |
+| Sname | varchar(16) | NO   |     | NULL    |       |
+| Ssex  | char(2)     | NO   |     | NULL    |       |
+| Sage  | tinyint(2)  | NO   |     | 0       |       |
+| Sdept | varchar(16) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+mysql&gt; select * from student;
++-----+-----------+------+------+------------------+
+| Sno | Sname     | Ssex | Sage | Sdept            |
++-----+-----------+------+------+------------------+
+|   1 | 陆亚      | 男   |   24 | 计算机网络       |
+|   2 | elain     | 男   |   26 | computer applica |
+|   3 | xiaozhang | 男   |   28 | 物流管理         |
+|   4 | jeacen    | 男   |   20 | computer applica |
+|   5 | 张阳      | 男   |   29 | 计算机科学与技术 |
++-----+-----------+------+------+------------------+
+5 rows in set (0.00 sec)
+</code></pre>
+<h1 id="5-凌晨0点备份数据库"><a class="header" href="#5-凌晨0点备份数据库">5.	凌晨0点备份数据库</a></h1>
+<h2 id="51-定时任务数据库备份脚本"><a class="header" href="#51-定时任务数据库备份脚本">5.1.	定时任务数据库备份脚本</a></h2>
+<pre><code>[root@stu412 scripts]# cat /server/scripts/mysqlbak.sh
+#!/bin/sh
+################################################
+#this scripts is created by oldboy
+################################################
+#parameter defined
+BAKDATE=`date +%F`
+MYUSER=root
+MYPASS="123456"
+MYSOCK=/data/3306/mysql.sock
+DBNAME="oldboy"
+MAIN_PATH=/server/backup
+DATA_PATH=/server/backup
+LOG_FILE=${DATA_PATH}/mysql_logs_${BAKDATE}.log
+DATA_FILE=${DATA_PATH}/mysql_backup_${BAKDATE}.sql.gz
+
+#command defined
+MYSQL_PATH=/usr/local/mysql/bin
+#MYSQL_DUMP="$MYSQL_PATH/mysqldump -u$MYUSER -p$MYPASS -S $MYSOCK -A  -B -F --single-transaction -e"
+MYSQL_DUMP="$MYSQL_PATH/mysqldump -u$MYUSER -p$MYPASS -S $MYSOCK -F -B $DBNAME --default-character-set=gbk --single-transaction -e"
+#backup command
+${MYSQL_DUMP} | gzip &gt; $DATA_FILE
+#check backup result
+du -sh $DATA_FILE &gt;$LOG_FILE
+mail -s "${BAKDATE} mysql bak log" xxx@163.com &lt; $LOG_FILE
+</code></pre>
+<h2 id="52-半夜0点手工执行脚本备份数据库"><a class="header" href="#52-半夜0点手工执行脚本备份数据库">5.2.	半夜0点手工执行脚本备份数据库</a></h2>
+<pre><code>[root@stu412 ~]# mkdir -p /server/backup
+[root@stu412 ~]# dos2unix /server/scripts/mysqlbak.sh
+dos2unix: converting file /server/scripts/mysqlbak.sh to UNIX format ...
+
+[root@stu412 ~]# sh /server/scripts/mysqlbak.sh
+[root@stu412 ~]# ls -l /server/backup/
+total 8
+-rw-r--r-- 1 root root 1005 Sep  2 17:23 mysql_backup_2012-09-02.sql.gz
+-rw-r--r-- 1 root root   51 Sep  2 17:23 mysql_logs_2012-09-02.log
+[root@stu412 ~]# cat /server/backup/mysql_logs_2012-09-02.log
+4.0K    /server/backup/mysql_backup_2012-09-02.sql.gz
+
+#实际工作中是通过定时调度来备份的
+#backup mysql by quxl on 2012-09-02
+0 0 * * * /bin/sh /server/scripts/mysqlbak.sh&gt;/dev/null 2&gt;&amp;1
+</code></pre>
+<h2 id="53-备份后查看binlog日志情况"><a class="header" href="#53-备份后查看binlog日志情况">5.3.	备份后查看binlog日志情况</a></h2>
+<pre><code>[root@stu412 ~]# ls -lrt /data/3306
+total 36
+-rwx------ 1 mysql mysql 1053 Sep  2 18:38 mysql
+-rw-r--r-- 1 mysql mysql 1907 Sep  2 19:38 my.cnf
+-rw-rw---- 1 mysql mysql    6 Sep  2 19:39 mysqld.pid
+-rw-rw---- 1 mysql root  3518 Sep  2 19:39 mysql_oldboy3306.err
+srwxrwxrwx 1 mysql mysql    0 Sep  2 19:39 mysql.sock
+drwxr-xr-x 5 mysql mysql 4096 Sep  2 19:47 data
+-rw-rw---- 1 mysql mysql  740 Sep  2 19:49 slow.log
+-rw-rw---- 1 mysql mysql   56 Sep  2 19:49 mysql-bin.index
+-rw-rw---- 1 mysql mysql  106 Sep  2 19:49 mysql-bin.000002
+-rw-rw---- 1 mysql mysql 1748 Sep  2 19:49 mysql-bin.000001
+#备份的同时binlog文件生成了新的文件名。增量恢复就是从mysql-bin.000002开始的
+</code></pre>
+<h1 id="6-备份后模拟用户继续更新数据"><a class="header" href="#6-备份后模拟用户继续更新数据">6.	备份后模拟用户继续更新数据</a></h1>
+<h2 id="61-模拟网站用户更新数据"><a class="header" href="#61-模拟网站用户更新数据">6.1.	模拟网站用户更新数据</a></h2>
+<p>0点备份后，用户还会随时更新数据。下面以手工模拟向oldboy库的student表插入数据。
+注：可以定一个脚本存储过程，模拟实时更新，然后恢复效果会更好。</p>
+<pre><code>[root@stu412 ~]# mysql -uroot -p'123456' -S /data/3306/mysql.sock -e "set names gbk;select * from oldboy.student;"
++-----+-----------+------+------+------------------+
+| Sno | Sname     | Ssex | Sage | Sdept            |
++-----+-----------+------+------+------------------+
+|   1 | 陆亚      | 男   |   24 | 计算机网络       |
+|   2 | elain     | 男   |   26 | computer applica |
+|   3 | xiaozhang | 男   |   28 | 物流管理         |
+|   4 | jeacen    | 男   |   20 | computer applica |
+|   5 | 张阳      | 男   |   29 | 计算机科学与技术 |
++-----+-----------+------+------+------------------+
+[root@stu412 ~]# mysql -uroot -p'123456' -S /data/3306/mysql.sock
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 15
+Server version: 5.1.65-log Source distribution
+
+Copyright (c) 2000, 2011, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+mysql&gt; use oldboy;
+Database changed
+mysql&gt; set names gbk;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql&gt; INSERT INTO student values(0006,'wangzhao','男',21,'导弹专业');
+Query OK, 1 row affected (0.02 sec)
+
+mysql&gt; INSERT INTO student values(0007,'xumubin','男',29,'中文专业');
+Query OK, 1 row affected (0.10 sec)
+</code></pre>
+<h2 id="62-查看备份后再次更新后的数据库内容"><a class="header" href="#62-查看备份后再次更新后的数据库内容">6.2.	查看备份后再次更新后的数据库内容</a></h2>
+<pre><code>mysql&gt; select * from student;
++-----+-----------+------+------+------------------+
+| Sno | Sname     | Ssex | Sage | Sdept            |
++-----+-----------+------+------+------------------+
+|   1 | 陆亚      | 男   |   24 | 计算机网络       |
+|   2 | elain     | 男   |   26 | computer applica |
+|   3 | xiaozhang | 男   |   28 | 物流管理         |
+|   4 | jeacen    | 男   |   20 | computer applica |
+|   5 | 张阳      | 男   |   29 | 计算机科学与技术 |
+|   6 | wangzhao  | 男   |   21 | 导弹专业         |
+|   7 | xumubin   | 男   |   29 | 中文专业         |
++-----+-----------+------+------+------------------+
+7 rows in set (0.00 sec)
+</code></pre>
+<h1 id="7-模拟用户破坏数据库"><a class="header" href="#7-模拟用户破坏数据库">7.	模拟用户破坏数据库</a></h1>
+<h2 id="71-删除oldboy数据库"><a class="header" href="#71-删除oldboy数据库">7.1.	删除oldboy数据库</a></h2>
+<p>脑残老大删除数据库。</p>
+<pre><code>mysql&gt; drop database oldboy;
+Query OK, 1 row affected (0.04 sec)
+</code></pre>
+<h2 id="72-检查破坏结果"><a class="header" href="#72-检查破坏结果">7.2.	检查破坏结果</a></h2>
+<pre><code>mysql&gt; show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| db3306             |
+| mysql              |
+| test               |
++--------------------+
+4 rows in set (0.00 sec)
+</code></pre>
+<h2 id="73-发现故障并排除原因"><a class="header" href="#73-发现故障并排除原因">7.3.	发现故障并排除原因</a></h2>
+<h1 id="8-增量恢复全过程重点"><a class="header" href="#8-增量恢复全过程重点">8.	增量恢复全过程(重点)</a></h1>
+<h2 id="81-检查全备及binlog日志"><a class="header" href="#81-检查全备及binlog日志">8.1.	检查全备及binlog日志</a></h2>
+<h3 id="811-检查凌晨全备"><a class="header" href="#811-检查凌晨全备">8.1.1.	检查凌晨全备</a></h3>
+<pre><code>[root@stu412 ~]# ll /server/backup/
+total 8
+-rw-r--r-- 1 root root 1005 Sep  2 17:23 mysql_backup_2012-09-02.sql.gz
+-rw-r--r-- 1 root root   51 Sep  2 17:23 mysql_logs_2012-09-02.log
+</code></pre>
+<h3 id="812-检查全备后的所有binlog"><a class="header" href="#812-检查全备后的所有binlog">8.1.2.	检查全备后的所有binlog</a></h3>
+<pre><code>[root@stu412 ~]# ls -lrt /data/3306/mysql-bin.*
+-rw-rw---- 1 mysql mysql   56 Sep  2 19:49 /data/3306/mysql-bin.index
+-rw-rw---- 1 mysql mysql 1748 Sep  2 19:49 /data/3306/mysql-bin.000001
+-rw-rw---- 1 mysql mysql  612 Sep  2 19:53 /data/3306/mysql-bin.000002
+</code></pre>
+<h3 id="813-立即刷新并备份出binlog"><a class="header" href="#813-立即刷新并备份出binlog">8.1.3.	立即刷新并备份出binlog</a></h3>
+<pre><code>[root@stu412 ~]# mysqladmin -uroot -p'123456' -S /data/3306/mysql.sock flush-logs
+[root@stu412 ~]# ls -lrt /data/3306/mysql-bin.*
+-rw-rw---- 1 mysql mysql 1748 Sep  2 19:49 /data/3306/mysql-bin.000001
+-rw-rw---- 1 mysql mysql   84 Sep  2 19:54 /data/3306/mysql-bin.index
+-rw-rw---- 1 mysql mysql  106 Sep  2 19:54 /data/3306/mysql-bin.000003
+-rw-rw---- 1 mysql mysql  655 Sep  2 19:54 /data/3306/mysql-bin.000002
+[root@stu412 ~]# cp /data/3306/mysql-bin.000002 /server/backup/
+</code></pre>
+<p>提示：根据时间点及前一个binlog可以知道发现问题前的binlog日志为mysql-bin.000002,如果网站写入里大，文件可能不止一个。</p>
+<h2 id="82-恢复binlog生成sql语句"><a class="header" href="#82-恢复binlog生成sql语句">8.2.	恢复binlog生成sql语句</a></h2>
+<pre><code>[root@stu412 ~]# cd /server/backup/
+[root@stu412 backup]# ls -l
+total 12
+-rw-r----- 1 root root  655 Sep  2 19:55 mysql-bin.000002
+-rw-r--r-- 1 root root 1004 Sep  2 19:49 mysql_backup_2012-09-02.sql.gz
+-rw-r--r-- 1 root root   51 Sep  2 19:49 mysql_logs_2012-09-02.log
+[root@stu412 backup]# mysqlbinlog mysql-bin.000002 &gt;bin.sql
+[root@stu412 backup]# egrep -v "^#|^$|\*" bin.sql
+BINLOG '
+r0dDUA8BAAAAZgAAAGoAAAAAAAQANS4xLjY1LWxvZwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAEzgNAAgAEgAEBAQEEgAAUwAEGggAAAAICAgC
+BEGIN
+BINLOG '
+K0hDUBMBAAAAOgAAAOoAAAAAABAAAAAAAAEABm9sZGJveQAHc3R1ZGVudAAFAw/+AQ8GIAD+BCAA
+EA==
+K0hDUBcBAAAAOAAAACIBAAAAABAAAAAAAAEABf/gBgAAAAh3YW5nemhhbwLE0BUItby1r9eo0rU=
+BEGIN
+BINLOG '
+M0hDUBMBAAAAOgAAAL0BAAAAABAAAAAAAAEABm9sZGJveQAHc3R1ZGVudAAFAw/+AQ8GIAD+BCAA
+EA==
+M0hDUBcBAAAANwAAAPQBAAAAABAAAAAAAAEABf/gBwAAAAd4dW11YmluAsTQHQjW0M7E16jStQ==
+drop database oldboy
+DELIMITER ;
+</code></pre>
+<p>提示：如果有多个库，此时</p>
+<pre><code>mysqlbinlog mysql-bin.000002 -d oldboy &gt;bin.sql
+</code></pre>
+<p>当然对于库也要分库备，否则恢复还是麻烦。</p>
+<p>注：可查看sql语句的用法：</p>
+<pre><code>[root@stu412 backup]# mysqlbinlog -v  mysql-bin.000002
+/*!40019 SET @@session.max_insert_delayed_threads=0*/;
+/*!50003 SET @OLD_COMPLETION_TYPE=@@COMPLETION_TYPE,COMPLETION_TYPE=0*/;
+DELIMITER /*!*/;
+# at 4
+#120902 19:49:03 server id 1  end_log_pos 106   Start: binlog v 4, server v 5.1.65-log created 120902 19:49:03
+BINLOG '
+r0dDUA8BAAAAZgAAAGoAAAAAAAQANS4xLjY1LWxvZwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAEzgNAAgAEgAEBAQEEgAAUwAEGggAAAAICAgC
+'/*!*/;
+# at 106
+#120902 19:51:07 server id 1  end_log_pos 176   Query   thread_id=6     exec_time=0     error_code=0
+SET TIMESTAMP=1346586667/*!*/;
+SET @@session.pseudo_thread_id=6/*!*/;
+SET @@session.foreign_key_checks=1, @@session.sql_auto_is_null=1, @@session.unique_checks=1, @@session.autocommit=1/*!*/;
+SET @@session.sql_mode=0/*!*/;
+SET @@session.auto_increment_increment=1, @@session.auto_increment_offset=1/*!*/;
+/*!\C gbk *//*!*/;
+SET @@session.character_set_client=28,@@session.collation_connection=28,@@session.collation_server=8/*!*/;
+SET @@session.lc_time_names=0/*!*/;
+SET @@session.collation_database=DEFAULT/*!*/;
+BEGIN
+/*!*/;
+# at 176
+# at 234
+#120902 19:51:07 server id 1  end_log_pos 234   Table_map: `oldboy`.`student` mapped to number 16
+#120902 19:51:07 server id 1  end_log_pos 290   Write_rows: table id 16 flags: STMT_END_F
+
+BINLOG '
+K0hDUBMBAAAAOgAAAOoAAAAAABAAAAAAAAEABm9sZGJveQAHc3R1ZGVudAAFAw/+AQ8GIAD+BCAA
+EA==
+K0hDUBcBAAAAOAAAACIBAAAAABAAAAAAAAEABf/gBgAAAAh3YW5nemhhbwLE0BUItby1r9eo0rU=
+'/*!*/;
+### INSERT INTO oldboy.student
+### SET
+###   @1=6
+###   @2='wangzhao'
+###   @3='男'
+###   @4=21
+###   @5='导弹专业'
+# at 290
+#120902 19:51:07 server id 1  end_log_pos 317   Xid = 67
+COMMIT/*!*/;
+# at 317
+#120902 19:51:15 server id 1  end_log_pos 387   Query   thread_id=6     exec_time=0     error_code=0
+SET TIMESTAMP=1346586675/*!*/;
+BEGIN
+/*!*/;
+# at 387
+# at 445
+#120902 19:51:15 server id 1  end_log_pos 445   Table_map: `oldboy`.`student` mapped to number 16
+#120902 19:51:15 server id 1  end_log_pos 500   Write_rows: table id 16 flags: STMT_END_F
+
+BINLOG '
+M0hDUBMBAAAAOgAAAL0BAAAAABAAAAAAAAEABm9sZGJveQAHc3R1ZGVudAAFAw/+AQ8GIAD+BCAA
+EA==
+M0hDUBcBAAAANwAAAPQBAAAAABAAAAAAAAEABf/gBwAAAAd4dW11YmluAsTQHQjW0M7E16jStQ==
+'/*!*/;
+### INSERT INTO oldboy.student
+### SET
+###   @1=7
+###   @2='xumubin'
+###   @3='男'
+###   @4=29
+###   @5='中文专业'
+# at 500
+#120902 19:51:15 server id 1  end_log_pos 527   Xid = 68
+COMMIT/*!*/;
+# at 527
+#120902 19:53:36 server id 1  end_log_pos 612   Query   thread_id=8     exec_time=0     error_code=0
+SET TIMESTAMP=1346586816/*!*/;
+/*!\C latin1 *//*!*/;
+SET @@session.character_set_client=8,@@session.collation_connection=8,@@session.collation_server=8/*!*/;
+drop database oldboy
+/*!*/;
+# at 612
+#120902 19:54:49 server id 1  end_log_pos 655   Rotate to mysql-bin.000003  pos: 4
+DELIMITER ;
+# End of log file
+ROLLBACK /* added by mysqlbinlog */;
+/*!50003 SET COMPLETION_TYPE=@OLD_COMPLETION_TYPE*/;
+</code></pre>
+<h2 id="83-恢复凌晨全备"><a class="header" href="#83-恢复凌晨全备">8.3.	恢复凌晨全备</a></h2>
+<p>开始恢复，先恢复凌晨全备，然后恢复整备到出问题时的所有增量数据。</p>
+<p>解压全备文件</p>
+<pre><code>[root@stu412 backup]# ls -l mysql_backup_2012-09-02.sql.gz
+-rw-r--r-- 1 root root 1004 Sep  2 19:49 mysql_backup_2012-09-02.sql.gz
+[root@stu412 backup]# gzip -d mysql_backup_2012-09-02.sql.gz
+[root@stu412 backup]# ls -l mysql_backup_2012-09-02.sql
+-rw-r--r-- 1 root root 2389 Sep  2 19:49 mysql_backup_2012-09-02.sql
+
+[root@stu412 backup]# egrep -v "^#|^$|\*" mysql_backup_2012-09-02.sql
+-- MySQL dump 10.13  Distrib 5.1.65, for pc-linux-gnu (i686)
+--
+-- Host: localhost    Database: oldboy
+-- ------------------------------------------------------
+-- Server version       5.1.65-log
+--
+-- Current Database: `oldboy`
+--
+USE `oldboy`;
+--
+-- Table structure for table `student`
+--
+DROP TABLE IF EXISTS `student`;
+CREATE TABLE `student` (
+`Sno` int(10) NOT NULL COMMENT '瀛﹀彿',
+`Sname` varchar(16) NOT NULL COMMENT '濮撳悕',
+`Ssex` char(2) NOT NULL COMMENT '鎬у埆',
+`Sage` tinyint(2) NOT NULL DEFAULT '0' COMMENT '瀛︾敓骞撮緞',
+`Sdept` varchar(16) DEFAULT NULL COMMENT '瀛︾敓鎵€鍦ㄧ郴鍒?,
+PRIMARY KEY (`Sno`)
+) ENGINE=InnoDB DEFAULT CHARSET=gbk;
+--
+-- Dumping data for table `student`
+--
+LOCK TABLES `student` WRITE;
+INSERT INTO `student` VALUES (1,'陆亚','男',24,'计算机网络'),(2,'elain ','男',26,'computer applica'),(3,'xiaozhang','男',28,'物流管理'),(4,'jeacen','男',20,'computer applica'),(5,'张阳','男',29,'计算机科学与技术');
+UNLOCK TABLES;
+-- Dump completed on 2012-09-02 19:49:03
+
+
+[root@stu412 backup]# mysql -uroot -p'123456' -S /data/3306/mysql.sock -e "show databases;"
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| test               |
++--------------------+
+[root@stu412 backup]# mysql -uroot -p'123456' -S /data/3306/mysql.sock &lt; mysql_backup_2012-09-02.sql
+[root@stu412 backup]# mysql -uroot -p'123456' -S /data/3306/mysql.sock -e "show databases;"
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| oldboy             |
+| test               |
++--------------------+
+[root@stu412 backup]#
+[root@stu412 backup]# mysql -uroot -p'123456' -S /data/3306/mysql.sock -e "set names gbk;select * from oldboy.student;"
++-----+-----------+------+------+------------------+
+| Sno | Sname     | Ssex | Sage | Sdept            |
++-----+-----------+------+------+------------------+
+|   1 | 陆亚      | 男   |   24 | 计算机网络       |
+|   2 | elain     | 男   |   26 | computer applica |
+|   3 | xiaozhang | 男   |   28 | 物流管理         |
+|   4 | jeacen    | 男   |   20 | computer applica |
+|   5 | 张阳      | 男   |   29 | 计算机科学与技术 |
++-----+-----------+------+------+------------------+
+凌晨备份的数据已经找回来了。
+</code></pre>
+<h2 id="84-恢复增量数据"><a class="header" href="#84-恢复增量数据">8.4.	恢复增量数据</a></h2>
+<pre><code>[root@stu412 backup]# mysql -uroot -p'123456' -S /data/3306/mysql.sock &lt; bin.sql
+</code></pre>
+<p>#不清理脑残的drop databases语句，这句是不能恢复的。</p>
+<h2 id="85-查看恢复后的数据"><a class="header" href="#85-查看恢复后的数据">8.5.	查看恢复后的数据</a></h2>
+<h2 id="86-手工清理脑残删除语句"><a class="header" href="#86-手工清理脑残删除语句">8.6.	手工清理脑残删除语句</a></h2>
+<pre><code>[root@stu412 backup]# cat bin.sql
+/*!40019 SET @@session.max_insert_delayed_threads=0*/;
+/*!50003 SET @OLD_COMPLETION_TYPE=@@COMPLETION_TYPE,COMPLETION_TYPE=0*/;
+DELIMITER /*!*/;
+# at 4
+#120902 19:49:03 server id 1  end_log_pos 106   Start: binlog v 4, server v 5.1.65-log created 120902 19:49:03
+BINLOG '
+r0dDUA8BAAAAZgAAAGoAAAAAAAQANS4xLjY1LWxvZwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAEzgNAAgAEgAEBAQEEgAAUwAEGggAAAAICAgC
+'/*!*/;
+# at 106
+#120902 19:51:07 server id 1  end_log_pos 176   Query   thread_id=6     exec_time=0     error_code=0
+SET TIMESTAMP=1346586667/*!*/;
+SET @@session.pseudo_thread_id=6/*!*/;
+SET @@session.foreign_key_checks=1, @@session.sql_auto_is_null=1, @@session.unique_checks=1, @@session.autocommit=1/*!*/;
+SET @@session.sql_mode=0/*!*/;
+SET @@session.auto_increment_increment=1, @@session.auto_increment_offset=1/*!*/;
+/*!\C gbk *//*!*/;
+SET @@session.character_set_client=28,@@session.collation_connection=28,@@session.collation_server=8/*!*/;
+SET @@session.lc_time_names=0/*!*/;
+SET @@session.collation_database=DEFAULT/*!*/;
+BEGIN
+/*!*/;
+# at 176
+# at 234
+#120902 19:51:07 server id 1  end_log_pos 234   Table_map: `oldboy`.`student` mapped to number 16
+#120902 19:51:07 server id 1  end_log_pos 290   Write_rows: table id 16 flags: STMT_END_F
+
+BINLOG '
+K0hDUBMBAAAAOgAAAOoAAAAAABAAAAAAAAEABm9sZGJveQAHc3R1ZGVudAAFAw/+AQ8GIAD+BCAA
+EA==
+K0hDUBcBAAAAOAAAACIBAAAAABAAAAAAAAEABf/gBgAAAAh3YW5nemhhbwLE0BUItby1r9eo0rU=
+'/*!*/;
+# at 290
+#120902 19:51:07 server id 1  end_log_pos 317   Xid = 67
+COMMIT/*!*/;
+# at 317
+#120902 19:51:15 server id 1  end_log_pos 387   Query   thread_id=6     exec_time=0     error_code=0
+SET TIMESTAMP=1346586675/*!*/;
+BEGIN
+/*!*/;
+# at 387
+# at 445
+#120902 19:51:15 server id 1  end_log_pos 445   Table_map: `oldboy`.`student` mapped to number 16
+#120902 19:51:15 server id 1  end_log_pos 500   Write_rows: table id 16 flags: STMT_END_F
+
+BINLOG '
+M0hDUBMBAAAAOgAAAL0BAAAAABAAAAAAAAEABm9sZGJveQAHc3R1ZGVudAAFAw/+AQ8GIAD+BCAA
+EA==
+M0hDUBcBAAAANwAAAPQBAAAAABAAAAAAAAEABf/gBwAAAAd4dW11YmluAsTQHQjW0M7E16jStQ==
+'/*!*/;
+# at 500
+#120902 19:51:15 server id 1  end_log_pos 527   Xid = 68
+COMMIT/*!*/;
+# at 527
+#120902 19:53:36 server id 1  end_log_pos 612   Query   thread_id=8     exec_time=0     error_code=0
+SET TIMESTAMP=1346586816/*!*/;
+/*!\C latin1 *//*!*/;
+SET @@session.character_set_client=8,@@session.collation_connection=8,@@session.collation_server=8/*!*/;
+#drop database oldboy		#注释掉此行
+/*!*/;
+# at 612
+#120902 19:54:49 server id 1  end_log_pos 655   Rotate to mysql-bin.000003  pos: 4
+DELIMITER ;
+# End of log file
+ROLLBACK /* added by mysqlbinlog */;
+/*!50003 SET COMPLETION_TYPE=@OLD_COMPLETION_TYPE*/;
+</code></pre>
+<h2 id="87-重复执行8384步骤"><a class="header" href="#87-重复执行8384步骤">8.7.	重复执行8.3,8.4步骤</a></h2>
+<pre><code>[root@stu412 backup]# mysql -uroot -p'123456' -S /data/3306/mysql.sock &lt; bin.sql
+</code></pre>
+<h2 id="88-再次查看恢复后结果"><a class="header" href="#88-再次查看恢复后结果">8.8.	再次查看恢复后结果</a></h2>
+<pre><code>[root@stu412 backup]# mysql -uroot -p'123456' -S /data/3306/mysql.sock -e "set names gbk;select * from oldboy.student;"
++-----+-----------+------+------+------------------+
+| Sno | Sname     | Ssex | Sage | Sdept            |
++-----+-----------+------+------+------------------+
+|   1 | 陆亚      | 男   |   24 | 计算机网络       |
+|   2 | elain     | 男   |   26 | computer applica |
+|   3 | xiaozhang | 男   |   28 | 物流管理         |
+|   4 | jeacen    | 男   |   20 | computer applica |
+|   5 | 张阳      | 男   |   29 | 计算机科学与技术 |
+|   6 | wangzhao  | 男   |   21 | 导弹专业         |
+|   7 | xumubin   | 男   |   29 | 中文专业         |
++-----+-----------+------+------+------------------+
+</code></pre>
+<h1 id="9-mysqlbinlog的增量恢复方式"><a class="header" href="#9-mysqlbinlog的增量恢复方式">9.	mysqlbinlog的增量恢复方式</a></h1>
+<h2 id="91-基于时间点的增量恢复"><a class="header" href="#91-基于时间点的增量恢复">9.1.	基于时间点的增量恢复</a></h2>
+<h3 id="911-指定开始时间和结束时间"><a class="header" href="#911-指定开始时间和结束时间">9.1.1.	指定开始时间和结束时间</a></h3>
+<pre><code>mysqlbinlog mysql-bin.000002 --start-datetime="2012-09-01 00:00:00"  --stop-datetime="2012-09-02 14:00:00" -r time.sql
+#显示2012-09-01 00:00:00 至 2012-09-02 14:00:00时间段的binlog,并输出到time.sql
+</code></pre>
+<h3 id="912-指定开始时间到文件结束"><a class="header" href="#912-指定开始时间到文件结束">9.1.2.	指定开始时间到文件结束</a></h3>
+<pre><code>mysqlbinlog mysql-bin.000002 --start-datetime="2012-09-01 00:00:00"  -d oldboy -r time.sql
+#只有开始时间,就是从2012-09-01 00:00:00 到日志结尾，oldboy数据库binlog输出
+</code></pre>
+<h3 id="913-从文件开头到指定时间结束"><a class="header" href="#913-从文件开头到指定时间结束">9.1.3.	从文件开头到指定时间结束</a></h3>
+<pre><code>mysqlbinlog mysql-bin.000002  --stop-datetime="2012-09-02 14:00:00" -d oldboy
+#没有结束时间，就是从日志开头到2012-09-02 14:00:00时刻截止，oldboy数据库binlog输出
+</code></pre>
+<h2 id="92-基于位置点的增量恢复"><a class="header" href="#92-基于位置点的增量恢复">9.2.	基于位置点的增量恢复</a></h2>
+<h3 id="921-指定开始位置和结束位置"><a class="header" href="#921-指定开始位置和结束位置">9.2.1.	指定开始位置和结束位置</a></h3>
+<pre><code>mysqlbinlog  mysql-bin.000002  --start-position=106 --stop-position=534  -r pos.sql
+#输出初始位置106，结束位置534的所有binlog日志到pos.sql
+</code></pre>
+<p>9.2.2.	指定开始位置到文件结束</p>
+<pre><code>mysqlbinlog  mysql-bin.000002 --stop-position=534  -r pos.sql
+</code></pre>
+<p>9.2.3.	从文件开头到指定位置结束</p>
+<pre><code>mysqlbinlog  mysql-bin.000002  --start-position=106   -r pos.sql
+</code></pre>
+<p>9.2.4.	指定开始位置和结束位置案例</p>
+<pre><code># at 4  #起始点
+#120902 19:49:03 server id 1  end_log_pos 106   Start: binlog v 4, server v 5.1.65-log created 120902 19:49:03
+BINLOG '
+r0dDUA8BAAAAZgAAAGoAAAAAAAQANS4xLjY1LWxvZwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAEzgNAAgAEgAEBAQEEgAAUwAEGggAAAAICAgC
+'/*!*/;
+# at 106 #结束点
+</code></pre>
+<h1 id="10-mysql重要命令"><a class="header" href="#10-mysql重要命令">10.	MySQL重要命令</a></h1>
+<h2 id="101-mysql命令略"><a class="header" href="#101-mysql命令略">10.1.	mysql命令(略)</a></h2>
+<h2 id="102-mysqldump命令略"><a class="header" href="#102-mysqldump命令略">10.2.	mysqldump命令(略)</a></h2>
+<h2 id="103-mysqlbinlog命令略"><a class="header" href="#103-mysqlbinlog命令略">10.3.	mysqlbinlog命令(略)</a></h2>
+<h1 id="11-更多mysql数据库灾难恢复案例"><a class="header" href="#11-更多mysql数据库灾难恢复案例">11.	更多MySQL数据库灾难恢复案例</a></h1>
+<h1 id="12-附录"><a class="header" href="#12-附录">12.	附录</a></h1>
+<h2 id="121-mysql-binlog-日志的三种模式"><a class="header" href="#121-mysql-binlog-日志的三种模式">12.1.	MySQL binlog 日志的三种模式</a></h2>
+<pre><code>Row Level：
+日志中会记录成每一行数据被修改的形式，然后在slave端再对相同的数据进行修改。
+优点：在row level模式下，bin-log中可以不记录执行的sql语句的上下文相关的信息，仅仅只需要记录那一条记录被修改了，修改成什么样了。所以row level的日志内容会非常清楚的记录下每一行数据修改的细节，非常容易理解。而且不会出现某些特定情况下的存储过程，或function，以及 trigger的调用和触发无法被正确复制的问题。
+缺点：row level下，所有的执行的语句当记录到日志中的时候，都将以每行记录的修改来记录，这样可能会产生大量的日志内容，比如有这样一条update语句：update product set owner_member_id = ‘b’ where owner_member_id = ‘a’，执行之后，日志中记录的不是这条update语句所对应额事件(MySQL以事件的形式来记录bin-log日志)，而是这条语句所更新的每一条记录的变化情况，这样就记录成很多条记录被更新的很多个事件。自然，bin-log日志的量就会很大。尤其是当执行alter table之类的语句的时候，产生的日志量是惊人的。因为MySQL对于alter table之类的表结构变更语句的处理方式是整个表的每一条记录都需要变动，实际上就是重建了整个表。那么该表的每一条记录都会被记录到日志中。
+——————————————————————————————————–
+Statement Level:
+每一条会修改数据的sql都会记录到 master的bin-log中。slave在复制的时候sql进程会解析成和原来master端执行过的相同的sql来再次执行。
+优点：statement level下的优点首先就是解决了row level下的缺点，不需要记录每一行数据的变化，减少bin-log日志量，节约IO，提高性能。因为他只需要记录在Master上所执行的语句的细节，以及执行语句时候的上下文的信息。
+缺点：由于他是记录的执行语句，所以，为了让这些语句在slave端也能正确执行，那么他还必须记录每条语句在执行的时候的一些相关信息，也就是上下文信息，以保证所有语句在slave端杯执行的时候能够得到和在master端执行时候相同的结果。另外就是，由于MySQL现在发展比较快，很多的新功能不断的加入，使MySQL得复制遇到了不小的挑战，自然复制的时候涉及到越复杂的内容，bug也就越容易出现。在statement level下，目前已经发现的就有不少情况会造成MySQL的复制出现问题，主要是修改数据的时候使用了某些特定的函数或者功能的时候会出现，比如：sleep()函数在有些版本中就不能真确复制，在存储过程中使用了last_insert_id()函数，可能会使slave和master上得到不一致的id等等。由于row level是基于每一行来记录的变化，所以不会出现类似的问题。
+——————————————————————————————————–
+
+Mixed，
+实际上就是前两种模式的结合。在Mixed模式下，MySQL会根据执行的每一条具体的sql语句来区分对待记录的日志形式，也就是在Statement和Row之间选择一种。新版本中的Statment level还是和以前一样，仅仅记录执行的语句。而新版本的MySQL中队row level模式也被做了优化，并不是所有的修改都会以row level来记录，像遇到表结构变更的时候就会以statement模式来记录，如果sql语句确实就是update或者delete等修改数据的语句，那么还是会记录所有行的变更。
+——————————————————————————————————–
+</code></pre>
+<p>在配置文件中参数如下：</p>
+<pre><code>log-bin=mysql-bin
+#binlog_format=”STATEMENT”
+#binlog_format=”ROW”
+binlog_format=”MIXED”
+运行时在线修改：
+mysql&gt; SET SESSION binlog_format = ‘STATEMENT’;
+mysql&gt; SET SESSION binlog_format = ‘ROW’;
+mysql&gt; SET SESSION binlog_format = ‘MIXED’;
+mysql&gt; SET GLOBAL binlog_format = ‘STATEMENT’;
+mysql&gt; SET GLOBAL binlog_format = ‘ROW’;
+mysql&gt; SET GLOBAL binlog_format = ‘MIXED’;
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../mysql/mysql_perm.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../mysql/mysqlbinlog.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../mysql/mysql_perm.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../mysql/mysqlbinlog.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

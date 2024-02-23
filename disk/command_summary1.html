@@ -1,0 +1,474 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>命令总结-信息显示命令(uname hostname dmesg uptime du df) - linux学习笔记</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('light')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">介绍</a></li><li class="chapter-item expanded "><a href="../install_linux/install_linux.html"><strong aria-hidden="true">1.</strong> Linux安装</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../install_linux/install_centos7.html"><strong aria-hidden="true">1.1.</strong> CentOS7.9系统安装文档</a></li><li class="chapter-item expanded "><a href="../install_linux/linux_boot_process.html"><strong aria-hidden="true">1.2.</strong> linux系统的开机启动过程</a></li><li class="chapter-item expanded "><a href="../install_linux/command_summary01.html"><strong aria-hidden="true">1.3.</strong> 命令总结(cat pwd ls rm mkdir touch head tail ln chkconfig)</a></li><li class="chapter-item expanded "><a href="../install_linux/linux_shortcut_keys.html"><strong aria-hidden="true">1.4.</strong> linux下常用的命令快捷键</a></li></ol></li><li class="chapter-item expanded "><a href="../linux_optimization/linux_optimization.html"><strong aria-hidden="true">2.</strong> Linux服务器优化</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../linux_optimization/linux_opt.html"><strong aria-hidden="true">2.1.</strong> 配置优化Centos5.X Linux操作系统</a></li><li class="chapter-item expanded "><a href="../linux_optimization/command_summary02.html"><strong aria-hidden="true">2.2.</strong> 命令总结(find、wc、tar、cut、grep、egrep、date、which、echo、shutdown、reboot)</a></li><li class="chapter-item expanded "><a href="../linux_optimization/diff_quotes.html"><strong aria-hidden="true">2.3.</strong> linux shell中单引号、双引号及不加引号的简单区别</a></li><li class="chapter-item expanded "><a href="../linux_optimization/linux_links_diff.html"><strong aria-hidden="true">2.4.</strong> linux下软链接和硬链接的区别</a></li></ol></li><li class="chapter-item expanded "><a href="../file_and_dir/file_and_dir.html"><strong aria-hidden="true">3.</strong> 文件与目录</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../file_and_dir/file_and_dir_perm.html"><strong aria-hidden="true">3.1.</strong> Linux文件和目录权限实战讲解</a></li><li class="chapter-item expanded "><a href="../file_and_dir/system_dir_and_important_path.html"><strong aria-hidden="true">3.2.</strong> 系统目录结构及重要路径</a></li><li class="chapter-item expanded "><a href="../file_and_dir/linux_file_types.html"><strong aria-hidden="true">3.3.</strong> linux文件类型总结</a></li><li class="chapter-item expanded "><a href="../file_and_dir/linux_perm.html"><strong aria-hidden="true">3.4.</strong> Linux文件和目录的属性及权限</a></li><li class="chapter-item expanded "><a href="../file_and_dir/command_summary_stat_sed_awk.html"><strong aria-hidden="true">3.5.</strong> 命令总结(stat、sed、awk)</a></li><li class="chapter-item expanded "><a href="../file_and_dir/command_summary_more_less.html"><strong aria-hidden="true">3.6.</strong> 命令总结-文件查看与处理命令(more、less、tree、chattr、lsattr)</a></li><li class="chapter-item expanded "><a href="../file_and_dir/command_summary_user.html"><strong aria-hidden="true">3.7.</strong> 命令总结-用户管理命令-用户(useradd、userdel、passwd、chage)</a></li><li class="chapter-item expanded "><a href="../file_and_dir/command_summary_group.html"><strong aria-hidden="true">3.8.</strong> 命令总结-用户管理命令-用户组(groupadd、groupdel)</a></li><li class="chapter-item expanded "><a href="../file_and_dir/command_summary_w.html"><strong aria-hidden="true">3.9.</strong> 命令总结-查看系统用户登录信息命令-(w、who、users、last)</a></li></ol></li><li class="chapter-item expanded "><a href="../crontab/crontab.html"><strong aria-hidden="true">4.</strong> crontab</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../crontab/linux_crontab.html"><strong aria-hidden="true">4.1.</strong> Linux系统定时任务详解</a></li><li class="chapter-item expanded "><a href="../crontab/linux_user_group.html"><strong aria-hidden="true">4.2.</strong> Linux系统的用户和用户组管理</a></li><li class="chapter-item expanded "><a href="../crontab/linux_su_sudo.html"><strong aria-hidden="true">4.3.</strong> Linux用户切换(su sudo)</a></li><li class="chapter-item expanded "><a href="../crontab/mount_unmount.html"><strong aria-hidden="true">4.4.</strong> 命令总结-磁盘空间的命令(mount umount)</a></li><li class="chapter-item expanded "><a href="../crontab/command_summary.html"><strong aria-hidden="true">4.5.</strong> 命令总结-附加命令(nohup watch time ps)</a></li></ol></li><li class="chapter-item expanded "><a href="../disk/disk.html"><strong aria-hidden="true">5.</strong> 硬盘</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../disk/disk_basic.html"><strong aria-hidden="true">5.1.</strong> 硬盘的基础知识介绍</a></li><li class="chapter-item expanded "><a href="../disk/disk_how_to_work.html"><strong aria-hidden="true">5.2.</strong> 硬盘的工作原理介绍</a></li><li class="chapter-item expanded "><a href="../disk/disk_partition.html"><strong aria-hidden="true">5.3.</strong> 硬盘分区相关知识介绍</a></li><li class="chapter-item expanded "><a href="../disk/raid.html"><strong aria-hidden="true">5.4.</strong> RAID技术</a></li><li class="chapter-item expanded "><a href="../disk/command_summary1.html" class="active"><strong aria-hidden="true">5.5.</strong> 命令总结-信息显示命令(uname hostname dmesg uptime du df)</a></li><li class="chapter-item expanded "><a href="../disk/command_summary2.html"><strong aria-hidden="true">5.6.</strong> 命令总结-磁盘空间的命令(fsck dd dump fdisk parted)</a></li><li class="chapter-item expanded "><a href="../disk/fdisk.html"><strong aria-hidden="true">5.7.</strong> fdisk分区命令实战讲解</a></li><li class="chapter-item expanded "><a href="../disk/fstab.html"><strong aria-hidden="true">5.8.</strong> fstab详细介绍及救援模式修复fstab实战案例</a></li><li class="chapter-item expanded "><a href="../disk/parted.html"><strong aria-hidden="true">5.9.</strong> parted分区命令实战讲解</a></li><li class="chapter-item expanded "><a href="../disk/file_system.html"><strong aria-hidden="true">5.10.</strong> linux文件系统知识介绍</a></li></ol></li><li class="chapter-item expanded "><a href="../nfs/nfs.html"><strong aria-hidden="true">6.</strong> nfs</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../nfs/nfs.html"><strong aria-hidden="true">6.1.</strong> nfs网络文件系统服务介绍与实战</a></li><li class="chapter-item expanded "><a href="../nfs/ssh_key.html"><strong aria-hidden="true">6.2.</strong> SSH KEY免密码验证分发、管理、备份实战讲解</a></li><li class="chapter-item expanded "><a href="../nfs/command_summary.html"><strong aria-hidden="true">6.3.</strong> 命令总结-基本网络操作命令(telnet ssh scp wget ping route ifconfig ifup ifdown netstat)</a></li></ol></li><li class="chapter-item expanded "><a href="../rsync/rsync.html"><strong aria-hidden="true">7.</strong> rsync</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../rsync/rsync_action.html"><strong aria-hidden="true">7.1.</strong> Rsync生产场景实战应用指南</a></li><li class="chapter-item expanded "><a href="../rsync/command_summary.html"><strong aria-hidden="true">7.2.</strong> 深入网络操作命令(mail mutt nslookup dig traceroute df du fsck dd)</a></li></ol></li><li class="chapter-item expanded "><a href="../mysql/mysql.html"><strong aria-hidden="true">8.</strong> MySQL基础</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../mysql/mysql_basic.html"><strong aria-hidden="true">8.1.</strong> MySQL常用基础命令操作实战讲解</a></li><li class="chapter-item expanded "><a href="../mysql/mysql_install.html"><strong aria-hidden="true">8.2.</strong> MySQL单实例的安装配置指南</a></li><li class="chapter-item expanded "><a href="../mysql/mysql_master-slave1.html"><strong aria-hidden="true">8.3.</strong> MySQL主从复制原理详解</a></li><li class="chapter-item expanded "><a href="../mysql/mysql_master-slave2.html"><strong aria-hidden="true">8.4.</strong> MySQL主从复制实践讲解</a></li><li class="chapter-item expanded "><a href="../mysql/mysql_perm.html"><strong aria-hidden="true">8.5.</strong> MySQL数据库安全权限控制管理思想</a></li><li class="chapter-item expanded "><a href="../mysql/mysql_recovery.html"><strong aria-hidden="true">8.6.</strong> MySQL灾难恢复实战多案例精华讲解</a></li><li class="chapter-item expanded "><a href="../mysql/mysqlbinlog.html"><strong aria-hidden="true">8.7.</strong> mysqlbinlog</a></li><li class="chapter-item expanded "><a href="../mysql/mysqldump.html"><strong aria-hidden="true">8.8.</strong> mysqldump</a></li></ol></li><li class="chapter-item expanded "><a href="../shell/shell.html"><strong aria-hidden="true">9.</strong> shell</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../shell/shell_scripts.html"><strong aria-hidden="true">9.1.</strong> shell脚本编程精讲</a></li><li class="chapter-item expanded "><a href="../shell/shell_spec.html"><strong aria-hidden="true">9.2.</strong> linux下shell脚本开发规范与制度</a></li></ol></li><li class="chapter-item expanded "><a href="../lvs_keepalived/lvs_keepalived.html"><strong aria-hidden="true">10.</strong> Lvs+keepalived集群</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../lvs/lvs_detail.html"><strong aria-hidden="true">10.1.</strong> Lvs负载均衡及Keepalived高可用技术应用详解</a></li><li class="chapter-item expanded "><a href="../lvs/lvs_action.html"><strong aria-hidden="true">10.2.</strong> Lvs+keepalived集群生产实战模拟</a></li><li class="chapter-item expanded "><a href="../lvs/lvs_key_point.html"><strong aria-hidden="true">10.3.</strong> Lvs+keepalived集群生产实战维护要点</a></li></ol></li><li class="chapter-item expanded "><a href="../iptables/iptables.html"><strong aria-hidden="true">11.</strong> iptables</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../iptables/iptables_guide.html"><strong aria-hidden="true">11.1.</strong> iptables防火墙应用指南</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">linux学习笔记</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="命令总结-信息显示命令uname-hostname-dmesg-uptime-du-df"><a class="header" href="#命令总结-信息显示命令uname-hostname-dmesg-uptime-du-df">命令总结-信息显示命令(uname hostname dmesg uptime du df)</a></h1>
+<h1 id="1-uname"><a class="header" href="#1-uname">1.	uname</a></h1>
+<p>uname - print system information	#打印系统信息</p>
+<pre><code>语法：
+uname [OPTION]...
+
+描述：
+Print certain system information.  With no OPTION, same as -s.
+
+       -a, --all
+              print  all  information, in the following order, except omit -p and -i
+              if unknown:
+
+       -s, --kernel-name
+              print the kernel name
+
+       -n, --nodename				#打印网络主机名
+              print the network node hostname
+
+       -r, --kernel-release
+              print the kernel release
+
+       -v, --kernel-version		#打印内核版本
+              print the kernel version
+
+       -m, --machine				#打印机器硬件名
+              print the machine hardware name
+
+       -p, --processor
+              print the processor type or "unknown"
+
+       -i, --hardware-platform
+              print the hardware platform or "unknown"
+
+       -o, --operating-system
+              print the operating system
+
+       --help display this help and exit
+
+       --version
+              output version information and exit
+</code></pre>
+<pre><code>[root@stu412 ~]# uname
+Linux
+[root@stu412 ~]# uname -a
+Linux stu412 2.6.18-238.el5 #1 SMP Thu Jan 13 16:24:47 EST 2011 i686 i686 i386 GNU/Linux
+[root@stu412 ~]# uname -r
+2.6.18-238.el5
+[root@stu412 ~]# uname -v
+#1 SMP Thu Jan 13 16:24:47 EST 2011
+[root@stu412 ~]# uname -m
+i686
+[root@stu412 ~]# uname -p
+i686
+[root@stu412 ~]# uname -o
+GNU/Linux
+</code></pre>
+<h1 id="2-hostname"><a class="header" href="#2-hostname">2.	hostname</a></h1>
+<p>hostname - show or set the system's host name	#显示或设置系统主机名</p>
+<pre><code>GET NAME
+When called without any arguments, the program displays the current names: hostname,domainname,dnsdomainname
+
+
+SET NAME
+When called with one argument or with the --file option, the commands set the host name, the NIS/YP domain name or the node name.
+Note, that only the super-user can change the names. #仅有超级管理员能修改hostname
+
+[root@stu412 ~]# hostname
+stu412
+[root@stu412 ~]# hostname new-hostname
+
+ctrl＋d注销一下系统，再重登录
+Last login: Sat Jul 14 20:46:34 2012 from 192.168.65.1
+[root@new-hostname ~]#
+</code></pre>
+<h1 id="3-dmesg"><a class="header" href="#3-dmesg">3.	dmesg</a></h1>
+<p>dmesg - print or control the kernel ring buffer</p>
+<p>语法:dmesg [ -c ] [ -n level ] [ -s bufsize ]</p>
+<p>描述：</p>
+<pre><code>dmesg is used to examine or control the kernel ring buffer.
+The  program  helps  users to print out their bootup messages.
+# dmesg用来显示内核环缓冲区（kernel-ring buffer）内容，帮助用户打印开机信息
+
+选项：
+-c     Clear the ring buffer contents after printing.
+#显示信息后，清除ring buffer中的内容。
+
+-sbufsize	  
+Use a buffer of size bufsize to query the kernel ring buffer. This is 16392 by default. (The default kernel syslog buffer size was 4096 at first, 8192 since 1.3.54, 16384 since 2.1.113.) If you have set the kernel buffer to be larger than the default then this option can be used to view the entire buffer.
+
+-nlevel	#设置记录信息的层级。
+Set the level at which logging of messages is done to the console. For example, -n 1 prevents all messages, expect panic messages, from appearing on the console. All levels of messages are still written to /proc/kmsg, so syslogd(8) can still be used to control exactly where kernel messages appear. When the -n option is used, dmesg will not print or clear the kernel ring buffer.
+When both options are used, only the last option on the command line will have an effect.
+
+dmesg用来显示内核环缓冲区（kernel-ring buffer）内容，内核将各种消息存放在这里。在系统引导时，内核将与硬件和模块初始化相关的信息填到这个缓冲区中。内核环缓冲区中的消息对于诊断系统问题 通常非常有用。在运行dmesg时，它显示大量信息。通常通过less或grep使用管道查看dmesg的输出，这样可以更容易找到待查信息。
+[root@stu412 ~]# dmesg | less
+Linux version 2.6.18-238.el5 (mockbuild@builder10.centos.org) (gcc version 4.1.2 20080704 (Red Hat 4.1.2-48)) #1 SMP Thu Jan 13 16:24:47 EST 2011
+BIOS-provided physical RAM map:
+BIOS-e820: 0000000000010000 - 000000000009f800 (usable)
+BIOS-e820: 000000000009f800 - 00000000000a0000 (reserved)
+BIOS-e820: 00000000000ca000 - 00000000000cc000 (reserved)
+BIOS-e820: 00000000000dc000 - 00000000000e4000 (reserved)
+BIOS-e820: 00000000000e8000 - 0000000000100000 (reserved)
+BIOS-e820: 0000000000100000 - 000000003fef0000 (usable)
+BIOS-e820: 000000003fef0000 - 000000003feff000 (ACPI data)
+BIOS-e820: 000000003feff000 - 000000003ff00000 (ACPI NVS)
+BIOS-e820: 000000003ff00000 - 0000000040000000 (usable)
+BIOS-e820: 00000000e0000000 - 00000000f0000000 (reserved)
+BIOS-e820: 00000000fec00000 - 00000000fec10000 (reserved)
+BIOS-e820: 00000000fee00000 - 00000000fee01000 (reserved)
+BIOS-e820: 00000000fffe0000 - 0000000100000000 (reserved)
+128MB HIGHMEM available.
+896MB LOWMEM available.
+found SMP MP-table at 000f69b0
+Memory for crash kernel (0x0 to 0x0) notwithin permissible range
+disabling kdump
+Using x86 segment limits to approximate NX protection
+On node 0 totalpages: 262144
+DMA zone: 4096 pages, LIFO batch:0
+Normal zone: 225280 pages, LIFO batch:31
+HighMem zone: 32768 pages, LIFO batch:7
+DMI present.
+[root@stu412 ~]# dmesg | grep eth
+eth0: registered as PCnet/PCI II 79C970A
+eth0: link up
+eth0: link up
+eth0: link up
+eth0: link up
+eth0: link up
+eth0: link up
+</code></pre>
+<h1 id="4-uptime"><a class="header" href="#4-uptime">4.	uptime</a></h1>
+<p>uptime - Tell how long the system has been running.	#显示系统运行多久</p>
+<pre><code>描述：uptime  gives  a one line display of the following information.  The current time, how long the system has been running, how many users are currently logged on, and  the  system  load  averages for the past 1, 5, and 15 minutes.
+#uptime会在一行显示以下信息，依次为：现在时间、系统已经运行了多长时间、目前有多少登陆用户、系统在过去的1分钟、5分钟和15分钟内的平均负载。
+
+This is the same information contained in the header line displayed by w(1).
+
+什么是系统平均负载呢？ 系统平均负载是指在特定时间间隔内运行队列中的平均进程数。
+如果每个CPU内核的当前活动进程数不大于3的话，那么系统的性能是良好的。如果每个CPU内核的任务数大于5，那么这台机器的性能有严重问题。
+如果你的linux主机是1个双核CPU的话，当Load Average 为6的时候说明机器已经被充分使用了。
+[root@stu412 ~]# uptime
+07:40:37 up  7:48,  2 users,  load average: 0.00, 0.00, 0.00
+</code></pre>
+<h1 id="5-du"><a class="header" href="#5-du">5.	du</a></h1>
+<p>du - estimate file space usage	#估算文件的使用空间</p>
+<pre><code>语法：
+du [OPTION]... [FILE]...
+du [OPTION]... --files0-from=F
+
+-a, --all
+write counts for all files, not just directories
+#显示所有的文件，不仅仅是目录
+
+-B, --block-size=SIZE use SIZE-byte blocks
+
+-b, --bytes
+equivalent to ‘--apparent-size --block-size=1’
+#显示目录或文件大小时，以byte为单位。
+
+-c, --total
+produce a grand total
+#除了显示目录或文件的大小外，同时也显示所有目录或文件的总和。
+
+-D, --dereference-args
+dereference FILEs that are symbolic links #显示指定符号连接的源文件大小。
+
+-h, --human-readable	#人类可读的方式显示大写
+print sizes in human readable format (e.g., 1K 234M 2G)
+
+-m     like --block-size=1M		# 以1MB为单位。
+
+-L, --dereference
+dereference all symbolic links
+
+-P, --no-dereference
+don’t follow any symbolic links (this is the default)
+
+-S, --separate-dirs
+do not include size of subdirectories#显示每个目录的大小时，并不含其子目录的大小。
+
+-s, --summarize	#仅显示总计，即当前目录的大小。
+display only a total for each argument
+
+-x, --one-file-system
+skip directories on different file systems
+
+-X FILE, --exclude-from=FILE
+Exclude files that match any pattern in FILE.
+
+--exclude=PATTERN Exclude files that match PATTERN.	#略过指定的目录或文件
+
+[root@stu412 ~]# du
+8       ./test
+4       ./destination
+108024  .
+[root@stu412 ~]# du -h
+8.0K    ./test
+4.0K    ./destination
+106M    .
+[root@stu412 ~]# du -sh
+106M    .
+[root@stu412 ~]# du /etc | sort -nr | head
+63516   /etc
+40372   /etc/selinux
+40340   /etc/selinux/targeted
+38092   /etc/selinux/targeted/modules
+38060   /etc/selinux/targeted/modules/active
+7324    /etc/gconf
+5100    /etc/gconf/gconf.xml.defaults
+4376    /etc/selinux/targeted/modules/active/modules
+3032    /etc/rc.d
+2184    /etc/gconf/schemas
+</code></pre>
+<h1 id="6-df"><a class="header" href="#6-df">6.	df</a></h1>
+<p>语法：df [选项]<br />
+说明：df命令可显示所有文件系统对i节点和磁盘块的使用情况。</p>
+<pre><code>选项：  
+-a include dummy file systems #显示所有文件系统的磁盘使用情况，包括0块（block）的文件系统，如/proc文件系统。  
+-k 以k字节为单位显示。  
+-h, --human-readable 使用人类可读的格式
+-i list inode information instead of block usage #显示i节点信息，而不是磁盘块。  
+-t, --type=TYPE 显示各指定类型的文件系统的磁盘空间使用情况。  
+-x, --exclude-type=TYPE 列出不是某一指定类型文件系统的磁盘空间使用情况（与t选项相反）。  
+-T 显示文件系统类型。
+
+[root@stu412 etc]# df
+Filesystem           1K-blocks      Used Available Use% Mounted on
+/dev/sda2             19669908   2055744  16598856  12% /
+/dev/sda1               124427     11599    106404  10% /boot
+tmpfs                   517352         0    517352   0% /dev/shm
+[root@stu412 etc]# df –h	#可读的格式显示
+Filesystem            Size  Used Avail Use% Mounted on
+/dev/sda2              19G  2.0G   16G  12% /
+/dev/sda1             122M   12M  104M  10% /boot
+tmpfs                 506M     0  506M   0% /dev/shm
+[root@stu412 etc]# df –hi	#可读的格式显示i节点信息
+Filesystem            Inodes   IUsed   IFree IUse% Mounted on
+/dev/sda2               4.9M     58K    4.8M    2% /
+/dev/sda1                32K      35     32K    1% /boot
+tmpfs                   127K       1    127K    1% /dev/shm
+[root@stu412 etc]# df –hiT	#显示文件系统类型
+Filesystem    Type    Inodes   IUsed   IFree IUse% Mounted on
+/dev/sda2     ext3      4.9M     58K    4.8M    2% /
+/dev/sda1     ext3       32K      35     32K    1% /boot
+tmpfs        tmpfs      127K       1    127K    1% /dev/shm
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../disk/raid.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../disk/command_summary2.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../disk/raid.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../disk/command_summary2.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>
