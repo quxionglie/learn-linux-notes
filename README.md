@@ -10,3 +10,7 @@ linux 学习笔记
 ```
 mdbook serve
 ```
+
+如果文档对你有帮助，你可以捐赠支持一下，谢谢！
+
+<img src="src/image/wx.jpg" width="200">
